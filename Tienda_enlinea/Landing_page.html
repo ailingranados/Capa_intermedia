@@ -74,12 +74,19 @@ Capa intermedia
       <br>
       <br>
       <!-- Boton para registrate, te manda a otra pagina -->
-      <button class="btn button_pink" type="button">
+      <button class="btn button_pink" type="button" onclick="redirectToAnotherPage()" >
         Registrarte
       </button>
       <br>
       <br>
       <br>
+      <script>
+        function redirectToAnotherPage() {
+          // Redirige a otro HTML
+          window.location.href = "Registro_persona.html";
+        }
+      </script>
+    
       <button class="btn button_pink" type="button">
         Ver como espectador
       </button>

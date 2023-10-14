@@ -11,13 +11,13 @@ body {
 
 
  footer {
-    background-color: #FF4081;
+    /* background-color: #FF4081; */
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .footer {
@@ -63,40 +63,7 @@ nav {
     }
 }
 
-.button_pink {
-    background-color: #eeeeee;
-    border: none;
-    padding: 1rem;
-    font-size: 1rem;
-    width: 10em;
-    border-radius: 1rem;
-    color: #947878;
-    /* box-shadow: 0 0.4rem #dfd9d9; */
-    cursor: pointer;
-    
-   }
-   
-   .button_pink:active {
-    color: #947878;
-    /* box-shadow: 0 0.2rem #dfd9d9; */
-    transform: translateY(0.2rem);
-   }
-   
-   .button_pink:hover:not(:disabled) {
-    background: #FFE6F0;
-    color: #947878;
-    /* text-shadow: 0 0.1rem #bcb4b4; */
-   }
-   
-   .button_pinkn:disabled {
-    cursor: auto;
-    color: grey;
-   }
 
-   .form-control {
-    border-color: #de638e !important; /* Usa !important para asegurarte de que el estilo se aplique */
-    box-shadow: #FF4081 !important; /* Elimina la sombra al enfocar */
-}
 
 /* Para los registros de usuarios */
 .contenedor-forms{
@@ -179,14 +146,7 @@ border-radius: 5%;
     border-radius: 20px;
 }
 
-/* Estilo para la columna de datos */
-.data-column {
-    width: fit-content;
-    padding: 20px;
-    background-color: #f2f2f2;
-    margin: auto;
-    border-radius: 20px;
-}
+
 
 /* Estilo para dar espacio entre la barra de información y la columna de datos */
 .clearfix::after {
@@ -220,13 +180,6 @@ border-radius: 5%;
     color: #555;
 }
 
-.img_usuario{
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: #de638e;
-}
 
 table{
     margin:auto;
@@ -239,3 +192,34 @@ td {
   th {
     text-align: center;
   }
+
+  .button_pink {
+    background-color: #f2f2f2;
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    width: 8em;
+    border-radius: 1rem;
+    color: var(--text-100);
+    /* box-shadow: 0 0.4rem #dfd9d9; */
+    cursor: pointer;
+    
+   }
+   
+   .button_pink:active {
+    color: var(--sombra_blanca);
+    /* box-shadow: 0 0.2rem #dfd9d9; */
+    transform: translateY(0.2rem);
+   }
+   
+   .button_pink:hover:not(:disabled) {
+    background: #FFE6F0;
+    color: #333;
+
+    /* text-shadow: 0 0.1rem #bcb4b4; */
+   }
+   
+   .button_pinkn:disabled {
+    cursor: auto;
+    color: grey;
+   }

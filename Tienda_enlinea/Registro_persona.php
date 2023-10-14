@@ -57,8 +57,15 @@ Capa intermedia
           <!-- nombre y apellidos -->
           <div class="input-group ">
            
-            <input type="text" class="form-control" placeholder="Nombre" name="Nombre">
-            <input type="text" class="form-control" placeholder="Apellido" name="Apellido">
+           <input type="text" class="form-control" placeholder="Nombre" name="Nombre">
+          
+
+         </div>
+          <div class="input-group ">
+           
+    
+            <input type="text" class="form-control" placeholder="Apellido Paterno" id="Apellidop" name="Apellidop">
+            <input type="text" class="form-control" placeholder="Apellido Materno" id="ApellidoM" name="ApellidoM">
 
           </div>
 
@@ -66,6 +73,12 @@ Capa intermedia
           <div class="col form-floating mt-3 mb-3 ">
             <input type="email" class="form-control" id="email" name="email" required autofocus>
             <label for="email">Email:</label>
+          </div>
+
+          <!-- Telefono -->
+          <div class="col form-floating mt-3 mb-3 ">
+            <input type="text" class="form-control" id="telefono" name="telefono" required autofocus>
+            <label for="telefono">Telefono:</label>
           </div>
           <!-- usuario -->
           <div class="col form-floating mt-3 mb-3 ">
@@ -120,9 +133,9 @@ Capa intermedia
 
          <!-- Elegir de una lista, tipo privacidad -->
          <label for="rol" class="form-label">Elige tu tipo de usuario</label>
-         <select class="form-select" id="rol" name="rol-usuario">
-           <option>Publico</option>
-           <option>Privado</option>
+         <select class="form-select" id="rol2" name="rol-usuario2">
+           <option value = 1>Publico</option>
+           <option value = 0>Privado</option>
            
          </select>
 

@@ -39,12 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $rol_usuario = $row["Role_ID"];
+        $rol_usuario2 = $row["Usua_PubPriv"];
         $usuario = $row["Usua_Nombre"];
         
         if ($rol_usuario == 1) {
             header("Location: ../Php/Admin/Perfil_admin.php?usuario=$usuario");
         } elseif ($rol_usuario == 2) {
-            if ($_POST["rol-usuario2"] == 1) {
+            if ($rol_usuario2 == 1) {
                 header("Location: ../Php/Usuario/Perfil_usuario_publico.php?usuario=$usuario");
             } else {
                 header("Location: ../Php/Usuario_Privado/Perfil_usuario_privado.php?usuario=$usuario");

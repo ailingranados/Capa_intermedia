@@ -91,6 +91,7 @@ if (isset($_GET['usuario'])) {
         // Asignar los valores a variables para usar en el HTML
         $usuaNombre = $row["Usua_Nombre"];
         $usuaContra = $row["Usua_Contra"];
+        $idd = $row["Usua_ID"];
         $Role = $row["Role_ID"];
         $nombre = $row["UsIn_Nombre"];
         $apellidop = $row["UsIn_ApellidoPa"];
@@ -148,7 +149,26 @@ if (isset($_GET['usuario'])) {
   <div class="info-bar">
    
     <!-- Contenido de la barra de información -->
+    <!--
     <img src="../../IMAGENES/gato_enojado.jpg" class="img_usuario">
+  -->
+  <?php
+       // Obtén el nombre de usuario de alguna manera
+        $nombreUsuario = $idd; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
+       //echo $idd;
+       if ($nombreUsuario) {
+        // Escapa el nombre de usuario para asegurarte de que sea seguro para la URL
+        $nombreUsuarioURL = urlencode($nombreUsuario);
+    
+       // Genera la URL de la imagen con el nombre de usuario como parámetro
+         $urlImagen = "../../Funcion/mostrar2.php?id=$nombreUsuarioURL";
+
+       // Muestra la imagen
+        echo "<img src='$urlImagen' alt='Imagen desde la base de datos'>";
+    } else {
+         echo "No se ha especificado un nombre de usuario.";
+    }
+    ?>
     <p style="color: #f2f2f2;">-----</p>
     <h2>Vendedor: <?php echo isset($usuario) ? $usuario : ''; ?></h2>
     <p style="color: #f2f2f2;">-----</p>

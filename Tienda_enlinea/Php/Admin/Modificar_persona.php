@@ -135,7 +135,7 @@ if (isset($_GET['usuario'])) {
     
       <div class="container p-5 my-5 contenedor-forms">
         
-        <form action="../../Funcion/editar_vendedor.php" method="post">
+        <form action="../../Funcion/editar_admin.php" method="post" enctype="multipart/form-data">
           <!--PEDIMOS LOS DATOS DE REGISTRO-->
           <!-- nombre y apellidos -->
           <div class="input-group ">
@@ -192,20 +192,41 @@ if (isset($_GET['usuario'])) {
         
 
           <!-- Elegir de una lista, Genero -->
-          <label for="rol" class="form-label">Genero</label>
-          <select class="form-select" id="genero" name="genero" >
-            <option>Femenino</option>
-            <option>Masculino</option>
-            <option>No-binario</option>
-            <option>Prefiero no especificar</option>
+        <label for="genero" class="form-label">Género</label>
+           <select class="form-select" id="genero" name="genero">
+            <option value="Femenino" <?php echo ($sexo === 'Femenino') ? 'selected' : ''; ?>>Femenino</option>
+            <option value="Masculino" <?php echo ($sexo === 'Masculino') ? 'selected' : ''; ?>>Masculino</option>
+            <option value="No-binario" <?php echo ($sexo === 'No-binario') ? 'selected' : ''; ?>>No-binario</option>
+            <option value="Prefiero no especificar" <?php echo ($sexo === 'Prefiero no especificar') ? 'selected' : ''; ?>>Prefiero no especificar</option>
           </select>
 
                
         <!-- imagen de usuario -->
         <div class="col form-floating mt-3 mb-3">
-          <input type="file" class="form-control" id="imagen" name="imagen" required>
+          <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" required onchange="mostrarImagen(event)">
           <label for="imagen">Imagen</label>
         </div>
+        <img id="imagenMostrada" src="#" alt="Vista previa de la imagen" style="display: none; max-width: 100%; height: auto;">
+
+        <script> 
+         function mostrarImagen(event) {
+         const input = event.target;
+         const imgMostrada = document.getElementById('imagenMostrada');
+
+          // Asegúrate de que se haya seleccionado un archivo
+          if (input.files && input.files[0]) {
+           const reader = new FileReader();
+
+          reader.onload = function(e) {
+            imgMostrada.src = e.target.result;
+            imgMostrada.style.display = 'block';  // Muestra la imagen
+          };
+
+           reader.readAsDataURL(input.files[0]);  // Lee el archivo como una URL de datos
+          }
+          }
+
+          </script>
 
           <!-- Boton de submit -->
           <br>

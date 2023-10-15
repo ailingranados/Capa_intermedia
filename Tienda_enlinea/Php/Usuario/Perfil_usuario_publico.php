@@ -152,7 +152,7 @@ if (isset($_GET['usuario'])) {
     <?php
     // Obtén el nombre de usuario de alguna manera
      $nombreUsuario = $idd; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
-
+     //echo $idd;
     if ($nombreUsuario) {
     // Escapa el nombre de usuario para asegurarte de que sea seguro para la URL
         $nombreUsuarioURL = urlencode($nombreUsuario);

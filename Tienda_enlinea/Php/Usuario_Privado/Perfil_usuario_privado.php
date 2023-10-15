@@ -75,6 +75,7 @@ if (isset($_GET['usuario'])) {
         $usuaNombre = $row["Usua_Nombre"];
         $usuaContra = $row["Usua_Contra"];
         $Role = $row["Role_ID"];
+        $idd = $row["Usua_ID"];
         $nombre = $row["UsIn_Nombre"];
         $apellidop = $row["UsIn_ApellidoPa"];
         $apellidom = $row["UsIn_ApellidoMa"];

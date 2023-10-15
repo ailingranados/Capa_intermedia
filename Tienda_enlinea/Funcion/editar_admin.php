@@ -18,40 +18,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['pswd'];
     $fecha_nac = $_POST['fecha_nac'];
     $genero = $_POST['genero'];
-
-    if (isset($_POST["rol-usuario"])) {
-        $rol_usuario = $_POST["rol-usuario"];
-    } else {
-        echo "No se ha seleccionado ningún valor.";
-        exit();  // Salir del script si no se ha seleccionado un rol de usuario
-    }
-
-    if (isset($_POST["rol-usuario2"])) {
-        $rol_usuario2 = $_POST["rol-usuario2"];
-    } else {
-        echo "No se ha seleccionado ningún valor.";
-        exit();  // Salir del script si no se ha seleccionado un tipo de usuario
-    }
     $imagenContenido = addslashes(file_get_contents($tempImagen));
 
     // Llamada al procedimiento almacenado ActualizarUsuario
-    $sql = "CALL ActualizarUsuario('$usuario', '$password', $rol_usuario2, 1, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '$imagenContenido', '$fecha_nac', NOW(), 1)";
+    $sql = "CALL ActualizarUsuario_Vendedor('$usuario', '$password', 1, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '$imagenContenido', '$fecha_nac', NOW(), 1)";
 
     if ($conn->query($sql) === TRUE) {
         //echo "Registro actualizado correctamente.";
         //header("Location: ../Php/Perfil_usuario_publico.php?usuario=$usuario");
-        if($rol_usuario2 == 1){ //publico
-            //
-            header("Location: ../Php/Usuario/Perfil_usuario_publico.php?usuario=$usuario");
+        header("Location: ../php/Admin/Perfil_admin.php?usuario=$usuario");
 
-        }else{//privado
-            header("Location: ../Php/Usuario_Privado/Perfil_usuario_privado.php?usuario=$usuario");
-
-        }
+        
     } else {
         echo "Error al actualizar registro: " . $conn->error;
     }
-  }else {
+}else {
     echo "Tamaño de la imagen demasiado grande. El tamaño máximo permitido es 1 MB.";
 }
 

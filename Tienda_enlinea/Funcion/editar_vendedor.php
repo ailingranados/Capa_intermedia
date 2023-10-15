@@ -3,6 +3,12 @@ include('conexion.php');  // Incluye el archivo de conexión
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Captura los datos del formulario
+    $nombreImagen = $_FILES['imagen']['name'];
+    $tamañoImagen = $_FILES['imagen']['size'];
+    $tipoImagen = $_FILES['imagen']['type'];
+    $tempImagen = $_FILES['imagen']['tmp_name'];
+
+    if ($tamañoImagen <= 1048576) { // Tamaño máximo de 1 MB
     $nombre = $_POST['Nombre'];
     $usuario = $_POST['usuario'];
     $apellidop = $_POST['Apellidop'];
@@ -12,23 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['pswd'];
     $fecha_nac = $_POST['fecha_nac'];
     $genero = $_POST['genero'];
-/*
-    if (isset($_POST["rol-usuario"])) {
-        $rol_usuario = $_POST["rol-usuario"];
-    } else {
-        echo "No se ha seleccionado ningún valor.";
-        exit();  // Salir del script si no se ha seleccionado un rol de usuario
-    }
+    $imagenContenido = addslashes(file_get_contents($tempImagen));
 
-    if (isset($_POST["rol-usuario2"])) {
-        $rol_usuario2 = $_POST["rol-usuario2"];
-    } else {
-        echo "No se ha seleccionado ningún valor.";
-        exit();  // Salir del script si no se ha seleccionado un tipo de usuario
-    }
-*/
     // Llamada al procedimiento almacenado ActualizarUsuario
-    $sql = "CALL ActualizarUsuario_Vendedor('$usuario', '$password', 1, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '', '$fecha_nac', NOW(), 1)";
+    $sql = "CALL ActualizarUsuario_Vendedor('$usuario', '$password', 1, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '$imagenContenido', '$fecha_nac', NOW(), 1)";
 
     if ($conn->query($sql) === TRUE) {
         //echo "Registro actualizado correctamente.";
@@ -39,6 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Error al actualizar registro: " . $conn->error;
     }
+}else {
+    echo "Tamaño de la imagen demasiado grande. El tamaño máximo permitido es 1 MB.";
+}
 
 }
 

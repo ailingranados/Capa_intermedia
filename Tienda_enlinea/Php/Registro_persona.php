@@ -33,10 +33,10 @@ Capa intermedia
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link" href="../Html/Landing_page.html">landing page</a>
+            <a class="nav-link" href="Landing_page.php">landing page</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../Html/Pagina_inicio.html">Inicio</a>
+            <a class="nav-link" href="Pagina_inicio.php">Inicio</a>
           </li>
        
 
@@ -52,7 +52,7 @@ Capa intermedia
     
       <div class="container p-5 my-5 contenedor-forms">
         
-        <form action="../Funcion/procesar_registro.php" method="post">
+        <form action="../Funcion/procesar_registro.php" method="post" enctype="multipart/form-data">
           <!--PEDIMOS LOS DATOS DE REGISTRO-->
           <!-- nombre y apellidos -->
           <div class="input-group ">
@@ -151,10 +151,30 @@ Capa intermedia
                
         <!-- imagen de usuario -->
         <div class="col form-floating mt-3 mb-3">
-          <input type="file" class="form-control" id="imagen" name="imagen" required>
+          <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" onchange="mostrarImagen(event)">
           <label for="imagen">Imagen</label>
         </div>
+<img id="imagenMostrada" src="#" alt="Vista previa de la imagen" style="display: none; max-width: 100%; height: auto;">
 
+        <script> 
+         function mostrarImagen(event) {
+         const input = event.target;
+         const imgMostrada = document.getElementById('imagenMostrada');
+
+          // Asegúrate de que se haya seleccionado un archivo
+          if (input.files && input.files[0]) {
+           const reader = new FileReader();
+
+          reader.onload = function(e) {
+            imgMostrada.src = e.target.result;
+            imgMostrada.style.display = 'block';  // Muestra la imagen
+          };
+
+           reader.readAsDataURL(input.files[0]);  // Lee el archivo como una URL de datos
+          }
+          }
+
+          </script>
           <!-- Boton de submit -->
           <br>
           <input type="submit" class="btn button_pink" value="REGISTRAR"><br>

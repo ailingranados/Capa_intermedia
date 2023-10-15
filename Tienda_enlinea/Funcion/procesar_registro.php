@@ -14,7 +14,12 @@ if ($result->num_rows > 0) {
     // El nombre de usuario ya existe, puedes mostrar un mensaje de error
     echo "El nombre de usuario ya está en uso. Por favor, elige otro nombre de usuario.";
 } else {
-    
+    $nombreImagen = $_FILES['imagen']['name'];
+    $tamañoImagen = $_FILES['imagen']['size'];
+    $tipoImagen = $_FILES['imagen']['type'];
+    $tempImagen = $_FILES['imagen']['tmp_name'];
+
+    if ($tamañoImagen <= 1048576) { // Tamaño máximo de 1 MB
 
     $apellidop = $_POST['Apellidop'];
     $apellidom = $_POST['ApellidoM'];
@@ -39,21 +44,10 @@ if ($result->num_rows > 0) {
     } else {
         echo "No se ha seleccionado ningún valor.";
     }
-   /*
-    if($privacidad == 'Publico'){
-        $privacidad1 = 1;
-    }else{
-        $privacidad1 = 0;
-    }
-   */
-
-    // Captura otros datos del formulario según corresponda
-   /* $rol_usuario = $_POST['rol-usuario'];
-    echo "Rol de usuario seleccionado: " . $rol_usuario. $privacidad;  // Imprime el valor seleccionado
-   */
+    $imagenContenido = addslashes(file_get_contents($tempImagen));
 
     // Llamada al procedimiento almacenado
-    $sql = "CALL InsertarUsuario('$usuario', '$password', $rol_usuario2, 1, $rol_usuario, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '', '$fecha_nac', NOW(), 1)";
+    $sql = "CALL InsertarUsuario('$usuario', '$password', $rol_usuario2, 1, $rol_usuario, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '$imagenContenido', '$fecha_nac', NOW(), 1)";
 
     if ($conn->query($sql) === TRUE) {
         //echo "Registro insertado correctamente.";
@@ -83,7 +77,10 @@ if ($result->num_rows > 0) {
     } else {
         echo "Error al insertar registro: " . $conn->error;
     }
+} else {
+    echo "Tamaño de la imagen demasiado grande. El tamaño máximo permitido es 1 MB.";
 }
+  }
 }
 
 // Cerrar la conexión

@@ -56,7 +56,8 @@ if ($result->num_rows > 0) {
     $sql = "CALL InsertarUsuario('$usuario', '$password', $rol_usuario2, 1, $rol_usuario, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '', '$fecha_nac', NOW(), 1)";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Registro insertado correctamente.";
+        //echo "Registro insertado correctamente.";
+        header("Location: Modificar_persona.php?usuario=$usuario");
     } else {
         echo "Error al insertar registro: " . $conn->error;
     }

@@ -15,7 +15,7 @@ Capa intermedia
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Archivo diseño de pagina en css  -->
-  <link rel="stylesheet" type="text/css" href="Diseño.css">
+  <link rel="stylesheet" type="text/css" href="../Estilos/Diseño.css">
 
 <!-- Archivo de java script para el comportamiento del codigo -->
        <script src="Logica.js"></script>
@@ -26,7 +26,7 @@ Capa intermedia
   <nav class="navbar navbar-expand-sm sticky-top">
     <div class="container-fluid">
       <!-- <a class="navbar-brand" href="#">Logo</a> -->
-      <img src="IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="rounded-pill">
+      <img src="../IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="rounded-pill">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -52,20 +52,14 @@ Capa intermedia
     
       <div class="container p-5 my-5 contenedor-forms">
         
-        <form action="procesar_registro.php" method="post">
+        <form action="/action_page.php">
+
           <!--PEDIMOS LOS DATOS DE REGISTRO-->
           <!-- nombre y apellidos -->
           <div class="input-group ">
            
-           <input type="text" class="form-control" placeholder="Nombre" name="Nombre">
-          
-
-         </div>
-          <div class="input-group ">
-           
-    
-            <input type="text" class="form-control" placeholder="Apellido Paterno" id="Apellidop" name="Apellidop">
-            <input type="text" class="form-control" placeholder="Apellido Materno" id="ApellidoM" name="ApellidoM">
+            <input type="text" class="form-control" placeholder="Nombre">
+            <input type="text" class="form-control" placeholder="Apellido">
 
           </div>
 
@@ -73,12 +67,6 @@ Capa intermedia
           <div class="col form-floating mt-3 mb-3 ">
             <input type="email" class="form-control" id="email" name="email" required autofocus>
             <label for="email">Email:</label>
-          </div>
-
-          <!-- Telefono -->
-          <div class="col form-floating mt-3 mb-3 ">
-            <input type="text" class="form-control" id="telefono" name="telefono" required autofocus>
-            <label for="telefono">Telefono:</label>
           </div>
           <!-- usuario -->
           <div class="col form-floating mt-3 mb-3 ">
@@ -97,45 +85,21 @@ Capa intermedia
           <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" required>
           <label for="fecha_nac">Fecha de nacimiento</label>
         </div>
-        <?php
-          // Realizar la consulta a la base de datos
-          include('conexion.php');  // Incluye el archivo de conexión
-
-          $sql = "SELECT Role_ID, Role_Nombre FROM Roles";
-          $result = $conn->query($sql);
-        ?>
 
          <!-- Elegir de una lista, tipo de usuario -->
          <label for="rol" class="form-label">Elige tu tipo de cuenta</label>
          <select class="form-select" id="rol" name="rol-usuario">
-          <?php
-           // Verificar si se obtuvieron resultados
-           if ($result->num_rows > 0) {
-          // Iterar sobre los resultados y generar las opciones del select
-           while ($row = $result->fetch_assoc()) {
-            echo "<option value='" . $row["Role_ID"] . "'>" . $row["Role_Nombre"] . "</option>";
-           }
-           } else {
-           echo "<option value=''>No hay opciones disponibles</option>";
-           }
-           ?>
-         <!--
+           
            <option>Cliente</option>
            <option>Vendedor</option>
            <option>Administrador*</option>
-           -->
          </select>
-
-         <?php
-         // Cerrar la conexión
-         $conn->close();
-         ?>
 
          <!-- Elegir de una lista, tipo privacidad -->
          <label for="rol" class="form-label">Elige tu tipo de usuario</label>
-         <select class="form-select" id="rol2" name="rol-usuario2">
-           <option value = 1>Publico</option>
-           <option value = 0>Privado</option>
+         <select class="form-select" id="rol" name="rol-usuario">
+           <option>Publico</option>
+           <option>Privado</option>
            
          </select>
 

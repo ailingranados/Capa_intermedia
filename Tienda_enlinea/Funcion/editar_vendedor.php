@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['pswd'];
     $fecha_nac = $_POST['fecha_nac'];
     $genero = $_POST['genero'];
-
+/*
     if (isset($_POST["rol-usuario"])) {
         $rol_usuario = $_POST["rol-usuario"];
     } else {
@@ -26,13 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "No se ha seleccionado ningún valor.";
         exit();  // Salir del script si no se ha seleccionado un tipo de usuario
     }
-
+*/
     // Llamada al procedimiento almacenado ActualizarUsuario
-    $sql = "CALL ActualizarUsuario('$usuario', '$password', $rol_usuario2, 1, $rol_usuario, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '', '$fecha_nac', NOW(), 1)";
+    $sql = "CALL ActualizarUsuario_Vendedor('$usuario', '$password', 1, '$nombre', '$apellidop', '$apellidom', '$genero', '$telefono', '$email', '', '$fecha_nac', NOW(), 1)";
 
     if ($conn->query($sql) === TRUE) {
         //echo "Registro actualizado correctamente.";
-        header("Location: Modificar_persona.php?usuario=$usuario");
+        //header("Location: ../Php/Perfil_usuario_publico.php?usuario=$usuario");
+        header("Location: ../php/Vendedor/Perfil_vendedor.php?usuario=$usuario");
+
+        
     } else {
         echo "Error al actualizar registro: " . $conn->error;
     }

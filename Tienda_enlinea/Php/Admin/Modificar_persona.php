@@ -15,7 +15,7 @@ Capa intermedia
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Archivo diseño de pagina en css  -->
-  <link rel="stylesheet" type="text/css" href="Diseño.css">
+  <link rel="stylesheet" type="text/css" href="../../Estilos/Diseño.css">
 
 <!-- Archivo de java script para el comportamiento del codigo -->
        <script src="Logica.js"></script>
@@ -34,7 +34,7 @@ if (isset($_GET['usuario'])) {
 
        <?php
     // Realizar la conexión a la base de datos
-    include('conexion.php');
+    include('../../Funcion/conexion.php');
 
     // Consulta para obtener información del usuario 'geralt'
     $sqlConsulta = "SELECT 
@@ -76,6 +76,7 @@ if (isset($_GET['usuario'])) {
         $usuaNombre = $row["Usua_Nombre"];
         $usuaContra = $row["Usua_Contra"];
         $Role = $row["Role_ID"];
+        $NRole = $row["Role_Nombre"];
         $nombre = $row["UsIn_Nombre"];
         $apellidop = $row["UsIn_ApellidoPa"];
         $apellidom = $row["UsIn_ApellidoMa"];
@@ -86,7 +87,7 @@ if (isset($_GET['usuario'])) {
         $fecha = $row["UsIn_Fecha_Nac"];
         // ... Continuar con los demás campos ...
     } else {
-        echo "No se encontraron resultados para el usuario 'geralt'.";
+        echo "No se encontraron resultados para el usuario '$usuario'.";
     }
 
     // Cerrar la conexión
@@ -99,18 +100,27 @@ if (isset($_GET['usuario'])) {
   <nav class="navbar navbar-expand-sm sticky-top">
     <div class="container-fluid">
       <!-- <a class="navbar-brand" href="#">Logo</a> -->
-      <img src="IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="rounded-pill">
+      <img src="../../IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="rounded-pill">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="Landing_page.html">landing page</a>
+        <li class="nav-item">
+            <a class="nav-link" href="Pagina_inicio.php?usuario=<?php echo urlencode($usuario); ?>">Tienda</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Pagina_inicio.html">Inicio</a>
+         <a class="nav-link" href="Perfil_admin.php?usuario=<?php echo urlencode($usuario); ?>">Perfil</a>
           </li>
+
+          <li class="nav-item">
+         <a class="nav-link" href="Modificar_persona.php?usuario=<?php echo urlencode($usuario); ?>">Modificar Perfil</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../Landing_page.php">Salir</a>
+          </li>
+
        
 
         </ul>
@@ -125,7 +135,7 @@ if (isset($_GET['usuario'])) {
     
       <div class="container p-5 my-5 contenedor-forms">
         
-        <form action="editar_persona.php" method="post">
+        <form action="../../Funcion/editar_vendedor.php" method="post">
           <!--PEDIMOS LOS DATOS DE REGISTRO-->
           <!-- nombre y apellidos -->
           <div class="input-group ">
@@ -171,45 +181,15 @@ if (isset($_GET['usuario'])) {
           <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" required value="<?php echo isset($fecha) ? $fecha : ''; ?>">
           <label for="fecha_nac">Fecha de nacimiento</label>
         </div>
-        <?php
-          // Realizar la consulta a la base de datos
-          include('conexion.php');  // Incluye el archivo de conexión
+         <!--  tipo Rol -->
+        <div class="col form-floating mt-3 mb-3 ">
+            <input type="text" class="form-control" id="rol" name="rol-usuario" required value="<?php echo isset($NRole) ? $NRole : ''; ?>" readonly> 
+             <label for="usuario">Rol:</label>
+           </div>
 
-          $sql = "SELECT Role_ID, Role_Nombre FROM Roles";
-          $result = $conn->query($sql);
-        ?>
 
-         <!-- Elegir de una lista, tipo de usuario -->
-         <label for="rol" class="form-label">Elige tu tipo de cuenta</label>
-         <select class="form-select" id="rol" name="rol-usuario">
-          <?php
-           // Verificar si se obtuvieron resultados
-           if ($result->num_rows > 0) {
-          // Iterar sobre los resultados y generar las opciones del select
-          while ($row = $result->fetch_assoc()) {
-            $roleId = $row["Role_ID"];
-            $roleNombre = $row["Role_Nombre"];
-            echo "<option value='$roleId'>$roleNombre</option>";
-            }
-           } else {
-           echo "<option value=''>No hay opciones disponibles</option>";
-           }
-           ?>
-         
-         </select>
 
-         <?php
-         // Cerrar la conexión
-         $conn->close();
-         ?>
-
-         <!-- Elegir de una lista, tipo privacidad -->
-         <label for="rol" class="form-label">Elige tu tipo de usuario</label>
-         <select class="form-select" id="rol2" name="rol-usuario2">
-           <option value = 1>Publico</option>
-           <option value = 0>Privado</option>
-           
-         </select>
+        
 
           <!-- Elegir de una lista, Genero -->
           <label for="rol" class="form-label">Genero</label>

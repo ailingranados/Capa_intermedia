@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             JOIN 
                 Usuario_Info ui ON u.Usua_ID = ui.Usua_ID
             WHERE
-                u.Usua_Nombre = '$username' AND u.Usua_Contra = '$password1'";
+                u.Usua_Nombre = '$username' AND u.Usua_Contra = '$password1' AND Usua_Estatus = 1";
 
     $result = $conn->query($sql);
 

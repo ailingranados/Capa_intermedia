@@ -206,6 +206,48 @@ if (isset($_GET['usuario'])) {
     <button class="btn button_pink info-bar" type="button"> Ver mas productos</button>
 
   </div>
+  </section>
+
+  <!-- inicio  -->
+  <div class="data-column">
+  <!-- Contenido de la columna de datos -->
+  <h1 style="color: palevioletred;">Usuarios Dados de baja</h1>
+  </div>
+
+  <section class="fila_ventas">
+    <div class="row" id="usuarios-info">
+        <!-- Aquí se mostrarán los usuarios -->
+    </div>
+    <button class="btn button_pink info-bar" type="button">Ver más productos</button>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        cargarInfoUsuarios();
+    });
+
+    function cargarInfoUsuarios() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    document.getElementById("usuarios-info").innerHTML = xhr.responseText;
+                } else {
+                    console.error("Hubo un error al cargar la información de usuarios.");
+                }
+            }
+        };
+        xhr.open("GET", "../../Funcion/consulta_baja.php", true);
+        xhr.send();
+    }
+</script>
+
+
+
+
+  <!-- fin  -->
+
+  
 
   <div class="clearfix"></div>
 

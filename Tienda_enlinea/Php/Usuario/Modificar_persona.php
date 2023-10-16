@@ -245,8 +245,10 @@ if (isset($_GET['usuario'])) {
           <input type="submit" class="btn button_pink" value="REGISTRAR"><br>
 
         </form> 
+        
       </div>
-    
+      <a href="../../Funcion/desactivar_persona.php?usuario=<?php echo urlencode($usuario); ?>" class="btn button_pink">Eliminar usuario</a>
+
  
 </body>
 

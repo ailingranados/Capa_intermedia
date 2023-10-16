@@ -240,7 +240,8 @@ if (isset($_GET['usuario'])) {
 
         </form> 
       </div>
-    
+      <a href="../../Funcion/desactivar_persona.php?usuario=<?php echo urlencode($usuario); ?>" class="btn button_pink">Eliminar usuario</a>
+
  
 </body>
 

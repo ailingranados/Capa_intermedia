@@ -9,7 +9,7 @@ Capa intermedia
     <title>Suberbia</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script defer src="../validaciones/try.js"></script>
 <!-- Boostrap links -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -18,7 +18,7 @@ Capa intermedia
   <link rel="stylesheet" type="text/css" href="../Estilos/Diseño.css">
 
 <!-- Archivo de java script para el comportamiento del codigo -->
-       <script src="Logica.js"></script>
+      <!-- <script src="Logica.js"></script> -->
 </head>
 
 
@@ -52,7 +52,7 @@ Capa intermedia
     
       <div class="container p-5 my-5 contenedor-forms">
         
-        <form action="../Funcion/procesar_registro.php" method="post" enctype="multipart/form-data">
+        <form  action="../Funcion/procesar_registro.php" method="post" enctype="multipart/form-data">
           <!--PEDIMOS LOS DATOS DE REGISTRO-->
           <!-- nombre y apellidos -->
           <div class="input-group ">
@@ -82,16 +82,16 @@ Capa intermedia
           </div>
           <!-- usuario -->
           <div class="col form-floating mt-3 mb-3 ">
-            <input type="text" class="form-control" id="usuario" name="usuario" required>
+            <input type="text" class="form-control" id="username" name="usuario" required>
             <label for="usuario">Usuario:</label>
           </div>
 
        <!-- contraseña -->
         <div class="col form-floating mt-3 mb-3">
-          <input type="password" class="form-control" id="pwd" name="pswd" required>
+          <input type="password" class="form-control" id="password" name="pswd" required>
           <label for="pwd">Password</label>
         </div>
-
+       
         <!-- Fecha de nacimiento -->
         <div class="col form-floating mt-3 mb-3">
           <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" required>

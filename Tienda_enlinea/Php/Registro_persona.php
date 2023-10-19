@@ -13,7 +13,7 @@ Capa intermedia
 <!-- Boostrap links -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
+   <script defer src="validacion.js"></script>
 <!-- Archivo diseño de pagina en css  -->
   <link rel="stylesheet" type="text/css" href="../Estilos/Diseño.css">
 
@@ -52,7 +52,7 @@ Capa intermedia
     
       <div class="container p-5 my-5 contenedor-forms">
         
-        <form  action="../Funcion/procesar_registro.php" method="post" enctype="multipart/form-data">
+        <form id="form" action="../Funcion/procesar_registro.php" method="post" enctype="multipart/form-data">
           <!--PEDIMOS LOS DATOS DE REGISTRO-->
           <!-- nombre y apellidos -->
           <div class="input-group ">
@@ -90,6 +90,12 @@ Capa intermedia
         <div class="col form-floating mt-3 mb-3">
           <input type="password" class="form-control" id="password" name="pswd" required>
           <label for="pwd">Password</label>
+        </div>
+
+        <!-- contraseña -->
+        <div class="col form-floating mt-3 mb-3">
+          <input type="password" class="form-control" id="password2" name="pswd2" required>
+          <label for="pwd">confirme su Password</label>
         </div>
        
         <!-- Fecha de nacimiento -->

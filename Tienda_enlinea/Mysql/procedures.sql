@@ -187,22 +187,39 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE ActivarUsuario(
-    IN p_ID int
-)
+CREATE PROCEDURE VerificarCredenciales(IN p_Usuario VARCHAR(30), IN p_Contrasena VARCHAR(30), OUT p_Resultado INT)
 BEGIN
-    -- Actualizar el estado del usuario a 1 o true
-    UPDATE Usuario
-    SET Usua_Estatus = 1
-    WHERE  Usua_ID = p_ID;
+    DECLARE v_UsuarioCount INT;
+    
+    -- Verifica si el usuario y la contraseña coinciden en la tabla Usuario
+    SELECT COUNT(*) INTO v_UsuarioCount
+    FROM Usuario
+    WHERE Usua_Nombre = p_Usuario AND Usua_Contra = p_Contrasena;
+    
+    -- Asigna 1 si las credenciales son correctas, 0 si no son correctas
+    IF v_UsuarioCount = 1 THEN
+        SET p_Resultado = 1;
+    ELSE
+        SET p_Resultado = 0;
+    END IF;
 END //
 
 DELIMITER ;
 
 
-CALL ActivarUsuario(25);
 
 
-DELIMITER //
-CALL ActivarUsuario('Arturo_no_paga');
-DELIMITER ;
+-- Declaración de variables
+DECLARE @resultado INT;
+
+-- Llama al procedimiento para verificar las credenciales
+CALL VerificarCredenciales('Edgar12', 'Jesus.2023', @resultado);
+
+-- Comprueba el valor de resultado
+IF @resultado = 1 THEN
+    -- Las credenciales son correctas
+    SELECT 'Credenciales correctas' AS Mensaje;
+ELSE
+    -- Las credenciales son incorrectas
+    SELECT 'Credenciales incorrectas' AS Mensaje;
+END IF;

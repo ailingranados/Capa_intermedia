@@ -1,6 +1,11 @@
 <?php
 include('conexion.php');
-
+if (isset($_GET['usuario'])) {
+    $usuario = $_GET['usuario'];
+   // echo "Usuario: " . $usuario;
+} else {
+    echo "No se recibió un nombre de usuario.";
+}
 
 $sqlConsulta = "SELECT 
                 u.Usua_ID,
@@ -13,7 +18,8 @@ $sqlConsulta = "SELECT
                 Usuario_Info ui ON u.Usua_ID = ui.Usua_ID
                 JOIN Roles r ON u.Role_ID = r.Role_ID
             WHERE
-                u.Usua_Estatus = 1";
+                u.Usua_Estatus = 1 AND 
+                        u.Usua_Nombre != '$usuario'"; 
 
 $resultConsulta = $conn->query($sqlConsulta);
 

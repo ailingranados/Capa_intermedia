@@ -257,6 +257,8 @@ if (isset($_GET['usuario'])) {
 
 
 <script>
+
+     var usuario = "<?php echo $usuario; ?>";
     document.addEventListener("DOMContentLoaded", function() {
         cargarInfoUsuarios();
     });
@@ -272,7 +274,7 @@ if (isset($_GET['usuario'])) {
                 }
             }
         };
-        xhr.open("GET", "../../Funcion/consulta_alta.php", true);
+        xhr.open("GET", "../../Funcion/consulta_alta.php?usuario=" + usuario, true);
         xhr.send();
     }
 </script>

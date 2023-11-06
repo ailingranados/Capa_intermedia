@@ -26,91 +26,80 @@ Capa intermedia
 
 
 <nav class="nav_busqueda">
-        <h1 class="Logo">Suberbia</h1>
-
-
-    <form class="Barra_busqueda">
-        <input class="palabra_busqueda me-2" type="text" placeholder="Search">
-        <button class="button_pink" type="button">Search</button>
-      </form>
-
-</nav>
-
-<nav class="barra_acceso_rapido">
-
-    <button class="boton_categoria" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
-        Categorias
-      </button>
-
-      <ul>
-        <li><a href="Compras.html">Compras</a></li>
-        <li><a href="Carrito.html">Carrito</a></li>
-
-
-      </ul>
-
-      <ul>
-        <img src="IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="rounded-pill">
-        <li><a href="Perfil_usuario_publico.html">Usuario</a></li>
+  <a href="Landing_page.html" style="text-decoration: none;"> <h1 class="Logo">Suberbia</h1> </a>
  
-      </ul>
-</nav>
+ 
+ <form class="Barra_busqueda">
+   <input class="palabra_busqueda me-2" type="text" placeholder="Search">
+   <button class="button_pink" type="button">Search</button>
+ </form>
+ 
+ </nav>
+ 
+ <nav class="barra_acceso_rapido">
+ 
+   <button class="boton_categoria" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+       
+     </button>
+ 
+     <ul>
+       <li><a href="Compras.html">Compras</a></li>
+       <li><a href="Carrito.html">Carrito</a></li>
+       <!-- <li><a href="Carrito.html">Inicio Sesion</a></li> -->
+ 
+ 
+     </ul>
+ 
+     <ul>
+       <img src="IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="img-usuario-navegacion">
+       <li><a href="Perfil_usuario_publico.html">Usuario</a></li>
+ 
+     </ul>
+ </nav>
    
-<body>
+<body  class="imagen-gatitos">
 
-  <div class="offcanvas offcanvas-start" id="demo">
-    <div class="offcanvas-header">
-      <h1 class="offcanvas-title">Bienvenido</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
+  <div class="contenedor-padre">
 
-      <!-- formulario de inicio de sesion -->
-      <nav>
-        <ul class="menu">
-            <li>
-                <button class="boton-menu boton-categoria active"> <i class="bi bi-check2-circle"></i>Todos los productos</button>
-            </li>
-            <li>
-                <button class="boton-menu boton-categoria"> <i class="bi bi-check2-circle"></i>Abrigos</button>
-            </li>
-            <li>
-                <button class="boton-menu boton-categoria"> <i class="bi bi-check2-circle"></i>Camisetas</button>
-            </li>
-            <li>
-                <button class="boton-menu boton-categoria"> <i class="bi bi-check2-circle"></i>pantalones</button>
-            </li>
-            <li>
-                <a class="boton-menu boton-carrito" href="Carrito.html"> <i class="bi bi-cart4"></i>Carrito <span
-                        class="numerito">0</span></a>
-            </li>
-        </ul>
-    </nav>
-
-    </div>
-  </div>
-
-  <div class="alineacion_perfil">
-    
+  <div class=" contenedor-lateral">
     <!-- Contenido de la barra de información -->
-    <img src="IMAGENES/gato_enojado.jpg" class="img_usuario">
+    <div class="contenedor-listas">
+
+      <div class="lista">
+          <img class="producto-imagen" src="IMAGENES/Suberbia.png" alt="cat">
+          <div class="lista-detalles">
+              <h3 class="lista-titulo">lista 1</h3>
+            
+
+          </div>
+      </div>
+
+    
+
+      </div>
+
+
+</div>
 
 
 
-<br><br><br>
+  <div class=" alineacion_perfil contenedor-lateral">
+
+      <img src="IMAGENES/gato_enojado.jpg" class="img_usuario">
+
+<br><br>
   <div class="columna-datos-usuarion">
     <!-- Contenido de la columna de datos -->
-    <h1 style="color: palevioletred;">Este perfil es privado</h1>
+    <h2>Este perfil es privado</h1>
     
   </div>
-
-
+  </div>
 
 </div>
 </body>
 
   <!-- Barra de informacion al final de la pagina -->
-  <footer>
-    © 2023 Tu Empresa. Todos los derechos reservados.
-  </footer>
+  <footer class="wrapper-footer">
+    © 2023 Suberbia. Todos los derechos reservados.
+</footer>
 </html>

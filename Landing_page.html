@@ -15,8 +15,8 @@ Capa intermedia
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Archivo diseño de pagina en css  -->
-  <link rel="stylesheet" type="text/css" href="CSS/Diseño.css">
-
+  <!-- <link rel="stylesheet" type="text/css" href="CSS/Diseño.css"> -->
+<link rel="stylesheet" type="text/css"  href="CSS/Todas_las_paginas.css">
 
   <!-- iconos de bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -25,7 +25,7 @@ Capa intermedia
   <script src="Logica.js"></script>
   <style>
     body {
-      background: linear-gradient(90deg, #FF4081, #FFE6F0);
+      background: linear-gradient(90deg, #d9778b, #FFE6F0);
       background-size: 400% 400%;
       animation: anim 5s infinite ease-in-out;
     }
@@ -34,31 +34,6 @@ Capa intermedia
 
 <body>
 
-  <!-- Texto de el menu off canvas -->
-  <div class="offcanvas offcanvas-start" id="demo">
-    <div class="offcanvas-header">
-      <h1 class="offcanvas-title">Bienvenido</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-
-      <!-- formulario de inicio de sesion -->
-      <div class="container mt-3">
-        <h2>Iniciar Sesion</h2>
-        <form action="/action_page.php">
-          <div class="form-floating mb-3 mt-3">
-            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
-            <label for="email">Email</label>
-          </div>
-          <div class="form-floating mt-3 mb-3">
-            <input type="text" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
-            <label for="pwd">Password</label>
-          </div>
-      </div>
-
-      <input class="btn button_pink" type="submit" value="Ingresar">
-    </div>
-  </div>
 
   <!-- Logo Con boton a un lado -->
   <div style="height:100%">
@@ -71,22 +46,29 @@ Capa intermedia
     <!-- Contenedor que mantiene los botones al lado derecho -->
     <div class="container contenedor_derecho">
       <!-- Boton para el menu off-canvas -->
-      <button class="btn button_pink" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+
+     <a href="Inicio_sesion.html"> 
+      <button class="boton-lan-page" type="button" > 
         Iniciar sesion
       </button>
+    </a>
       <br>
       <br>
       <br>
       <!-- Boton para registrate, te manda a otra pagina -->
-      <button class="btn button_pink" type="button">
+      <a href="Registro_persona.html">
+      <button class="boton-lan-page" type="button">
         Registrarte
       </button>
+    </a>
       <br>
       <br>
       <br>
-      <button class="btn button_pink" type="button">
+      <a href="Pagina_principal_productos.html">
+      <button class="boton-lan-page" type="button">
         Ver como espectador
       </button>
+    </a>
       <br>
       <br>
       <br>
@@ -95,13 +77,14 @@ Capa intermedia
   </div>
 
 
+<!-- Barra de informacion al final de la pagina -->
+<footer class="wrapper-footer" ">
+  © 2023 Suberbia. Todos los derechos reservados.
+</footer>
 
 <script src="JS/Logica.js"></script>
 </body>
 
-<!-- Barra de informacion al final de la pagina -->
-<footer>
-  © 2023 Tu Empresa. Todos los derechos reservados.
-</footer>
+
 
 </html>

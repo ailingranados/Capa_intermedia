@@ -26,6 +26,7 @@
     --texto-rosa: #de638e;
 }
 
+
 /* Para todas las páginas */
 * {
     margin: 0;
@@ -34,7 +35,17 @@
     font-family: 'Rubik', sans-serif;
 }
 
+html {
+    min-height: 100%;
+    position: relative;
+  }
 
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+  }
 
 h1,
 h2,
@@ -79,6 +90,11 @@ li a {
     text-decoration: none;
 }
 
+.imagen-gatitos{
+    background-image: url("../IMAGENES/cat_back.svg");
+    /* background-size: cover; */
+}
+
 .wrapper {
     display: grid;
     /* grid-template-columns: 5fr 1fr; */
@@ -86,6 +102,49 @@ li a {
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    
+}
+
+.wrapper-sin-fondo {
+    display: grid;
+    /* grid-template-columns: 5fr 1fr; */
+
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.wrapper-inicio-sesion {
+    display: grid;
+
+    background-color: var(--bg-100);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border-radius: 2rem;
+}
+
+
+
+.wrapper-footer {
+    display: grid;
+
+    background-color: var(--accent-200);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--clr-white);
+}
+
+.wrapper-registro {
+    display: grid;
+    /* grid-template-columns: 5fr 1fr; */
+    background-color: var(--bg-100);
+    align-items: center;
+
+    padding: 3rem;
+    border-radius: 2rem;
+
 }
 
 aside {
@@ -189,15 +248,19 @@ main {
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     padding: 1rem;
-    /* background-color: var(--clr-main-light); */
+    background-color: var(--clr-main-light);
     border-radius: 1rem;
     margin: 2rem;
+
+
 }
 
 .producto-imagen {
     /* para que no pase del 100% de su contenedor */
     max-width: 100%;
     border-radius: 1rem;
+    cursor: pointer;
+
 }
 
 .producto-detalles {
@@ -233,6 +296,29 @@ main {
 .producto-agregar:hover {
     background-color: var(--primary-300);
     color: var(--clr-white);
+}
+
+.boton-registrar {
+
+    border: 0;
+    /* margin-left: 43%; */
+
+    padding: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    text-transform: uppercase;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: 2px solid var(--clr-white);
+    transition: background-color .3s ease;
+    background-color: var(--primary-300);
+    color: var(--clr-white);
+}
+
+.boton-registrar:hover {
+    background-color: var(--accent-200);
+    color: var(--bg-100);
+
 }
 
 /****Carito vacio****/
@@ -437,6 +523,9 @@ main {
 
 .Logo {
     color: var(--texto);
+    font-size: x-large;
+    font-weight: 700;
+    margin-top: 1rem;
 }
 
 .nav_busqueda {
@@ -475,7 +564,7 @@ main {
 .alineacion_perfil {
     display: grid;
 
-    background-color: var(--bg-100);
+    /* background-color: var(--bg-100); */
     padding: 2rem;
     justify-items: center;
     justify-content: start;
@@ -489,4 +578,119 @@ main {
     background-color: #f2f2f2;
     margin: auto;
     border-radius: 20px;
+}
+
+/****************************************************NAVEGACION */
+
+.img-usuario-navegacion {
+    width: 70px; 
+    height: 50px;
+    border-radius: 50%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* *************************************************LANDING PAGE */
+.degradado{
+    background: linear-gradient(90deg, #d9778b, #FFE6F0);
+    background-size: 400% 400%;
+    animation: anim 5s infinite ease-in-out;
+    /* text-align: center;  mueve la imagen y ne queda centrado en ladpage*/
+
+}
+
+@keyframes anim{
+    0%{
+        background-position: 0 50%;
+    }
+
+    50%{
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+
+.contenedor_derecho{
+    position: fixed;
+    margin-right: 0;
+    margin-left: 0;
+    top: 30%;
+    right: 10px;
+    width: 300px; /* Ajusta el ancho según tus necesidades */
+    height: 80%; /* Opcional: Hazlo del mismo alto que la ventana */
+    /*background-color: #f0f0f0;  Color de fondo opcional */
+    
+}
+
+
+.boton-lan-page{
+
+        border: 0;
+        padding: 1rem;
+        border-radius: 1rem;
+        cursor: pointer;
+        border: 2px solid var(--clr-white);
+        transition: background-color .3s ease;
+        background-color: var(--bg-200);
+        color: var(--accent-200);
+    }
+    
+    .boton-lan-page:hover {
+        background-color: var(--clr-main-light);
+        color: var(--bg-100);
+    
+    }
+ 
+    
+/* ***************** PERFIL */
+.contenedor-padre {
+    display: grid;
+    grid-template-columns: 1fr 30%; /* ajusta los tamaños de las columnas según sea necesario */
+}
+
+.contenedor-lateral {
+    background-color: var(--clr-back);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin: 2rem;
+}
+
+.contenedor-listas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    /* background-color: var(--clr-main-light); */
+    border-radius: 1rem;
+    margin: 2rem;
+}
+
+.lista-detalles {
+    background-color: var(--bg-100);
+    color: var(--accent-200);
+    padding: .5rem;
+    border-radius: 1rem;
+    /* margin-top: 1rem; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.lista-titulo {
+    font-size: 1rem;
+
+    
+}
+
+.lista{
+    background-color: var(--clr-main-light);
+    border-radius: 2rem;
 }

@@ -41,28 +41,6 @@ nav {
     padding: 10px 0;
 }
 
-.degradado{
-    background: linear-gradient(90deg, #FF4081, #FFE6F0);
-    background-size: 400% 400%;
-    animation: anim 5s infinite ease-in-out;
-    /* text-align: center;  mueve la imagen y ne queda centrado en ladpage*/
-
-}
-
-@keyframes anim{
-    0%{
-        background-position: 0 50%;
-    }
-
-    50%{
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0 50%;
-    }
-}
-
 
 
 /* Para los registros de usuarios */
@@ -78,17 +56,7 @@ border: 5px solid #de638e;
 
 }
 
-.contenedor_derecho{
-    position: fixed;
-    margin-right: 0;
-    margin-left: 0;
-    top: 30%;
-    right: 10px;
-    width: 300px; /* Ajusta el ancho según tus necesidades */
-    height: 80%; /* Opcional: Hazlo del mismo alto que la ventana */
-    /*background-color: #f0f0f0;  Color de fondo opcional */
-    
-}
+
 
 /* Pagina de productos (inicio) */
 

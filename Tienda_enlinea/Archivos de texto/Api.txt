@@ -1,9 +1,0 @@
-Se realizara una API que haga los archivos divididos de esta forma
-
-Suberbia.com
-Suberbia.com/registro
-Suberbia.com/usuario123/ventas
-
-una vez registrado el usuario se mostrara en la url
-y la seccion de la pagina a la que se esta accediendo
-

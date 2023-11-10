@@ -172,7 +172,7 @@ CREATE TABLE Media (
     Prod_ID INT NOT NULL,
     TiMe_ID INT NOT NULL,
     Medi_Nombre_Archivo VARCHAR(80) NOT NULL,
-    Medi_Archivo BLOB NOT NULL,
+    Medi_Archivo LongBLOB NOT NULL,
     Medi_Estatus BOOL NOT NULL,
     FOREIGN KEY (Prod_ID) REFERENCES Producto(Prod_ID),
     FOREIGN KEY (TiMe_ID) REFERENCES Tipo_Media(TiMe_ID)

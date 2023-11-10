@@ -13,7 +13,8 @@ Capa intermedia
    
     <!-- iconos de bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
+    <!-- script de validacion de contraseña -->
+    <script defer src="validacion.js"></script>
       <!-- Boostrap links -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -59,14 +60,20 @@ Capa intermedia
         
         <div class="wrapper-registro">
 
-        <form action="/action_page.php">
-
-          <!--PEDIMOS LOS DATOS DE REGISTRO-->
+        <form id="form" action="Funcion/procesar_registro.php" method="post" enctype="multipart/form-data">
+  <!--PEDIMOS LOS DATOS DE REGISTRO-->
           <!-- nombre y apellidos -->
           <div class="input-group ">
            
-            <input type="text" class="form-control" placeholder="Nombre">
-            <input type="text" class="form-control" placeholder="Apellido">
+           <input type="text" class="form-control" placeholder="Nombre" name="Nombre">
+          
+
+         </div>
+          <div class="input-group ">
+           
+    
+            <input type="text" class="form-control" placeholder="Apellido Paterno" id="Apellidop" name="Apellidop">
+            <input type="text" class="form-control" placeholder="Apellido Materno" id="ApellidoM" name="ApellidoM">
 
           </div>
 
@@ -75,30 +82,75 @@ Capa intermedia
             <input type="email" class="form-control" id="email" name="email" required autofocus>
             <label for="email">Email:</label>
           </div>
+
+          <!-- Telefono -->
+          <div class="col form-floating mt-3 mb-3 ">
+            <input type="text" class="form-control" id="telefono" name="telefono" required autofocus>
+            <label for="telefono">Telefono:</label>
+          </div>
           <!-- usuario -->
           <div class="col form-floating mt-3 mb-3 ">
-            <input type="text" class="form-control" id="usuario" name="usuario" required>
+            <input type="text" class="form-control" id="username" name="usuario" required>
             <label for="usuario">Usuario:</label>
           </div>
 
        <!-- contraseña -->
         <div class="col form-floating mt-3 mb-3">
-          <input type="password" class="form-control" id="pwd" name="pswd" required>
+          <input type="password" class="form-control" id="password" name="pswd" required>
           <label for="pwd">Password</label>
         </div>
 
+        <!-- contraseña -->
+        <div class="col form-floating mt-3 mb-3">
+          <input type="password" class="form-control" id="password2" name="pswd2" required>
+          <label for="pwd">confirme su Password</label>
+        </div>
+       
         <!-- Fecha de nacimiento -->
         <div class="col form-floating mt-3 mb-3">
           <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" required>
           <label for="fecha_nac">Fecha de nacimiento</label>
         </div>
+        <?php
+          // Realizar la consulta a la base de datos
+          include('Funcion/conexion.php');  // Incluye el archivo de conexión
+
+          $sql = "SELECT Role_ID, Role_Nombre FROM Roles";
+          $result = $conn->query($sql);
+        ?>
 
          <!-- Elegir de una lista, tipo de usuario -->
          <label for="rol" class="form-label">Elige tu tipo de cuenta</label>
          <select class="form-select" id="rol" name="rol-usuario">
-           <option>Vendedor</option>
+          <?php
+           // Verificar si se obtuvieron resultados
+           if ($result->num_rows > 0) {
+          // Iterar sobre los resultados y generar las opciones del select
+           while ($row = $result->fetch_assoc()) {
+            echo "<option value='" . $row["Role_ID"] . "'>" . $row["Role_Nombre"] . "</option>";
+           }
+           } else {
+           echo "<option value=''>No hay opciones disponibles</option>";
+           }
+           ?>
+         <!--
            <option>Cliente</option>
-           <!-- <option>Administrador*</option> -->
+           <option>Vendedor</option>
+           <option>Administrador*</option>
+           -->
+         </select>
+
+         <?php
+         // Cerrar la conexión
+         $conn->close();
+         ?>
+
+         <!-- Elegir de una lista, tipo privacidad -->
+         <label for="rol" class="form-label">Elige tu tipo de usuario</label>
+         <select class="form-select" id="rol2" name="rol-usuario2">
+           <option value = 1>Publico</option>
+           <option value = 0>Privado</option>
+           
          </select>
 
           <!-- Elegir de una lista, Genero -->
@@ -113,15 +165,34 @@ Capa intermedia
                
         <!-- imagen de usuario -->
         <div class="col form-floating mt-3 mb-3">
-          <input type="file" class="form-control" id="imagen" name="imagen" required>
+          <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" onchange="mostrarImagen(event)">
           <label for="imagen">Imagen</label>
         </div>
+<img id="imagenMostrada" src="#" alt="Vista previa de la imagen" style="display: none; max-width: 100%; height: auto;">
 
+        <script> 
+         function mostrarImagen(event) {
+         const input = event.target;
+         const imgMostrada = document.getElementById('imagenMostrada');
+
+          // Asegúrate de que se haya seleccionado un archivo
+          if (input.files && input.files[0]) {
+           const reader = new FileReader();
+
+          reader.onload = function(e) {
+            imgMostrada.src = e.target.result;
+            imgMostrada.style.display = 'block';  // Muestra la imagen
+          };
+
+           reader.readAsDataURL(input.files[0]);  // Lee el archivo como una URL de datos
+          }
+          }
+
+          </script>
           <!-- Boton de submit -->
           <br>
-          <div class="wrapper">
-          <input type="submit" class="boton-registrar" value="REGISTRAR"><br>
-        </div>
+          <input type="submit" class="btn button_pink" value="REGISTRAR"><br>
+
 
         </form> 
 

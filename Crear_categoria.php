@@ -17,7 +17,6 @@ Capa intermedia
       <!-- Boostrap links -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  
   <?php
 // Obtén el valor de usuario pasado en la URL
 if (isset($_GET['usuario'])) {
@@ -94,7 +93,8 @@ if (isset($_GET['usuario'])) {
 </head>
 
 <nav class="nav_busqueda">
- <a href="Landing_page.html" style="text-decoration: none;"> <h1 class="Logo">Suberbia</h1> </a>
+
+  <a href="Landing_page.html" style="text-decoration: none;"> <h1 class="Logo">Suberbia</h1> </a>
 
 
 <form class="Barra_busqueda">
@@ -113,8 +113,6 @@ if (isset($_GET['usuario'])) {
     <ul>
       <li><a href="Compras.html">Compras</a></li>
       <li><a href="Carrito.html">Carrito</a></li>
-      <li><a href="Inicio_sesion.html">Inicio Sesion</a></li>
-
 
     </ul>
 
@@ -143,58 +141,26 @@ if (isset($_GET['usuario'])) {
         <!--<img src="IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="rounded-pill"> -->
         <li> <a href="Inicio_sesion.html"><?php echo isset($usuario) ? $usuario : ''; ?></a></li>
  
+
       <!--
       <img src="IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="img-usuario-navegacion">
-      <li><a href="Perfil_usuario_publico.html">Usuario</a></li>
-      -->
+      <li><a href="#">Usuario</a></li>
+  -->
     </ul>
 </nav>
 
-<body style="width: 100%; height: 100%;"  class="imagen-gatitos">
- 
- 
-      <div class="container p-5 my-5 " style="max-width: 50%;">
+<body style="width: 100%; height: 100%;" class="imagen-gatitos">
+
+      <div class="container p-5 my-5 wrapper-sin-fondo" style="min-height: 80%;">
         
-        <div class="wrapper-registro">
-
-  
-          <form action="Funcion/Registrar_Producto.php"  method="post"  enctype="multipart/form-data">
-          <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
-          <input type="hidden" name="usuarioid" value="<?php echo $idd; ?>">
+        <div class=" wrapper-inicio-sesion">
 
 
-            <!--PEDIMOS LOS DATOS DE REGISTRO DEL PRODUCTO-->
-            <!-- required en el input para datos requeridos -->
-            <!-- nombre -->
-            <div class="col form-floating mt-3 mb-3 ">
-              <input type="text" class="form-control" id="nombre" name="nombre" required autofocus>
-              <label for="nombre">Nombre del producto:</label>
-            </div>
-  
-            <!-- descripcion del producto -->
-            <div class="col form-floating mt-3 mb-3 ">
-              <input type="text" class="form-control" id="descripcion" name="descripcion" required>
-              <label for="descripcion">Descripcion:</label>
-            </div>
-  
-              <!-- imagenes del producto (minimo 1) -->
-          <div class="col form-floating mt-3 mb-3">
-            <input type="file" class="form-control" id="producto_1" name="producto_1" accept="image/*" required>
-            <label for="producto_1">Imagen 1 del producto</label>
-          </div>
+        <form action="Funcion/Registrar_categoria.php" method="post">
+        <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
+        <input type="hidden" name="usuarioid" value="<?php echo $idd; ?>">
 
-          <div class="col form-floating mt-3 mb-3">
-            <input type="file" class="form-control" id="producto_1" name="producto_2" accept="image/*" required>
-            <label for="producto_1">Imagen 2 del producto</label>
-          </div>
-  
-          <!-- video del producto (minimo 1) -->
-          <div class="col form-floating mt-3 mb-3">
-            <input type="file" class="form-control" id="producto_2" name="producto_3" accept="video/*" required>
-            <label for="producto_2">Video del producto</label>
-          </div>
-
-          <?php
+        <?php
           // Realizar la consulta a la base de datos
           include('Funcion/conexion.php');  // Incluye el archivo de conexión
 
@@ -203,8 +169,8 @@ if (isset($_GET['usuario'])) {
         ?>
 
          <!-- Elegir de una lista, tipo de usuario -->
-         <label for="rol" class="form-label">Elige tu tipo de cuenta</label>
-         <select class="form-select" id="rol" name="categoria">
+         <label for="rol" class="form-label">Categorías ya creadas</label>
+         <select class="form-select" id="rol" name="rol-usuario">
           <?php
            // Verificar si se obtuvieron resultados
            if ($result->num_rows > 0) {
@@ -228,52 +194,36 @@ if (isset($_GET['usuario'])) {
          $conn->close();
          ?>
 
-  
-             <!-- Elegir de una lista, Categoria (al menos 1)-->
-             <!--
-             <label for="categoria" class="form-label">Elige la Categoria</label>
-             <select class="form-select" id="categoria" name="categoria">
-               <option>Mascotas</option>
-               <option>Alimentos</option>
-               <option>Ropa</option>
-               <option>Papeleria</option>
-               <option>Tecnologia</option>
-             </select>
-             <br>
-  -->
-  
-             <p>Si no encuentras una categoria,<a href="Crear_categoria.php?usuario=<?php echo $usuario; ?>" >Creala</a> </p>
-             <!--
-             <div class="col form-floating mt-3 mb-3 ">
-              <input type="text" class="form-control" id="categoria_nueva" name="categoria_nueva">
-              <label for="categoria_nueva">Categoria nueva:</label>
-            </div>
-          -->
-            
-            <div class="col form-floating mt-3 mb-3 ">
-              <input type="number" class="form-control" id="precio" name="precio">
-              <label for="precio">Precio:</label>
-            </div>
-            
-            <div class="col form-floating mt-3 mb-3 ">
-              <input type="number" class="form-control" id="disponible" name="disponible">
-              <label for="disponible">Cantidad disponible:</label>
-            </div>
-  
-            <!-- Boton de submit -->
-            <br>
-            <div class="wrapper">
-            <input type="submit" class="boton-registrar" value="REGISTRAR"><br>
-            </div>  
-          </form> 
+          <!-- categoria -->
+          <div class="col form-floating mt-3 mb-3 ">
+            <input type="text" class="form-control"   required name="categoria">
+            <label for="usuario">Nombre de la categoria:</label>
+          </div>
+
+       <!-- descripcion -->
+        <div class="col form-floating mt-3 mb-3">
+          <input type="text" class="form-control"   required  name="desripcion">
+          <label for="pwd">Descripcion:</label>
+        </div>
+
+        
+
+
+          <!-- Boton de submit -->
+          <div class="wrapper">
+            <input type="submit" class="boton-registrar" value="Crear categoria"><br>
+          </div>
+
+        </form> 
 
       </div>
       </div>
-    
+
 </body>
 
+<!-- Barra de informacion al final de la pagina -->
 <footer class="wrapper-footer">
-    © 2023 Suberbia. Todos los derechos reservados.
+    © 2023 Tu Empresa. Todos los derechos reservados.
 </footer>
 
 </html>

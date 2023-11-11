@@ -45,3 +45,72 @@ CALL InsertarUsuario('NombreUsuario', 'Contraseña123', 1, 1, 'Administrador',
                      'NombreUsuario', 'ApellidoPaterno', 'ApellidoMaterno',
                      'Masculino', '123456789', 'correo@example.com', 'ruta_de_la_imagen.jpg',
                      '1990-01-01', NOW(), 1);
+DELIMITER //
+
+
+
+CREATE PROCEDURE InsertarProductoConMedia(
+    IN p_Prod_Nombre VARCHAR(50),
+    IN p_Prod_Precio DECIMAL(10, 2),
+    IN p_Prod_Cotizable BOOL,
+    IN p_Prod_Estatus BOOL,
+    IN p_Usua_ID INT,
+    IN p_Cate_ID INT,
+    IN p_Prin_Descripcion TEXT,
+    IN p_Prin_Existencia INT,
+    IN p_Prin_Validado BOOL,
+    IN p_Medi_Nombre_Archivo1 VARCHAR(80),
+    IN p_Medi_Archivo1 LONGBLOB,
+    IN p_Medi_Nombre_Archivo2 VARCHAR(80),
+    IN p_Medi_Archivo2 LONGBLOB,
+    IN p_Medi_Nombre_Archivo3 VARCHAR(80),
+    IN p_Medi_Archivo3 LONGBLOB,
+    IN p_TiMe_ID_Imagen INT,
+    IN p_TiMe_ID_Video INT
+)
+BEGIN
+    DECLARE v_Prod_ID INT;
+
+    -- Insertar en la tabla Producto
+    INSERT INTO Producto (Prod_Nombre, Prod_Precio, Prod_Cotizable, Prod_Estatus)
+    VALUES (p_Prod_Nombre, p_Prod_Precio, p_Prod_Cotizable, p_Prod_Estatus);
+
+    -- Obtener el ID del producto recién insertado
+    SET v_Prod_ID = LAST_INSERT_ID();
+
+    -- Insertar en la tabla Producto_Info
+    INSERT INTO Producto_Info (Prod_ID, Usua_ID, Cate_ID, PrIn_Descripcion, PrIn_Existencia, PrIn_Validado, PrIn_Fecha_Creac, PrIn_Estatus)
+    VALUES (v_Prod_ID, p_Usua_ID, p_Cate_ID, p_Prin_Descripcion, p_Prin_Existencia, p_Prin_Validado, NOW(), 1);
+
+    -- Insertar imágenes en la tabla Media
+    INSERT INTO Media (Prod_ID, TiMe_ID, Medi_Nombre_Archivo, Medi_Archivo, Medi_Estatus)
+    VALUES (v_Prod_ID, p_TiMe_ID_Imagen, p_Medi_Nombre_Archivo1, p_Medi_Archivo1, 1);
+
+    INSERT INTO Media (Prod_ID, TiMe_ID, Medi_Nombre_Archivo, Medi_Archivo, Medi_Estatus)
+    VALUES (v_Prod_ID, p_TiMe_ID_Imagen, p_Medi_Nombre_Archivo2, p_Medi_Archivo2, 1);
+
+    -- Insertar video en la tabla Media
+    INSERT INTO Media (Prod_ID, TiMe_ID, Medi_Nombre_Archivo, Medi_Archivo, Medi_Estatus)
+    VALUES (v_Prod_ID, p_TiMe_ID_Video, p_Medi_Nombre_Archivo3, p_Medi_Archivo3, 1);
+END //
+
+DELIMITER ;
+
+CREATE TABLE Categorias (
+    Cate_ID INT auto_increment PRIMARY KEY NOT NULL,
+    Usua_ID INT NOT NULL,
+    Cate_Nombre VARCHAR(15) NOT NULL,
+    Cate_Descripcion TEXT NOT NULL,
+    Cate_Estatus BOOL NOT NULL,
+    FOREIGN KEY (Usua_ID) REFERENCES Usuario(Usua_ID)
+);
+INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Mascotas','Perros y gatos', 1);
+INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Electrodomesticos','Para el hogar', 1);
+INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Ropa Caballero','Ropa para dama', 1);
+INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Ropa Dama','Ropa para dama', 1);
+
+
+
+select * from Tipo_Media;
+INSERT INTO Tipo_Media (TiMe_Nombre, TiMe_Estatus) VALUES ('Imagen', 1);
+INSERT INTO Tipo_Media (TiMe_Nombre, TiMe_Estatus) VALUES ('Video', 1);

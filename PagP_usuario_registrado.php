@@ -117,7 +117,7 @@ if (isset($_GET['usuario'])) {
         <?php 
         
         if($Role == 3){
-            echo "<li><a href='perfil'>Inventario</a></li>";
+            echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
             echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
 
            // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";

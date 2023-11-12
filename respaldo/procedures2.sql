@@ -3,10 +3,23 @@
 CREATE TABLE Videos (
     Video_ID INT AUTO_INCREMENT PRIMARY KEY,
     Video_Nombre VARCHAR(100) NOT NULL,
-    Video_Descripcion TEXT,
+    Prod_ID int not null,
     Video_Archivo LONGBLOB NOT NULL,
-    Fecha_Subida TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Video_Estatus BOOL NOT NULL DEFAULT 1
+    
+    Video_Estatus BOOL NOT NULL DEFAULT 1,
+	FOREIGN KEY (Prod_ID) REFERENCES Producto(Prod_ID)
+);
+
+CREATE TABLE Fotos_1 (
+    Foto_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Foto_Nombre VARCHAR(100) NOT NULL,
+    Prod_ID int not null,
+    Foto_Archivo LONGBLOB NOT NULL,
+    
+    Foto_Estatus BOOL NOT NULL DEFAULT 1,
+    FOREIGN KEY (Prod_ID) REFERENCES Producto(Prod_ID)
+
+	
 );
 SELECT 
     p.Prod_ID,
@@ -77,4 +90,80 @@ JOIN
 select Prod_ID ,
     TiMe_ID ,
     Medi_Nombre_Archivo ,
-    Medi_Archivo  from Media;
+    Medi_Archivo  from Media where Prod_ID = 2 and TiMe_ID = 1;
+SELECT Medi_ID, Prod_ID ,
+    TiMe_ID ,
+    Medi_Nombre_Archivo ,
+    Medi_Archivo  from Media where Prod_ID = 2 and TiMe_ID = 1;
+    
+    
+    
+    
+    SELECT
+    p.Prod_ID,
+    p.Prod_Nombre,
+    p.Prod_Precio,
+    p.Prod_Cotizable,
+    p.Prod_Estatus,
+    pi.PrIn_ID,
+    pi.Usua_ID AS PrIn_Usua_ID,
+    pi.Cate_ID AS PrIn_Cate_ID,
+    pi.PrIn_Descripcion,
+    pi.PrIn_Fecha_Creac,
+    pi.PrIn_Existencia,
+    pi.PrIn_Validado,
+    pi.PrIn_Estatus,
+    v.Video_ID,
+    v.Video_Nombre,
+    v.Video_Archivo,
+    v.Video_Estatus,
+    f.Foto_ID,
+    f.Foto_Nombre,
+    f.Foto_Archivo,
+    f.Foto_Estatus
+FROM
+    Producto p
+JOIN
+    Producto_Info pi ON p.Prod_ID = pi.Prod_ID
+LEFT JOIN
+    Videos v ON p.Prod_ID = v.Prod_ID
+LEFT JOIN
+    Fotos_1 f ON p.Prod_ID = f.Prod_ID;
+
+
+SELECT
+    p.Prod_ID,
+    p.Prod_Nombre,
+    p.Prod_Precio,
+    p.Prod_Cotizable,
+    p.Prod_Estatus,
+    pi.PrIn_ID,
+    pi.Usua_ID AS PrIn_Usua_ID,
+    pi.Cate_ID AS PrIn_Cate_ID,
+    pi.PrIn_Descripcion,
+    pi.PrIn_Fecha_Creac,
+    pi.PrIn_Existencia,
+    pi.PrIn_Validado,
+    pi.PrIn_Estatus,
+    v.Video_ID,
+    v.Video_Nombre,
+    v.Video_Archivo,
+    v.Video_Estatus,
+    f.Foto_ID,
+    f.Foto_Nombre,
+    f.Foto_Archivo,
+    f.Foto_Estatus,
+    c.Cate_ID,
+    c.Cate_Nombre,
+    c.Cate_Descripcion,
+    c.Cate_Estatus
+FROM
+    Producto p
+JOIN
+    Producto_Info pi ON p.Prod_ID = pi.Prod_ID
+LEFT JOIN
+    Videos v ON p.Prod_ID = v.Prod_ID
+LEFT JOIN
+    Fotos_1 f ON p.Prod_ID = f.Prod_ID
+LEFT JOIN
+    Categorias c ON pi.Cate_ID = c.Cate_ID;

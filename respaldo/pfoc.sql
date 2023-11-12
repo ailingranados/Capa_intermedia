@@ -47,6 +47,56 @@ CALL InsertarUsuario('NombreUsuario', 'Contraseña123', 1, 1, 'Administrador',
                      '1990-01-01', NOW(), 1);
 DELIMITER //
 
+CREATE PROCEDURE Insertarproducto(
+    IN p_nombre_producto VARCHAR(50),
+    IN p_precio_producto DECIMAL(10, 2),
+    IN p_cotizable_producto BOOL,
+    IN p_estatus_producto BOOL,
+    IN p_usuario_id INT,
+    IN p_categoria_id INT,
+    IN p_descripcion_producto TEXT,
+    IN p_existencia_producto INT,
+    IN p_validado_producto BOOL,
+    IN p_nombre_video VARCHAR(100),
+    IN p_archivo_video LONGBLOB,
+    IN p_nombre_foto_1 VARCHAR(100),
+    IN p_archivo_foto_1 LONGBLOB,
+    IN p_nombre_foto_2 VARCHAR(100),
+    IN p_archivo_foto_2 LONGBLOB
+)
+BEGIN
+    DECLARE v_producto_id INT;
+
+    -- Insertar en la tabla Producto
+    INSERT INTO Producto (Prod_Nombre, Prod_Precio, Prod_Cotizable, Prod_Estatus)
+    VALUES (p_nombre_producto, p_precio_producto, p_cotizable_producto, p_estatus_producto);
+
+    -- Obtener el ID del producto recién insertado
+    SET v_producto_id = LAST_INSERT_ID();
+
+    -- Insertar en la tabla Producto_Info
+    INSERT INTO Producto_Info (Prod_ID, Usua_ID, Cate_ID, PrIn_Descripcion, PrIn_Fecha_Creac, PrIn_Existencia, PrIn_Validado, PrIn_Estatus)
+    VALUES (v_producto_id, p_usuario_id, p_categoria_id, p_descripcion_producto, CURRENT_DATE, p_existencia_producto, p_validado_producto, 1);
+
+    -- Insertar en la tabla Videos
+    INSERT INTO Videos (Video_Nombre, Prod_ID, Video_Archivo, Video_Estatus)
+    VALUES (p_nombre_video, v_producto_id, p_archivo_video, 1);
+
+    -- Insertar en la tabla Fotos_1 (Primera inserción)
+    INSERT INTO Fotos_1 (Foto_Nombre, Prod_ID, Foto_Archivo, Foto_Estatus)
+    VALUES (p_nombre_foto_1, v_producto_id, p_archivo_foto_1, 1);
+
+    -- Insertar en la tabla Fotos_1 (Segunda inserción)
+    INSERT INTO Fotos_1 (Foto_Nombre, Prod_ID, Foto_Archivo, Foto_Estatus)
+    VALUES (p_nombre_foto_2, v_producto_id, p_archivo_foto_2, 1);
+END //
+
+DELIMITER ;
+
+                     
+                     
+DELIMITER //
+
 
 
 CREATE PROCEDURE InsertarProductoConMedia(
@@ -56,7 +106,7 @@ CREATE PROCEDURE InsertarProductoConMedia(
     IN p_Prod_Estatus BOOL,
     IN p_Usua_ID INT,
     IN p_Cate_ID INT,
-    IN p_Prin_Descripcion TEXT,
+    IN p_Prin_Descripcion varchar(50),
     IN p_Prin_Existencia INT,
     IN p_Prin_Validado BOOL,
     IN p_Medi_Nombre_Archivo1 VARCHAR(80),
@@ -96,14 +146,9 @@ END //
 
 DELIMITER ;
 
-CREATE TABLE Categorias (
-    Cate_ID INT auto_increment PRIMARY KEY NOT NULL,
-    Usua_ID INT NOT NULL,
-    Cate_Nombre VARCHAR(15) NOT NULL,
-    Cate_Descripcion TEXT NOT NULL,
-    Cate_Estatus BOOL NOT NULL,
-    FOREIGN KEY (Usua_ID) REFERENCES Usuario(Usua_ID)
-);
+
+
+select * from categorias;
 INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Mascotas','Perros y gatos', 1);
 INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Electrodomesticos','Para el hogar', 1);
 INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Ropa Caballero','Ropa para dama', 1);

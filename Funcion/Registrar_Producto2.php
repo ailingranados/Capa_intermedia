@@ -19,50 +19,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tamañoImagen = $_FILES['producto_1']['size'];
     $tipoImagen = $_FILES['producto_1']['type'];
     $tempImagen = $_FILES['producto_1']['tmp_name'];
-  
+    $imagenContenido = addslashes(file_get_contents($tempImagen));
 
     $nombreImagen2 = $_FILES['producto_2']['name'];
     $tamañoImagen2 = $_FILES['producto_2']['size'];
     $tipoImagen2 = $_FILES['producto_2']['type'];
     $tempImagen2 = $_FILES['producto_2']['tmp_name'];
+    $imagenContenido2 = addslashes(file_get_contents($tempImagen2));
     
     //video
     $videoNombre = $_FILES['producto_3']['name'];
     $videoArchivo = file_get_contents($_FILES["producto_3"]["tmp_name"]); // Obtener el contenido del archivo de video
+
+    /*
+    // Datos relacionados con las imágenes y videos
+    $imagen1Nombre = $_FILES['producto_1']['name'];
+    $imagen1Archivo = file_get_contents($_FILES['producto_1']['tmp_name']);
+
+    $imagen2Nombre = $_FILES['producto_2']['name'];
+    $imagen2Archivo = file_get_contents($_FILES['producto_2']['tmp_name']);
+
+    $videoNombre = $_FILES['producto_3']['name'];
+    $videoArchivo = file_get_contents($_FILES['producto_3']['tmp_name']);
+    */
 
     $tiempoImagenID = 1;
     $tiempoVideoID = 2;
 
     // Realizar la conexión a la base de datos
     include('conexion.php');
-    $imagenContenido = addslashes(file_get_contents($tempImagen));
-    $imagenContenido2 = addslashes(file_get_contents($tempImagen2));
-    $sql = "CALL Insertarproducto('$productoNombre', $productoPrecio, $productoCotizable, $productoEstatus, $usuarioID, $categoriaID, '$descripcion', $existencia, $validado, '$videoNombre', ? , '$nombreImagen', '$imagenContenido', '$nombreImagen2','$imagenContenido2')";
-    
-    $stmt = $conn->prepare($sql);
-   
-if (!$stmt) {
-    die("Error en la preparación de la consulta: " . $conn->error);
-}
+    $sql = "CALL InsertarProductoConMedia('$productoNombre', $productoPrecio, $productoCotizable, $productoEstatus, $usuarioID, $categoriaID, '$descripcion', $existencia, $validado, '$nombreImagen', '$imagenContenido', '$nombreImagen2', '$imagenContenido2', '$videoNombre', '$videoArchivo', $tiempoImagenID, $tiempoVideoID)";
 
-    $stmt->bind_param("s", $videoArchivo);
-    if ($stmt->execute()) {
-        echo "El video se subió correctamente.";
-        //header("Location: ver.php");
-        header("Location: ../Inventario.php?usuario=$usuario");
-    } else {
-        echo "Error al subir el video: " . $stmt->error;
-    }
-
-    $stmt->close();
-    /*
     if ($conn->query($sql) === TRUE) {
         echo "Producto insertado con éxito.";
         header("Location: ../Inventario.php?usuario=$usuario");
     }else{
-        echo "Error al insertar el producto: " . $conn->error;
-        //echo $sql;
+        echo "Error al insertar el producto: " . $conn->error;;
 
+    }
+
+  /*
+    // Utiliza parámetros con marcadores de posición
+    $sql = "CALL InsertarProductoConMedia(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    // Preparar la declaración
+    $stmt = $conn->prepare($sql);
+
+    // Verificar si la preparación fue exitosa
+    if ($stmt) {
+        // Vincular los parámetros
+        $stmt->bind_param('sdiiiisiissssssii', $productoNombre, $productoPrecio, $productoCotizable, $productoEstatus, $usuarioID, $categoriaID, $descripcion, $existencia, $validado, $nombreImagen, $imagenContenido, $nombreImagen2, $imagenContenido2, $videoNombre, $videoArchivo, $tiempoImagenID, $tiempoVideoID);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Verificar si la ejecución fue exitosa
+        if ($stmt->error) {
+            echo "Error al insertar el producto: " . $stmt->error;
+        } else {
+            header("Location: ../Inventario.php?usuario=$usuario");
+        }
+
+        // Cerrar la declaración
+        $stmt->close();
+    } else {
+        echo "Error al preparar la consulta: " . $conn->error;
     }
   */
     // Cerrar la conexión y liberar recursos

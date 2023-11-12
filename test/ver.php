@@ -13,14 +13,14 @@
     include('conexion.php');
 
     // Obtener todos los videos
-    $sql = "SELECT Video_ID, Video_Nombre, Video_Descripcion, Video_Archivo FROM Videos ORDER BY Fecha_Subida DESC";
+    $sql = "SELECT Video_ID, Video_Nombre, Prod_ID, Video_Archivo FROM Videos ";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $videoID = $row["Video_ID"];
             $videoNombre = $row["Video_Nombre"];
-            $videoDescripcion = $row["Video_Descripcion"];
+            $videoDescripcion = $row["Prod_ID"];
             $videoArchivo = $row["Video_Archivo"];
 
             // Mostrar información de cada video

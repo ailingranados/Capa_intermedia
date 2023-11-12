@@ -11,14 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     TiMe_ID ,
     Medi_Nombre_Archivo ,
     Medi_Archivo  from Media where Medi_ID = $idUsuario ";
-
     $result = $conn->query($sqlSelectUsuario);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         // Aquí puedes acceder a los campos del usuario y su rol
         // Por ejemplo: $row['Usua_Nombre'], $row['Role_Nombre']
-        $nombreImagen = $row['Medi_Nombre_Archivo'];
+        $nombreImagen = $row['Medi_ID'];
         $imagenContenido = $row['Medi_Archivo'];
         // Mostrar la imagen
         header("Content-type: image/*");

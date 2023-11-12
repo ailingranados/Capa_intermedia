@@ -340,7 +340,6 @@ LEFT JOIN
 
     // Cerrar la conexión
     $conn->close();?>
-    
 
          
           </div>
@@ -352,7 +351,7 @@ LEFT JOIN
     
       <div class="slideshow-container">
       <?php 
-      
+      /*
     include('Funcion/conexion.php');
 
     // Consulta para obtener información del usuario 'geralt'
@@ -446,9 +445,9 @@ LEFT JOIN
 
     // Cerrar la conexión
     $conn->close();
-    
+    */
     ?>
-    <!--
+    
       <div class="mySlides">
         <div class="numbertext">1 / 3</div>
         <img src="IMAGENES/gato_asustado.jpg" style="width:100%">
@@ -460,7 +459,7 @@ LEFT JOIN
         <img src="IMAGENES/gato_enojado.jpg" style="width:100%">
         
       </div>
-  -->
+  
       <div class="mySlides">
         <div class="numbertext">3 / 3</div>
         <?php 

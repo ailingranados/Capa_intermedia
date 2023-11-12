@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar Foto</title>
+</head>
+<body>
+
+<form action="insertar_foto.php" method="post" enctype="multipart/form-data">
+    <label for="nombre">Nombre de la Foto:</label>
+    <input type="text" name="nombre" required><br>
+
+    <label for="archivo">Archivo de la Foto:</label>
+    <input type="file" name="archivo" accept="image/*" required><br>
+
+    <input type="submit" value="Insertar Foto">
+</form>
+
+</body>
+</html>

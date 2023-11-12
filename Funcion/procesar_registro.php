@@ -53,34 +53,33 @@ if ($result->num_rows > 0) {
         //echo "Registro insertado correctamente.";
 
 
-        header("Location: ../PagP_usuario_registrado.php?usuario=$usuario");
+       
 
 
 
 
-        /*
+        
         if($rol_usuario == 1){ //Admin
             //
-            header("Location: ../Php/Admin/Perfil_admin.php?usuario=$usuario");
+            header("Location: ../admin.php?usuario=$usuario");
 
         }if($rol_usuario == 2){ //usuario
             if($rol_usuario2 == 1){ //publico
                 //
-                header("Location: ../Php/Usuario/Perfil_usuario_publico.php?usuario=$usuario");
+                header("Location: ../PagP_usuario_registrado.php?usuario=$usuario");
     
             }else{//privado
-                header("Location: ../Php/Usuario_Privado/Perfil_usuario_privado.php?usuario=$usuario");
-
+                header("Location: ../PagP_usuario_registrado.php?usuario=$usuario");
             }
             
 
         }if($rol_usuario == 3){ //vendedor
             //
-            header("Location: ../php/Vendedor/Perfil_vendedor.php?usuario=$usuario");
+            header("Location: ../PagP_usuario_registrado.php?usuario=$usuario");
 
         }
 
-        */
+        
 
 
        

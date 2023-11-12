@@ -221,6 +221,8 @@ if (isset($_GET['usuario'])) {
   <ul>
     <li><a href="Compras.html">Compras</a></li>
     <li><a href="Carrito.html">Carrito</a></li>
+    <?php echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
+            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>"; ?>
 
   </ul>
 

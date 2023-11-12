@@ -114,6 +114,9 @@ if (isset($_GET['usuario'])) {
       <li><a href="Compras.html">Compras</a></li>
       <li><a href="Carrito.html">Carrito</a></li>
       <li><a href="Inicio_sesion.html">Inicio Sesion</a></li>
+      <?php echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
+            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>"; ?>
+
 
 
     </ul>
@@ -249,6 +252,8 @@ if (isset($_GET['usuario'])) {
               <label for="categoria_nueva">Categoria nueva:</label>
             </div>
           -->
+          <label for="checkbox">Cotizable:</label>
+          <input type="checkbox" id="checkbox" name="checkbox">
             
             <div class="col form-floating mt-3 mb-3 ">
               <input type="number" class="form-control" id="precio" name="precio">

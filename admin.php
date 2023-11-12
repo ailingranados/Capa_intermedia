@@ -158,7 +158,7 @@ if (isset($_GET['usuario'])) {
 
 
   <div style="margin: 30px;">
-    <h1 class="titulo-inventario">Inventario</h1>
+    <h1 class="titulo-inventario">Productos pendientes</h1>
 
     <form action="/action_page.php" style="width: 20%;" class="contenedor-agrupar">
 
@@ -174,6 +174,8 @@ if (isset($_GET['usuario'])) {
   <br>
   <table class="tabla-inventario">
     <tr>
+    <th>Id usuario</th>
+    <th>Nombre de usuario</th>
       <th>Producto</th>
       <th>Existencia</th>
       <th>Categoria</th>
@@ -202,15 +204,19 @@ if (isset($_GET['usuario'])) {
     c.Cate_ID AS Categoria_ID,
     c.Cate_Nombre AS Categoria_Nombre,
     c.Cate_Descripcion AS Categoria_Descripcion,
-    c.Cate_Estatus AS Categoria_Estatus
+    c.Cate_Estatus AS Categoria_Estatus,
+
+    u.Usua_ID AS Usuario_ID,
+    u.Usua_Nombre AS Usuario_Nombre
 
 FROM 
     Producto p
 JOIN 
     Producto_Info pi ON p.Prod_ID = pi.Prod_ID
-
 JOIN 
-    Categorias c ON pi.Cate_ID = c.Cate_ID where pi.Usua_ID = $idd";
+    Categorias c ON pi.Cate_ID = c.Cate_ID
+JOIN 
+    Usuario u ON pi.Usua_ID = u.Usua_ID where Prod_Estatus = 0";
 
 
                    
@@ -223,6 +229,8 @@ JOIN
         //$row2 = $resultConsulta2->fetch_assoc();
         echo "<tr class='fila-redireccion' data-prod-id='" . $row2["Prod_ID"] . "'>";
         echo "
+        <th>" .$row2["Usuario_ID"]."</th>
+        <th>" .$row2["Usuario_Nombre"]."</th>
         <th>" .$row2["Prod_Nombre"]."</th>
         <th>" .$row2["PrIn_Existencia"]."</th>
         <th>" .$row2["Categoria_Nombre"]."</th>
@@ -238,28 +246,7 @@ JOIN
     // Cerrar la conexión
     $conn->close();
     ?>
-    <!--
-    <tr>
-      <td>Producto</td>
-      <td>Existencia</td>
-      <td>Categoria</td>
-    </tr>
-    <tr>
-      <td>Producto</td>
-      <td>Existencia</td>
-      <td>Categoria</td>
-    </tr>
-    <tr>
-      <td>Producto</td>
-      <td>Existencia</td>
-      <td>Categoria</td>
-    </tr>
-    <tr>
-      <td>Producto</td>
-      <td>Existencia</td>
-      <td>Categoria</td>
-    </tr>
-  -->
+    
   </table>
   <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -272,6 +259,119 @@ document.addEventListener('DOMContentLoaded', function () {
             
             // Redirige a tu otro archivo PHP con el ID del producto
             window.location.href = 'Producto.php?prod_id=' + prodId+ '&usuario=<?php echo $usuario; ?>';
+        });
+    });
+});
+</script>
+
+<!-- Usuarios -->
+
+<div style="margin: 30px;">
+    <h1 class="titulo-inventario">Usuarios</h1>
+
+    <form action="/action_page.php" style="width: 20%;" class="contenedor-agrupar">
+
+      <label for="consulta" class="form-label">Agrupar por</label>
+      <select class="form-select" id="consulta" name="consulta">
+        <option>Existencia</option>
+        <option>A - Z</option>
+        <option>Categoria</option>
+      </select>
+    </form>
+  </div>
+
+  <br>
+  <table class="tabla-inventario">
+    <tr>
+    <th>Id usuario</th>
+    <th>Nombre de usuario</th>
+      <th>Nombre</th>
+      <th>Apellido Paterno</th>
+      <th>Apellido Materno</th>
+      <th>Rol</th>
+      <th>Estado</th>
+    </tr>
+
+    <?php 
+    include('Funcion/conexion.php');
+
+    // Consulta para obtener información del usuario 'geralt'
+    $sqlConsulta3 = "SELECT 
+    u.Usua_ID,
+    u.Usua_Nombre,
+    u.Usua_Contra,
+    u.Usua_PubPriv,
+    u.Usua_Estatus,
+    u.Role_ID,
+    r.Role_Nombre,
+    r.Role_Estatus,
+    ui.UsIn_ID,
+    ui.UsIn_Nombre,
+    ui.UsIn_ApellidoPa,
+    ui.UsIn_ApellidoMa,
+    ui.UsIn_Sexo,
+    ui.UsIn_Telefono,
+    ui.UsIn_Correo,
+    ui.UsIn_Foto,
+    ui.UsIn_Fecha_Nac,
+    ui.UsIn_Fecha_Creac,
+    ui.UsIn_Estatus
+FROM 
+    Usuario u
+JOIN 
+    Roles r ON u.Role_ID = r.Role_ID
+JOIN 
+    Usuario_Info ui ON u.Usua_ID = ui.Usua_ID where u.Role_ID != 1";
+
+
+                   
+
+    $resultConsulta3 = $conn->query($sqlConsulta3);
+
+    if ($resultConsulta3->num_rows > 0) {
+      while ($row3 = $resultConsulta3->fetch_assoc()) {
+        // Obtener el primer resultado (asumiendo que solo habrá uno)
+        //$row2 = $resultConsulta2->fetch_assoc();
+        if($row3["Usua_Estatus"] == 1){
+          $estado = "Alta";
+        }if($row3["Usua_Estatus"] == 0){
+          $estado = "Baja";
+        }
+
+
+        echo "<tr class='fila-redireccion elemento-deseado' data-prod-id='" . $row3["Usua_ID"] . "'>";
+        echo "
+        <th>" .$row3["Usua_ID"]."</th>
+        <th>" .$row3["Usua_Nombre"]."</th>
+        <th>" .$row3["UsIn_Nombre"]."</th>
+        <th>" .$row3["UsIn_ApellidoPa"]."</th>
+        <th>" .$row3["UsIn_ApellidoMa"]."</th>
+        <th> " .$row3["Role_Nombre"]."</th>
+        <th> " . $estado."</th>
+        </tr>
+        ";
+       
+      }
+    } else {
+        echo "No se encontraron resultados para el usuario '$usuario'.";
+    }
+
+    // Cerrar la conexión
+    $conn->close();
+    ?>
+    
+  </table>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Agrega un listener de clic a todas las filas con la clase 'fila-redireccion'
+    var filas = document.querySelectorAll('.elemento-deseado');
+    filas.forEach(function (fila) {
+        fila.addEventListener('click', function () {
+            // Obtiene el valor del atributo data-prod-id
+            var prodId2 = this.getAttribute('data-prod-id');
+            
+            // Redirige a tu otro archivo PHP con el ID del producto
+            window.location.href = 'Modificar_persona_Admin.php?usuario2=' + prodId2+ '&usuario=<?php echo $usuario; ?>';
         });
     });
 });

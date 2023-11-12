@@ -38,10 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
 
-        header("Location: ../PagP_usuario_registrado.php?usuario=$username");
+        
 
 
-        /*
+        
         $row = $result->fetch_assoc();
         $rol_usuario = $row["Role_ID"];
         $rol_usuario2 = $row["Usua_PubPriv"];
@@ -50,17 +50,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         
         if ($rol_usuario == 1) {  //Admin
-            header("Location: ../Php/Admin/Perfil_admin.php?usuario=$usuario");
+            header("Location: ../admin.php?usuario=$usuario");
         } elseif ($rol_usuario == 2) { //Usuario
             if ($rol_usuario2 == 1) {
-                header("Location: ../Php/Usuario/Perfil_usuario_publico.php?usuario=$usuario");
+                header("Location: ../PagP_usuario_registrado.php?usuario=$username");
             } else {
-                header("Location: ../Php/Usuario_Privado/Perfil_usuario_privado.php?usuario=$usuario");
+                header("Location: ../PagP_usuario_registrado.php?usuario=$username");
             }
         } elseif ($rol_usuario == 3) { //Vendedor
-            header("Location: ../Php/Vendedor/Perfil_vendedor.php?usuario=$usuario");
+            header("Location: ../PagP_usuario_registrado.php?usuario=$username");
         }
-        */
+        
     } else {
         echo "Nombre de usuario o contraseña incorrectos.";
     }

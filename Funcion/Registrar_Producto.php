@@ -5,15 +5,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener los datos del formulario
     $productoNombre = $_POST['nombre'];
     $productoPrecio = $_POST['precio'];
-    $productoCotizable = isset($_POST['cotizable']) ? 1 : 0;
-    $productoEstatus = 1; // Puedes ajustar esto según tus necesidades
+    $productoCotizable = isset($_POST['checkbox']) ? 1 : 0;
+    $productoEstatus = 0; // Puedes ajustar esto según tus necesidades
     $usuario = $_POST['usuario']; // ID del usuario obtenido previamente
     $usuarioID = $_POST['usuarioid'];
     $categoriaID = $_POST['categoria']; 
     $descripcion = $_POST['descripcion'];
     $existencia = $_POST['disponible'];
    // $validado = isset($_POST['validado']) ? 1 : 0;
-    $validado =1;
+    $validado =0;
     //imagenes
     $nombreImagen = $_FILES['producto_1']['name'];
     $tamañoImagen = $_FILES['producto_1']['size'];

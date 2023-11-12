@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($tamañoImagen <= 1048576) { // Tamaño máximo de 1 MB
     $nombre = $_POST['Nombre'];
     $usuario = $_POST['usuario'];
+    $usuario2 = $_POST['usuario2'];
     $apellidop = $_POST['Apellidop'];
     $apellidom = $_POST['ApellidoM'];
     $email = $_POST['email'];
@@ -39,7 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($sql) === TRUE) {
         //echo "Registro actualizado correctamente.";
+        header("Location: ../admin.php?usuario=$usuario2");
         //header("Location: ../Php/Perfil_usuario_publico.php?usuario=$usuario");
+        /*
         if($rol_usuario2 == 1){ //publico
             //
             header("Location: ../Php/Usuario/Perfil_usuario_publico.php?usuario=$usuario");
@@ -48,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../Php/Usuario_Privado/Perfil_usuario_privado.php?usuario=$usuario");
 
         }
+        */
     } else {
         echo "Error al actualizar registro: " . $conn->error;
     }

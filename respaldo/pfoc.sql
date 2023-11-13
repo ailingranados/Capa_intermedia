@@ -148,6 +148,192 @@ DELIMITER ;
 
 
 
+
+DELIMITER //
+
+CREATE PROCEDURE ModificarProducto(
+    IN p_prod_id INT,
+    IN p_precio_producto DECIMAL(10, 2),
+    IN p_cotizable_producto BOOL,
+    IN p_categoria_id INT,
+    IN p_descripcion_producto TEXT,
+    IN p_existencia_producto INT,
+   
+    IN p_nombre_video VARCHAR(100),
+    IN p_archivo_video LONGBLOB,
+    IN p_nombre_foto_1 VARCHAR(100),
+    IN p_archivo_foto_1 LONGBLOB,
+    IN p_nombre_foto_2 VARCHAR(100),
+    IN p_archivo_foto_2 LONGBLOB
+)
+BEGIN
+    -- Modificar en la tabla Producto
+    UPDATE Producto
+    SET
+        Prod_Precio = p_precio_producto,
+        Prod_Cotizable = p_cotizable_producto
+    WHERE
+        Prod_ID = p_prod_id;
+
+    -- Modificar en la tabla Producto_Info
+    UPDATE Producto_Info
+    SET
+        Cate_ID = p_categoria_id,
+        PrIn_Descripcion = p_descripcion_producto,
+        PrIn_Fecha_Creac = CURRENT_DATE,
+        PrIn_Existencia = p_existencia_producto
+    WHERE
+        Prod_ID = p_prod_id;
+
+    -- Modificar en la tabla Videos
+    UPDATE Videos
+    SET
+        Video_Nombre = p_nombre_video,
+        Video_Archivo = p_archivo_video
+    WHERE
+        Prod_ID = p_prod_id;
+
+    -- Modificar en la tabla Fotos_1 (Primera inserción)
+    UPDATE Fotos_1
+    SET
+        Foto_Nombre = p_nombre_foto_1,
+        Foto_Archivo = p_archivo_foto_1
+    WHERE
+        Prod_ID = p_prod_id;
+
+    -- Modificar en la tabla Fotos_1 (Segunda inserción)
+    UPDATE Fotos_1
+    SET
+        Foto_Nombre = p_nombre_foto_2,
+        Foto_Archivo = p_archivo_foto_2
+    WHERE
+        Prod_ID = p_prod_id;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE ModificarProducto2(
+    IN p_prod_id INT,
+    IN p_precio_producto DECIMAL(10, 2),
+    IN p_cotizable_producto BOOL,
+    IN p_categoria_id INT,
+    IN p_descripcion_producto TEXT,
+    IN p_existencia_producto INT,
+    -- Excluimos p_validado_producto de los parámetros
+    IN p_nombre_video VARCHAR(100),
+    IN p_archivo_video LONGBLOB,
+    IN p_nombre_foto_1 VARCHAR(100),
+    IN p_archivo_foto_1 LONGBLOB,
+    IN p_nombre_foto_2 VARCHAR(100),
+    IN p_archivo_foto_2 LONGBLOB
+)
+BEGIN
+    DECLARE v_id_foto_1 INT;
+    DECLARE v_id_foto_2 INT;
+
+    -- Obtener el ID de la primera imagen
+    SELECT Foto_ID INTO v_id_foto_1
+    FROM Fotos_1
+    WHERE Prod_ID = p_prod_id
+    ORDER BY Foto_ID
+    LIMIT 1;
+
+    -- Obtener el ID de la segunda imagen (que no sea igual al ID de la primera imagen)
+    SELECT Foto_ID INTO v_id_foto_2
+    FROM Fotos_1
+    WHERE Prod_ID = p_prod_id AND Foto_ID <> v_id_foto_1
+    ORDER BY Foto_ID
+    LIMIT 1;
+
+    -- Modificar en la tabla Producto
+    UPDATE Producto
+    SET
+        Prod_Precio = p_precio_producto,
+        Prod_Cotizable = p_cotizable_producto
+    WHERE
+        Prod_ID = p_prod_id;
+
+    -- Modificar en la tabla Producto_Info
+    UPDATE Producto_Info
+    SET
+        Cate_ID = p_categoria_id,
+        PrIn_Descripcion = p_descripcion_producto,
+        PrIn_Fecha_Creac = CURRENT_DATE,
+        PrIn_Existencia = p_existencia_producto
+    WHERE
+        Prod_ID = p_prod_id;
+
+    -- Modificar en la tabla Videos
+    UPDATE Videos
+    SET
+        Video_Nombre = p_nombre_video,
+        Video_Archivo = p_archivo_video
+    WHERE
+        Prod_ID = p_prod_id;
+
+    -- Modificar en la tabla Fotos_1 (Primera inserción)
+    IF v_id_foto_1 IS NOT NULL THEN
+        UPDATE Fotos_1
+        SET
+            Foto_Nombre = p_nombre_foto_1,
+            Foto_Archivo = p_archivo_foto_1
+        WHERE
+            Foto_ID = v_id_foto_1;
+    END IF;
+
+    -- Modificar en la tabla Fotos_1 (Segunda inserción)
+    IF v_id_foto_2 IS NOT NULL THEN
+        UPDATE Fotos_1
+        SET
+            Foto_Nombre = p_nombre_foto_2,
+            Foto_Archivo = p_archivo_foto_2
+        WHERE
+            Foto_ID = v_id_foto_2;
+    END IF;
+END //
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE ValidarProducto(
+    IN p_prod_id INT
+)
+BEGIN
+    -- Actualizar en la tabla Producto_Info
+    UPDATE Producto_Info
+    SET
+        PrIn_Validado = 1
+    WHERE
+        Prod_ID = p_prod_id;
+END //
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE InvalidarProducto(
+    IN p_prod_id INT
+)
+BEGIN
+    -- Actualizar en la tabla Producto_Info
+    UPDATE Producto_Info
+    SET
+        PrIn_Validado = 0
+    WHERE
+        Prod_ID = p_prod_id;
+END //
+
+DELIMITER ;
+
+
 select * from categorias;
 INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Mascotas','Perros y gatos', 1);
 INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Electrodomesticos','Para el hogar', 1);

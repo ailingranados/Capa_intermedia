@@ -3,23 +3,19 @@
 // Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener los datos del formulario
-    $productoNombre = $_POST['nombre'];
+    $usuario = $_POST['usuario'];
+    $productoID = $_POST['producto'];
+
     $productoPrecio = $_POST['precio'];
     $productoCotizable = isset($_POST['checkbox']) ? 1 : 0;
-    $productoEstatus = 1; // Puedes ajustar esto según tus necesidades
-    $usuario = $_POST['usuario']; // ID del usuario obtenido previamente
-    $usuarioID = $_POST['usuarioid'];
     $categoriaID = $_POST['categoria']; 
     $descripcion = $_POST['descripcion'];
     $existencia = $_POST['disponible'];
-   // $validado = isset($_POST['validado']) ? 1 : 0;
-    $validado =0;
     //imagenes
     $nombreImagen = $_FILES['producto_1']['name'];
     $tamañoImagen = $_FILES['producto_1']['size'];
     $tipoImagen = $_FILES['producto_1']['type'];
     $tempImagen = $_FILES['producto_1']['tmp_name'];
-  
 
     $nombreImagen2 = $_FILES['producto_2']['name'];
     $tamañoImagen2 = $_FILES['producto_2']['size'];
@@ -30,14 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $videoNombre = $_FILES['producto_3']['name'];
     $videoArchivo = file_get_contents($_FILES["producto_3"]["tmp_name"]); // Obtener el contenido del archivo de video
 
-    $tiempoImagenID = 1;
-    $tiempoVideoID = 2;
-
     // Realizar la conexión a la base de datos
     include('conexion.php');
     $imagenContenido = addslashes(file_get_contents($tempImagen));
     $imagenContenido2 = addslashes(file_get_contents($tempImagen2));
-    $sql = "CALL Insertarproducto('$productoNombre', $productoPrecio, $productoCotizable, $productoEstatus, $usuarioID, $categoriaID, '$descripcion', $existencia, $validado, '$videoNombre', ? , '$nombreImagen', '$imagenContenido', '$nombreImagen2','$imagenContenido2')";
+    $sql = "CALL ModificarProducto2($productoID, $productoPrecio, $productoCotizable, $categoriaID, '$descripcion', $existencia, '$videoNombre', ? , '$nombreImagen', '$imagenContenido', '$nombreImagen2','$imagenContenido2')";
     
     $stmt = $conn->prepare($sql);
    
@@ -49,7 +42,7 @@ if (!$stmt) {
     if ($stmt->execute()) {
         echo "El video se subió correctamente.";
         //header("Location: ver.php");
-        header("Location: ../Inventario.php?usuario=$usuario");
+        header("Location: ../admin.php?usuario=$usuario");
     } else {
         echo "Error al subir el video: " . $stmt->error;
     }

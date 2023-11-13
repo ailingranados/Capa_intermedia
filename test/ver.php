@@ -25,7 +25,7 @@
 
             // Mostrar información de cada video
             echo "<p><strong>Nombre del Video:</strong> $videoNombre</p>";
-            echo "<p><strong>Descripción:</strong> $videoDescripcion</p>";
+            echo "<p><strong>id de producto:</strong> $videoDescripcion</p>";
 
             // Mostrar el video
             echo '<video width="640" height="360" controls>';

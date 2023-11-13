@@ -22,6 +22,8 @@ Capa intermedia
 // Obtén el valor de usuario pasado en la URL
 if (isset($_GET['usuario'])) {
     $usuario = $_GET['usuario'];
+    $usuarioid = $_GET['usuarioid'];
+    $producto = $_GET['prod_id'];
    // echo "Usuario: " . $usuario;
 } else {
     echo "No se recibió un nombre de usuario.";
@@ -36,33 +38,36 @@ if (isset($_GET['usuario'])) {
 
     // Consulta para obtener información del usuario 'geralt'
     $sqlConsulta = "SELECT 
-                        u.Usua_ID,
-                        u.Usua_Nombre,
-                        u.Usua_Contra,
-                        u.Usua_PubPriv,
-                        u.Usua_Estatus,
-                        u.Role_ID,
-                        r.Role_Nombre,
-                        r.Role_Estatus,
-                        ui.UsIn_ID,
-                        ui.UsIn_Nombre,
-                        ui.UsIn_ApellidoPa,
-                        ui.UsIn_ApellidoMa,
-                        ui.UsIn_Sexo,
-                        ui.UsIn_Telefono,
-                        ui.UsIn_Correo,
-                        ui.UsIn_Foto,
-                        ui.UsIn_Fecha_Nac,
-                        ui.UsIn_Fecha_Creac,
-                        ui.UsIn_Estatus
-                    FROM 
-                        Usuario u
-                    JOIN 
-                        Roles r ON u.Role_ID = r.Role_ID
-                    JOIN 
-                        Usuario_Info ui ON u.Usua_ID = ui.Usua_ID
-                    WHERE
-                        u.Usua_Nombre = '$usuario'";
+    p.Prod_ID,
+    p.Prod_Nombre,
+    p.Prod_Precio,
+    p.Prod_Cotizable,
+    p.Prod_Estatus,
+    pi.PrIn_ID,
+    pi.Usua_ID AS PrIn_Usua_ID,
+    pi.Cate_ID AS PrIn_Cate_ID,
+    pi.PrIn_Descripcion,
+    pi.PrIn_Fecha_Creac,
+    pi.PrIn_Existencia,
+    pi.PrIn_Validado,
+    pi.PrIn_Estatus,
+   
+    c.Cate_ID AS Categoria_ID,
+    c.Cate_Nombre AS Categoria_Nombre,
+    c.Cate_Descripcion AS Categoria_Descripcion,
+    c.Cate_Estatus AS Categoria_Estatus,
+
+    u.Usua_ID AS Usuario_ID,
+    u.Usua_Nombre AS Usuario_Nombre
+
+FROM 
+    Producto p
+JOIN 
+    Producto_Info pi ON p.Prod_ID = pi.Prod_ID
+JOIN 
+    Categorias c ON pi.Cate_ID = c.Cate_ID
+JOIN 
+    Usuario u ON pi.Usua_ID = u.Usua_ID where p.Prod_ID = $producto";
 
     $resultConsulta = $conn->query($sqlConsulta);
 
@@ -71,6 +76,16 @@ if (isset($_GET['usuario'])) {
         $row = $resultConsulta->fetch_assoc();
 
         // Asignar los valores a variables para usar en el HTML
+       
+        $nombre = $row["Prod_Nombre"];
+        $descripcion = $row["PrIn_Descripcion"];
+        $categoria = $row["Categoria_ID"];
+        $cotizable = $row["Prod_Cotizable"];
+        $precio = $row["Prod_Precio"];
+        $cantidad = $row["PrIn_Existencia"];
+        $estado = $row["PrIn_Validado"];
+
+        /*
         $usuaNombre = $row["Usua_Nombre"];
         $idd = $row["Usua_ID"];
         $usuaContra = $row["Usua_Contra"];
@@ -83,6 +98,7 @@ if (isset($_GET['usuario'])) {
         $telefono = $row["UsIn_Telefono"];
         $correo = $row["UsIn_Correo"];
         $fecha = $row["UsIn_Fecha_Nac"];
+        */
         // ... Continuar con los demás campos ...
     } else {
         echo "No se encontraron resultados para el usuario '$usuario'.";
@@ -124,7 +140,7 @@ if (isset($_GET['usuario'])) {
     <ul>
     <?php
     // Obtén el nombre de usuario de alguna manera
-     $nombreUsuario = $idd; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
+     $nombreUsuario = $usuarioid; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
      //echo $idd;
     if ($nombreUsuario) {
     // Escapa el nombre de usuario para asegurarte de que sea seguro para la URL
@@ -161,22 +177,22 @@ if (isset($_GET['usuario'])) {
         <div class="wrapper-registro">
 
   
-          <form action="Funcion/Registrar_Producto.php"  method="post"  enctype="multipart/form-data">
+          <form action="Funcion/editar_Producto_admin.php"  method="post"  enctype="multipart/form-data">
           <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
-          <input type="hidden" name="usuarioid" value="<?php echo $idd; ?>">
+          <input type="hidden" name="producto" value="<?php echo $producto; ?>">
 
 
             <!--PEDIMOS LOS DATOS DE REGISTRO DEL PRODUCTO-->
             <!-- required en el input para datos requeridos -->
             <!-- nombre -->
             <div class="col form-floating mt-3 mb-3 ">
-              <input type="text" class="form-control" id="nombre" name="nombre" required autofocus>
+              <input type="text" class="form-control" id="nombre" name="nombre" required autofocus value="<?php echo $nombre; ?>" readonly>
               <label for="nombre">Nombre del producto:</label>
             </div>
   
             <!-- descripcion del producto -->
             <div class="col form-floating mt-3 mb-3 ">
-              <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+              <input type="text" class="form-control" id="descripcion" name="descripcion" required value="<?php echo $descripcion; ?>">
               <label for="descripcion">Descripcion:</label>
             </div>
   
@@ -209,6 +225,17 @@ if (isset($_GET['usuario'])) {
          <label for="rol" class="form-label">Elige la categoria</label>
          <select class="form-select" id="rol" name="categoria">
           <?php
+            // Verificar si se obtuvieron resultados
+             if ($result->num_rows > 0) {
+            // Iterar sobre los resultados y generar las opciones del select
+             while ($row = $result->fetch_assoc()) {
+             $selected = ($row["Cate_ID"] == $categoria) ? "selected" : "";
+              echo "<option value='" . $row["Cate_ID"] . "' $selected>" . $row["Cate_Nombre"] . "</option>";
+             }
+            } else {
+             echo "<option value=''>No hay opciones disponibles</option>";
+            }
+          /*
            // Verificar si se obtuvieron resultados
            if ($result->num_rows > 0) {
           // Iterar sobre los resultados y generar las opciones del select
@@ -218,12 +245,9 @@ if (isset($_GET['usuario'])) {
            } else {
            echo "<option value=''>No hay opciones disponibles</option>";
            }
+           */
            ?>
-         <!--
-           <option>Cliente</option>
-           <option>Vendedor</option>
-           <option>Administrador*</option>
-           -->
+         
          </select>
 
          <?php
@@ -244,24 +268,26 @@ if (isset($_GET['usuario'])) {
              </select>
              <br>
   -->
-  
-             <p>Si no encuentras una categoria,<a href="Crear_categoria.php?usuario=<?php echo $usuario; ?>" >Creala</a> </p>
+             <!--
+             <p>Si no encuentras una categoria,<a href="Crear_categoria.php?usuario=<?php// echo $usuario; ?>" >Creala</a> </p>
+          -->
              <!--
              <div class="col form-floating mt-3 mb-3 ">
               <input type="text" class="form-control" id="categoria_nueva" name="categoria_nueva">
               <label for="categoria_nueva">Categoria nueva:</label>
             </div>
           -->
-          <label for="checkbox">Cotizable:</label>
-          <input type="checkbox" id="checkbox" name="checkbox">
+            <label for="checkbox">Cotizable:</label>
+            <input type="checkbox" id="checkbox" name="checkbox" value="1" <?php echo ($cotizable == 1) ? 'checked' : ''; ?>>
+
             
             <div class="col form-floating mt-3 mb-3 ">
-              <input type="number" class="form-control" id="precio" name="precio">
+              <input type="number" class="form-control" id="precio" name="precio"  value="<?php echo $precio; ?>">
               <label for="precio">Precio:</label>
             </div>
             
             <div class="col form-floating mt-3 mb-3 ">
-              <input type="number" class="form-control" id="disponible" name="disponible">
+              <input type="number" class="form-control" id="disponible" name="disponible"  value="<?php echo $cantidad; ?>">
               <label for="disponible">Cantidad disponible:</label>
             </div>
   
@@ -271,6 +297,15 @@ if (isset($_GET['usuario'])) {
             <input type="submit" class="boton-registrar" value="REGISTRAR"><br>
             </div>  
           </form> 
+          <?php 
+        if($estado == 1){
+          echo "<a href='Funcion/invalidar_producto_admin.php?usuario=". $usuario ."&producto=".$producto."' id='registroLink'>Invalidar</a>";
+
+        }else{
+          echo "<a href='Funcion/validar_producto_admin.php?usuario=". $usuario ."&producto=".$producto."' id='registroLink'>Validar</a>";
+
+        }
+        ?>
 
       </div>
       </div>

@@ -16,7 +16,8 @@ Capa intermedia
 
   <!-- Archivo diseño de pagina en css -->
   <link rel="stylesheet" href="CSS/Todas_las_paginas.css">
-   
+    <!-- Agrega el enlace a jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <!-- Archivo de JavaScript para el comportamiento del código -->
   <script src="Logica.js"></script>
   <?php
@@ -114,11 +115,12 @@ if (isset($_GET['usuario'])) {
      </button>
  
      <ul>
+      <!--
        <li><a href="Compras.html">Compras</a></li>
        <li><a href="Carrito.html">Carrito</a></li>
-       <li><a href="Inicio_sesion.html">Inicio Sesion</a></li>
-       <?php echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
-            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>"; ?>
+       <li><a href="Inicio_sesion.html">Inicio Sesion</a></li> -->
+       <?php echo "<li><a href='admin.php?usuario=$usuario'>Administrador</a></li>";
+            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Perfil</a></li>"; ?>
  
  
      </ul>
@@ -164,9 +166,9 @@ if (isset($_GET['usuario'])) {
 
       <label for="consulta" class="form-label">Agrupar por</label>
       <select class="form-select" id="consulta" name="consulta">
-        <option>Existencia</option>
-        <option>A - Z</option>
-        <option>Categoria</option>
+        <option>Invalidado</option>
+        <option>Validados</option>
+        <option>Todos</option>
       </select>
     </form>
   </div>
@@ -174,12 +176,13 @@ if (isset($_GET['usuario'])) {
   <br>
   <table class="tabla-inventario">
     <tr>
-    <th>Id usuario</th>
-    <th>Nombre de usuario</th>
+    <th>Id de Vendedor</th>
+    <th>Nombre de Vendedor</th>
       <th>Producto</th>
       <th>Existencia</th>
       <th>Categoria</th>
       <th>precio</th>
+      <th>Estado</th>
     </tr>
 
     <?php 
@@ -216,7 +219,7 @@ JOIN
 JOIN 
     Categorias c ON pi.Cate_ID = c.Cate_ID
 JOIN 
-    Usuario u ON pi.Usua_ID = u.Usua_ID where Prod_Estatus = 0";
+    Usuario u ON pi.Usua_ID = u.Usua_ID where  pi.PrIn_Validado = 0";
 
 
                    
@@ -227,6 +230,10 @@ JOIN
       while ($row2 = $resultConsulta2->fetch_assoc()) {
         // Obtener el primer resultado (asumiendo que solo habrá uno)
         //$row2 = $resultConsulta2->fetch_assoc();
+   
+        if($row2["PrIn_Validado"] == 0){
+          $estado2 = "No validado";
+        }
         echo "<tr class='fila-redireccion' data-prod-id='" . $row2["Prod_ID"] . "'>";
         echo "
         <th>" .$row2["Usuario_ID"]."</th>
@@ -235,12 +242,13 @@ JOIN
         <th>" .$row2["PrIn_Existencia"]."</th>
         <th>" .$row2["Categoria_Nombre"]."</th>
         <th>$ " .$row2["Prod_Precio"]."</th>
+        <th> " .$estado2."</th>
         </tr>
         ";
        
       }
     } else {
-        echo "No se encontraron resultados para el usuario '$usuario'.";
+        //echo "No se encontraron resultados para el usuario '$usuario'.";
     }
 
     // Cerrar la conexión
@@ -258,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var prodId = this.getAttribute('data-prod-id');
             
             // Redirige a tu otro archivo PHP con el ID del producto
-            window.location.href = 'Producto.php?prod_id=' + prodId+ '&usuario=<?php echo $usuario; ?>';
+            window.location.href = 'Modificar_Productos_admin.php?prod_id=' + prodId+ '&usuario=<?php echo $usuario; ?>'+ '&usuarioid=<?php echo $idd; ?>';
         });
     });
 });

@@ -18,11 +18,13 @@
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $nombre = $row['Foto_Nombre'];
+            $id = $row['Prod_ID'];
             $archivoContenido = base64_encode($row['Foto_Archivo']); // asumiendo que la imagen se almacena en la base de datos como un blob
 
             // Mostrar la foto
             echo "<div>";
             echo "<p>Nombre de la Foto: $nombre</p>";
+            echo "<p>id de la Foto: $id</p>";
             echo "<img src='data:image/*;base64,$archivoContenido' alt='$nombre' style='width:300px;height:300px;'>";
             echo "</div>";
         }

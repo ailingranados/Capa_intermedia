@@ -162,19 +162,20 @@ if (isset($_GET['usuario'])) {
   <div style="margin: 30px;">
     <h1 class="titulo-inventario">Productos pendientes</h1>
 
-    <form action="/action_page.php" style="width: 20%;" class="contenedor-agrupar">
-
-      <label for="consulta" class="form-label">Agrupar por</label>
-      <select class="form-select" id="consulta" name="consulta">
-        <option>Invalidado</option>
-        <option>Validados</option>
-        <option>Todos</option>
-      </select>
-    </form>
+    <form id="filtroForm" style="width: 20%;" class="contenedor-agrupar">
+            <label for="consulta" class="form-label">Agrupar por</label>
+            <select class="form-select" id="consulta" name="consulta">
+                <option value="0">Invalidados</option>
+                <option value="1">Validados</option>
+                <option value="2">Todos</option>
+            </select>
+        </form>
   </div>
 
   <br>
-  <table class="tabla-inventario">
+  <table class="tabla-inventario" id="tablaProductos" class="tabla-inventario">
+
+    <!--
     <tr>
     <th>Id de Vendedor</th>
     <th>Nombre de Vendedor</th>
@@ -186,6 +187,7 @@ if (isset($_GET['usuario'])) {
     </tr>
 
     <?php 
+    /*
     include('Funcion/conexion.php');
 
     // Consulta para obtener información del usuario 'geralt'
@@ -253,10 +255,85 @@ JOIN
 
     // Cerrar la conexión
     $conn->close();
+    */
     ?>
-    
+    -->
   </table>
   <script>
+ // Función para cargar los datos de productos mediante AJAX
+ function cargarProductos(validado) {
+  $.ajax({
+    url: 'Funcion/obtener_productos.php', // Reemplaza con la ruta correcta a tu script PHP
+    type: 'GET',
+    data: { validado: validado, usuario: '<?php echo $usuario; ?>', idd: '<?php echo $idd; ?>' },
+    success: function(data) {
+        // Inserta los datos en la tabla
+        $('#tablaProductos').html(data);
+    },
+    error: function(error) {
+        console.error('Error al cargar productos: ', error);
+    }
+});
+
+  /*
+            $.ajax({
+                url: 'Funcion/obtener_productos.php', // Reemplaza con la ruta correcta a tu script PHP
+                type: 'GET',
+                data: { validado: validado },
+                success: function(data) {
+                    // Inserta los datos en la tabla
+                    $('#tablaProductos').html(data);
+                },
+                error: function(error) {
+                    console.error('Error al cargar productos: ', error);
+                }
+            });
+            */
+        }
+
+        // Manejador de eventos para el cambio en el select
+        $('#consulta').change(function() {
+            var seleccion = $(this).val();
+            
+            switch (seleccion) {
+                case '0':
+                    cargarProductos(0);
+                    break;
+                case '1':
+                    cargarProductos(1);
+                    break;
+                case '2':
+                    cargarProductos(2);
+                    break;
+                default:
+                    console.error('Opción no válida.');
+                    break;
+            }
+        });
+
+        // Cargar productos por defecto al cargar la página
+        cargarProductos(0);
+
+        document.addEventListener('DOMContentLoaded', function () {
+    // Obtiene el valor de las variables PHP
+    var usuario = <?php echo json_encode($usuario); ?>;
+    var idd = <?php echo json_encode($idd); ?>;
+
+    // Agrega un listener de clic a todas las filas con la clase 'fila-redireccion'
+    var filas = document.querySelectorAll('.fila-redireccion');
+    filas.forEach(function (fila) {
+        fila.addEventListener('click', function () {
+            // Obtiene el valor del atributo data-prod-id
+            var prodId = this.getAttribute('data-prod-id');
+            
+            // Redirige a tu otro archivo PHP con el ID del producto y las variables de PHP
+            window.location.href = 'Modificar_Productos_admin.php?prod_id=' + prodId + '&usuario=' + usuario + '&usuarioid=' + idd;
+        });
+    });
+});
+
+  
+/*
 document.addEventListener('DOMContentLoaded', function () {
     // Agrega un listener de clic a todas las filas con la clase 'fila-redireccion'
     var filas = document.querySelectorAll('.fila-redireccion');
@@ -266,10 +343,12 @@ document.addEventListener('DOMContentLoaded', function () {
             var prodId = this.getAttribute('data-prod-id');
             
             // Redirige a tu otro archivo PHP con el ID del producto
-            window.location.href = 'Modificar_Productos_admin.php?prod_id=' + prodId+ '&usuario=<?php echo $usuario; ?>'+ '&usuarioid=<?php echo $idd; ?>';
+            window.location.href = 'Modificar_Productos_admin.php?prod_id=' + prodId+ '&usuario=<?php// echo $usuario; ?>'+ '&usuarioid=<?php //echo $idd; ?>';
         });
     });
 });
+*/
+
 </script>
 
 <!-- Usuarios -->

@@ -302,7 +302,7 @@ LEFT JOIN
 LEFT JOIN
     Fotos_1 f ON p.Prod_ID = f.Prod_ID
 LEFT JOIN
-    Categorias c ON pi.Cate_ID = c.Cate_ID where pi.Usua_ID = $idd and p.Prod_ID = $prod_id  ";
+    Categorias c ON pi.Cate_ID = c.Cate_ID where p.Prod_ID = $prod_id  ";
 
     $resultConsulta2 = $conn->query($sqlConsulta2);
 
@@ -393,7 +393,7 @@ LEFT JOIN
 LEFT JOIN
     Fotos_1 f ON p.Prod_ID = f.Prod_ID
 LEFT JOIN
-    Categorias c ON pi.Cate_ID = c.Cate_ID where pi.Usua_ID = $idd and p.Prod_ID = $prod_id  ";
+    Categorias c ON pi.Cate_ID = c.Cate_ID where  p.Prod_ID = $prod_id  ";
 
 
                    

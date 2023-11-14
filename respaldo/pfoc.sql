@@ -334,6 +334,65 @@ END //
 DELIMITER ;
 
 
+
+DELIMITER //
+
+CREATE PROCEDURE InsertarCarrito(
+    IN p_usua_id INT,
+    IN p_prod_id INT
+)
+BEGIN
+    -- Insertar en la tabla Carrito
+    INSERT INTO Carrito (Usua_ID, Prod_ID, Carr_Fecha_Agregado, Carr_Estatus)
+    VALUES (p_usua_id, p_prod_id, NOW(), 1);
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE CambiarEstadoCarrito(
+    IN p_Usua_ID INT,
+    IN p_Prod_ID INT
+)
+BEGIN
+    DECLARE principal_id INT;
+
+    -- Seleccionar el ID principal del Carrito
+    SELECT Carr_ID INTO principal_id
+    FROM Carrito
+    WHERE Usua_ID = p_Usua_ID AND Prod_ID = p_Prod_ID and Carr_Estatus = 1
+    LIMIT 1;
+
+    -- Actualizar el estado del Carrito
+    IF principal_id IS NOT NULL THEN
+        UPDATE Carrito
+        SET Carr_Estatus = 0
+        WHERE Carr_ID = principal_id;
+    END IF;
+END //
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE VaciarCarrito(
+    IN p_Usua_ID INT,
+    IN p_Prod_ID INT
+)
+BEGIN
+    UPDATE Carrito
+    SET Carr_Estatus = 0
+    WHERE Usua_ID = p_Usua_ID;
+END //
+
+DELIMITER ;
+
+
+
 select * from categorias;
 INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Mascotas','Perros y gatos', 1);
 INSERT INTO Categorias (Usua_ID, Cate_Nombre, Cate_Descripcion, Cate_Estatus) VALUES (22,'Electrodomesticos','Para el hogar', 1);

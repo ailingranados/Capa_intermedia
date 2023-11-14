@@ -130,7 +130,6 @@ CREATE TABLE MetodoPago (
 -- TABLA 8: Calificacion
 CREATE TABLE Calificacion (
     Cali_ID INT auto_increment PRIMARY KEY,
-    Cali_Nombre VARCHAR(10) NOT NULL,
     Cali_Valor INT,
     Cali_Estatus BOOL
 );
@@ -183,18 +182,28 @@ CREATE TABLE Venta (
     Vent_ID INT auto_increment PRIMARY KEY NOT NULL,
     Usua_ID_Vend INT NOT NULL,
     Usua_ID_Comp INT NOT NULL,
-    Prod_ID INT NOT NULL,
     Vent_Fecha DATETIME NOT NULL,
-    Vent_Cantidad INT NOT NULL,
     Vent_Precio DECIMAL(10, 2) NOT NULL,
-    MePa_ID INT NOT NULL,
+    Vent_tarjeta_ID INT NOT NULL,
     Cali_ID INT NOT NULL,
     Vent_Estatus BOOL NOT NULL,
     FOREIGN KEY (Usua_ID_Vend) REFERENCES Usuario(Usua_ID),
     FOREIGN KEY (Usua_ID_Comp) REFERENCES Usuario(Usua_ID),
-    FOREIGN KEY (Prod_ID) REFERENCES Producto(Prod_ID),
-    FOREIGN KEY (MePa_ID) REFERENCES MetodoPago(MePa_ID),
+    FOREIGN KEY (Vent_tarjeta_ID) REFERENCES Tarjeta(tarjeta_ID),
     FOREIGN KEY (Cali_ID) REFERENCES Calificacion(Cali_ID)
+);
+
+CREATE TABLE Venta_por_producto (
+    Ventp_ID INT auto_increment PRIMARY KEY NOT NULL,
+    Venta_ID INT,
+    ventp_Prod_ID INT NOT NULL,
+	Cantidad INT NOT NULL,
+    Ventp_PrecioUnidad DECIMAL(10, 2) NOT NULL,
+	Ventp_Precio_total DECIMAL(10, 2) NOT NULL,
+    Ventp_Estatus BOOL NOT NULL,
+    FOREIGN KEY (Venta_ID) REFERENCES Venta(Vent_ID),
+    FOREIGN KEY (ventp_Prod_ID) REFERENCES Producto(Prod_ID)
+    
 );
 
 

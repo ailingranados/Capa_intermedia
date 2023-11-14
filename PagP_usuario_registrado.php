@@ -44,6 +44,88 @@ if (isset($_GET['usuario'])) {
 } else {
     echo "No se recibió un nombre de usuario.";
 }
+if (isset($_GET['id'])) {
+    $usuario = $_GET['usuario'];
+    $id_categoria2 = $_GET['id'];
+    $titulo = $_GET['nombrecategoria'];
+    $sqlConsulta3 = " SELECT
+    p.Prod_ID,
+    p.Prod_Nombre,
+    p.Prod_Precio,
+    p.Prod_Cotizable,
+    p.Prod_Estatus,
+    pi.PrIn_ID,
+    pi.Usua_ID AS PrIn_Usua_ID,
+    pi.Cate_ID AS PrIn_Cate_ID,
+    pi.PrIn_Descripcion,
+    pi.PrIn_Fecha_Creac,
+    pi.PrIn_Existencia,
+    pi.PrIn_Validado,
+    pi.PrIn_Estatus,
+    v.Video_ID,
+    v.Video_Nombre,
+    v.Video_Archivo,
+    v.Video_Estatus,
+    f.Foto_ID,
+    f.Foto_Nombre,
+    f.Foto_Archivo,
+    f.Foto_Estatus,
+    c.Cate_ID,
+    c.Cate_Nombre,
+    c.Cate_Descripcion,
+    c.Cate_Estatus
+FROM
+    Producto p
+JOIN
+    Producto_Info pi ON p.Prod_ID = pi.Prod_ID
+LEFT JOIN
+    Videos v ON p.Prod_ID = v.Prod_ID
+LEFT JOIN
+    Fotos_1 f ON p.Prod_ID = f.Prod_ID
+LEFT JOIN
+    Categorias c ON pi.Cate_ID = c.Cate_ID where p.Prod_Estatus = 1 and  pi.PrIn_Validado = 1 and  c.Cate_ID =  $id_categoria2
+GROUP BY
+    p.Prod_ID";
+} else {
+    $sqlConsulta3 = " SELECT
+    p.Prod_ID,
+    p.Prod_Nombre,
+    p.Prod_Precio,
+    p.Prod_Cotizable,
+    p.Prod_Estatus,
+    pi.PrIn_ID,
+    pi.Usua_ID AS PrIn_Usua_ID,
+    pi.Cate_ID AS PrIn_Cate_ID,
+    pi.PrIn_Descripcion,
+    pi.PrIn_Fecha_Creac,
+    pi.PrIn_Existencia,
+    pi.PrIn_Validado,
+    pi.PrIn_Estatus,
+    v.Video_ID,
+    v.Video_Nombre,
+    v.Video_Archivo,
+    v.Video_Estatus,
+    f.Foto_ID,
+    f.Foto_Nombre,
+    f.Foto_Archivo,
+    f.Foto_Estatus,
+    c.Cate_ID,
+    c.Cate_Nombre,
+    c.Cate_Descripcion,
+    c.Cate_Estatus
+FROM
+    Producto p
+JOIN
+    Producto_Info pi ON p.Prod_ID = pi.Prod_ID
+LEFT JOIN
+    Videos v ON p.Prod_ID = v.Prod_ID
+LEFT JOIN
+    Fotos_1 f ON p.Prod_ID = f.Prod_ID
+LEFT JOIN
+    Categorias c ON pi.Cate_ID = c.Cate_ID where p.Prod_Estatus = 1 and  pi.PrIn_Validado = 1
+GROUP BY
+    p.Prod_ID";
+}
 ?>
 
 
@@ -184,7 +266,7 @@ if (isset($_GET['usuario'])) {
 
   <div class="offcanvas offcanvas-start" id="demo">
     <div class="offcanvas-header">
-      <h1 class="offcanvas-title">Bienvenido</h1>
+      <h1 class="offcanvas-title">Bienvenid@ <?php echo $usuario; ?></h1>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
@@ -192,18 +274,34 @@ if (isset($_GET['usuario'])) {
       <!-- formulario de inicio de sesion -->
       <nav>
         <ul class="menu">
-            <li>
-                <button class="boton-menu boton-categoria active"> <i class="bi bi-check2-circle"></i>Todos los productos</button>
-            </li>
-            <li>
-                <button class="boton-menu boton-categoria"> <i class="bi bi-check2-circle"></i>Abrigos</button>
-            </li>
-            <li>
-                <button class="boton-menu boton-categoria"> <i class="bi bi-check2-circle"></i>Camisetas</button>
-            </li>
-            <li>
-                <button class="boton-menu boton-categoria"> <i class="bi bi-check2-circle"></i>pantalones</button>
-            </li>
+        <?php
+          // Realizar la consulta a la base de datos
+          include('Funcion/conexion.php');  // Incluye el archivo de conexión
+
+          $sql = "SELECT Cate_ID, Cate_Nombre FROM categorias";
+          $result = $conn->query($sql);
+           // Verificar si se obtuvieron resultados
+           echo "<li>
+           <button class='boton-menu boton-categoria' onclick=\"window.location.href='PagP_usuario_registrado.php?usuario=$usuario'\">
+               <i class='bi bi-check2-circle'></i>Todos los productos
+           </button>
+       </li>";
+           if ($result->num_rows > 0) {
+          // Iterar sobre los resultados y generar las opciones del select
+           while ($row = $result->fetch_assoc()) {
+            $id_categoriaa = $row["Cate_ID"];
+            $nombre_categoriaa = $row["Cate_Nombre"];
+            echo "<li>
+    <button class='boton-menu boton-categoria' onclick=\"window.location.href='PagP_usuario_registrado.php?id=$id_categoriaa&usuario=$usuario&nombrecategoria=$nombre_categoriaa'\">
+        <i class='bi bi-check2-circle'></i>$nombre_categoriaa
+    </button>
+</li>";
+
+           }
+           } else {
+           //echo "<option value=''>No hay opciones disponibles</option>";
+           }
+           ?>
             <li>
                 <a class="boton-menu boton-carrito" href="Carrito.html"> <i class="bi bi-cart4"></i>Carrito <span
                         class="numerito">0</span></a>
@@ -251,58 +349,19 @@ if (isset($_GET['usuario'])) {
                 </div>
             
        
-            <h2 class="titulo-principal">Todos los productos</h2>
+            <h2 class="titulo-principal"><?php if (isset($_GET['id'])) {
+                     $titulo = $_GET['nombrecategoria'];
+                     echo $titulo;
+
+                }else{
+                     echo"Todos los productos";
+                }?></h2>
             <div class="contenedor-productos">
             <?php 
     include('Funcion/conexion.php');
 
     // Consulta para obtener información del usuario 'geralt'
-    $sqlConsulta3 = "SELECT
-        c.Carr_ID,
-        c.Usua_ID AS Carr_Usua_ID,
-        c.Prod_ID AS Carr_Prod_ID,
-        c.Carr_Fecha_Agregado,
-        c.Carr_Estatus,
-        
-        p.Prod_ID,
-        p.Prod_Nombre,
-        p.Prod_Precio,
-        p.Prod_Cotizable,
-        p.Prod_Estatus,
-        
-        pi.PrIn_ID,
-        pi.Usua_ID AS PrIn_Usua_ID,
-        pi.Cate_ID AS PrIn_Cate_ID,
-        pi.PrIn_Descripcion,
-        pi.PrIn_Fecha_Creac,
-        pi.PrIn_Existencia,
-        pi.PrIn_Validado,
-        pi.PrIn_Estatus,
-        
-        GROUP_CONCAT(f.Foto_Archivo) AS Fotos, -- Concatena las rutas de las fotos
-        v.Video_ID,
-        v.Video_Nombre,
-        v.Video_Archivo,
-        v.Video_Estatus,
-        
-        ct.Cate_ID,
-        ct.Cate_Nombre,
-        ct.Cate_Descripcion,
-        ct.Cate_Estatus
-    FROM
-        Carrito c
-    JOIN
-        Producto p ON c.Prod_ID = p.Prod_ID
-    JOIN
-        Producto_Info pi ON p.Prod_ID = pi.Prod_ID
-    LEFT JOIN
-        Videos v ON p.Prod_ID = v.Prod_ID
-    LEFT JOIN
-        Fotos_1 f ON p.Prod_ID = f.Prod_ID
-    LEFT JOIN
-        Categorias ct ON pi.Cate_ID = ct.Cate_ID where p.Prod_Estatus = 1 and pi.PrIn_Validado = 1
-    GROUP BY
-        c.Carr_ID ;";
+    
 
 
                    
@@ -314,9 +373,10 @@ if (isset($_GET['usuario'])) {
         // Obtener el primer resultado (asumiendo que solo habrá uno)
         //$row2 = $resultConsulta2->fetch_assoc();
        
-        $archivoContenido = base64_encode($row3['Fotos']); // asumiendo que la imagen se almacena en la base de datos como un blob
+        $archivoContenido = base64_encode($row3['Foto_Archivo']); // asumiendo que la imagen se almacena en la base de datos como un blob
         //echo "<img src='data:image/*;base64,$archivoContenido' alt='$nombre' style='width:300px;height:300px;'>";
         $Nombre = $row3['Prod_Nombre'];
+        $categoria_producto = $row3['Cate_Nombre'];
         $Precio = $row3['Prod_Precio'];
         $id_producto = $row3['Prod_ID'];
 
@@ -325,9 +385,12 @@ if (isset($_GET['usuario'])) {
         <img class='producto-imagen' src='data:image/*;base64,$archivoContenido' alt='cat'>
         <div class='producto-detalles'>
             <h3 class='producto-titulo'>$Nombre</h3>
+            <h3 class='producto-titulo'>$categoria_producto</h3>
             <p class='producto-precio'>$$Precio </p>
+            <button class='producto-agregar' onclick=\"window.location.href='Producto.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Ver producto</button>
             <button class='producto-agregar' onclick=\"window.location.href='Funcion/agregar_carrito.php?id=$idd&usuario=$usuario&producto=$id_producto'\">Agregar</button>
-        </div>
+        
+            </div>
     </div>";
 
 
@@ -335,7 +398,7 @@ if (isset($_GET['usuario'])) {
        
       }
     } else {
-        echo "No se encontraron resultados para el usuario '$usuario'.";
+       // echo "No se encontraron resultados para el usuario '$usuario'.";
     }
 
     // Cerrar la conexión
@@ -343,112 +406,10 @@ if (isset($_GET['usuario'])) {
     ?>
 
                 
-                <!--
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-                -->
+               
             </div>
 
-            <!--
-       
-            <div class="contenedor-productos">
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-
-                <div class="producto">
-                    <img class="producto-imagen" src="IMAGENES/gato_asustado.jpg" alt="cat">
-                    <div class="producto-detalles">
-                        <h3 class="producto-titulo">abrigo 01</h3>
-                        <p class="producto-precio">$1000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-
-                </div>
-            </div>
-            --> 
-       
+           
          
         </main>
 
@@ -456,14 +417,14 @@ if (isset($_GET['usuario'])) {
         <div class=" contenedor-derecho-carrito">
             <h2 class="titulo-carrito" style="background-color: white;">Carrito</h2>
             
-
+            
                 <div class="carrito-productos-vr">
-                    
+                
                         
                     <?php 
     include('Funcion/conexion.php');
 
-    // Consulta para obtener información del usuario 'geralt'
+    
     $sqlConsulta3 = "SELECT
     c.Carr_ID,
     c.Usua_ID AS Carr_Usua_ID,
@@ -486,7 +447,7 @@ if (isset($_GET['usuario'])) {
     pi.PrIn_Validado,
     pi.PrIn_Estatus,
     
-    GROUP_CONCAT(f.Foto_Archivo) AS Fotos, -- Concatena las rutas de las fotos
+    GROUP_CONCAT(f.Foto_Archivo) AS Fotos,
     v.Video_ID,
     v.Video_Nombre,
     v.Video_Archivo,
@@ -495,7 +456,8 @@ if (isset($_GET['usuario'])) {
     ct.Cate_ID,
     ct.Cate_Nombre,
     ct.Cate_Descripcion,
-    ct.Cate_Estatus
+    ct.Cate_Estatus,
+     (SELECT COUNT(DISTINCT Carr_ID)as contador FROM Carrito  WHERE Prod_ID = c.Prod_ID and Usua_ID = 26 and Carr_Estatus = 1) AS CantidadRepetidos
 FROM
     Carrito c
 JOIN
@@ -508,8 +470,10 @@ LEFT JOIN
     Fotos_1 f ON p.Prod_ID = f.Prod_ID
 LEFT JOIN
     Categorias ct ON pi.Cate_ID = ct.Cate_ID
+WHERE
+    c.Carr_Estatus = 1 and c.Usua_ID = $idd
 GROUP BY
-    c.Carr_ID";
+    c.Prod_ID";
 
 
                    
@@ -526,16 +490,9 @@ GROUP BY
         $Nombre = $row3['Prod_Nombre'];
         $Precio = $row3['Prod_Precio'];
         $id_producto = $row3['Prod_ID'];
+        $cantidad = $row3['CantidadRepetidos'];
 
-        /*
-        echo "<div class='producto'>
-        <img class='producto-imagen' src='data:image/*;base64,$archivoContenido' alt='cat'>
-        <div class='producto-detalles'>
-            <h3 class='producto-titulo'>$Nombre</h3>
-            <p class='producto-precio'>$$Precio </p>
-            <button class='producto-agregar' onclick=\"window.location.href='Funcion/agregar_carrito.php?id=$idd&usuario=$usuario&producto=$id_producto'\">Agregar</button>
-        </div>
-    </div>";*/
+        
 
        echo "<div class='carrito-producto-vr'>
        <img class='carrito-producto-imagen-vr' src='data:image/*;base64,$archivoContenido'  alt=''>
@@ -546,6 +503,7 @@ GROUP BY
 
        </div>
        <div class='carrito-producto-precio'>
+       <small>Cantidad: $cantidad </small>
        <small>$$Precio </small>
        </div>
        </div>";
@@ -555,44 +513,33 @@ GROUP BY
        
       }
     } else {
-        echo "No se encontraron resultados para el usuario '$usuario'.";
+        //echo "No se encontraron resultados para el usuario '$usuario'.";
     }
 
     // Cerrar la conexión
     $conn->close();
     ?>
 
-                        <!--
-                        <img class="carrito-producto-imagen-vr" src="IMAGENES/gato_asustado.jpg" alt="">
-     
-                        <div class="carrito-producto-cantidad">
-                            <br>
-                            <small>Cantidad: </small>
-
-                        </div>
-                        <div class="carrito-producto-precio">
-                        <small>$320 </small>
-                        </div>
-                        -->
-                    
+                
 
                 </div>
-            
+
             
                 <div class="carrito-botones-vr">
-                    <a href="Carrito.html">
+                    <a href="Carrito.php?usuario=<?php echo $usuario; ?>">
                         <button class="carrito-ver">ver carrito</button>
                     </a>
                 </div>
-            
+                
 
     </div>
+    
 
 
 </body>
-
+<!--
 <footer class="wrapper-footer">
     © 2023 Tu Empresa. Todos los derechos reservados.
 </footer>
-
+-->
 </html>

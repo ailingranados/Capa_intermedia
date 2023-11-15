@@ -374,24 +374,28 @@ GROUP BY
         
         <div class="wrapper-registro">
 
-        <form id="form" action="Funcion/rocesar_registro.php" method="post" enctype="multipart/form-data">
-        <label for="rol" class="form-label">Tipo de Tarjeta</label>
-          <select class="form-select" id="genero" name="genero">
+        <form id="form" action="Funcion/Pagar.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
+        <input type="hidden" name="tarjeta_usuario_ID" value="<?php echo $idd; ?>">
+
+
+        <label for="rol" class="form-label">Tipo de tarjeta</label>
+          <select class="form-select" id="tarjeta_credito_debito" name="tarjeta_credito_debito">
           <option value=0>Credito</option>"
           <option value=1>Debito</option>"
           </select>          
           <br>
           <div class="input-group ">
            
-           <input type="text" class="form-control" placeholder="Nombre de tarjeta" name="Nombre">
+           <input type="text" class="form-control" placeholder="Nombre de tarjeta" name="tarjeta_nombre">
           
 
          </div>
           <div class="input-group ">
            
     
-            <input type="text" class="form-control" placeholder="Número de tarjeta" id="Apellidop" name="Apellidop">
-            <input type="text" class="form-control" placeholder="Número de seguridad (CSV)" id="ApellidoM" name="ApellidoM">
+            <input type="text" class="form-control" placeholder="Número de tarjeta" id="tarjeta_num" name="tarjeta_num">
+            <input type="text" class="form-control" placeholder="Número de seguridad (CSV)" id="tarjeta_csv" name="tarjeta_csv">
 
           </div>
 
@@ -399,7 +403,7 @@ GROUP BY
 
           
           <label for="rol" class="form-label">Mes de vencimiento</label>
-          <select class="form-select" id="genero" name="genero">
+          <select class="form-select" id="mes" name="mes">
           <?php
         // Generar opciones del 1 al 12
         for ($i = 1; $i <= 12; $i++) {
@@ -423,7 +427,7 @@ GROUP BY
          </select>
 
          <label for="rol" class="form-label">calificación</label>
-          <select class="form-select" id="genero" name="calificacion">
+          <select class="form-select" id="cali_valor" name="cali_valor">
           <?php
         // Generar opciones del 1 al 12
         for ($i = 1; $i <= 10; $i++) {

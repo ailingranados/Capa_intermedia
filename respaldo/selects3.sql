@@ -48,7 +48,14 @@ LEFT JOIN
 LEFT JOIN
     Categorias ct ON pi.Cate_ID = ct.Cate_ID
 WHERE
-    c.Carr_Estatus = 1 and c.Usua_ID = $idd
+    c.Carr_Estatus = 1 and c.Usua_ID = 26
 GROUP BY
     c.Prod_ID;
 SELECT COUNT(DISTINCT Carr_ID)as contador FROM Carrito  WHERE Prod_ID = 8 and Usua_ID = 26 and Carr_Estatus = 1
+
+
+
+
+
+
+

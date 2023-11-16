@@ -377,6 +377,8 @@ GROUP BY
         <form id="form" action="Funcion/Pagar.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
         <input type="hidden" name="tarjeta_usuario_ID" value="<?php echo $idd; ?>">
+        <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>">
+
 
 
         <label for="rol" class="form-label">Tipo de tarjeta</label>

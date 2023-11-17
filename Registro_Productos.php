@@ -111,13 +111,25 @@ if (isset($_GET['usuario'])) {
     </button>
 
     <ul>
-      <li><a href="Compras.html">Compras</a></li>
-      <li><a href="Carrito.html">Carrito</a></li>
-      <li><a href="Inicio_sesion.html">Inicio Sesion</a></li>
-      <?php echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
-            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>"; ?>
+    <?php 
+         echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
+         if($Role == 1){
+          echo "<li><a href='admin.php?usuario=$usuario'>Administrador</a></li>";
 
+         // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
+      }
+        if($Role == 3){
+            echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
+            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
 
+           // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
+        }else{
+            echo " <li><a href='Compras.php?usuario=$usuario'>Compras</a></li>
+            <li><a href='Carrito.php?usuario=$usuario'>Carrito</a></li>
+            <li><a href='PagP_usuario_registrado.php?usuario=$usuario'>Pagina principal</a></li>";
+
+        }
+        ?>
 
     </ul>
 

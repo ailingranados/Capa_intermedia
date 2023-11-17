@@ -44,10 +44,13 @@ JOIN
     cal.Cali_Valor,
     vp.Ventp_Precio_total,
     v.Usua_ID_Comp,
+    vp.Cantidad,
+	vp.ventp_Prod_ID
     
-	(SELECT COUNT(DISTINCT Ventp_ID)as contador FROM Venta_por_producto  WHERE ventp_Prod_ID =vp.ventp_Prod_ID  and  Venta_ID = v.Vent_ID) AS CantidadRepetidos,
     
-     vp.ventp_Prod_ID, vp.Venta_ID
+	-- (SELECT COUNT(DISTINCT Ventp_ID)as contador FROM Venta_por_producto  WHERE ventp_Prod_ID = pr.Prod_ID  and  Venta_ID = v.Vent_ID) AS CantidadRepetidos,
+    
+ --    vp.ventp_Prod_ID, vp.Venta_ID
 FROM 
     Venta_por_producto vp
 JOIN 
@@ -59,7 +62,7 @@ JOIN
 JOIN 
     producto pr ON vp.ventp_Prod_ID = pr.Prod_ID
 JOIN 
-    calificacion cal ON v.Cali_ID = cal.Cali_ID 
+    calificacion cal ON v.Cali_ID = cal.Cali_ID where vp.Ventp_Estatus = 1 and v.Usua_ID_Comp = 
     GROUP BY
   vp.ventp_Prod_ID, vp.Venta_ID   order by v.Vent_Fecha desc;
   

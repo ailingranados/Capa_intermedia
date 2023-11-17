@@ -39,8 +39,8 @@ Capa intermedia
     </button>
 
     <ul>
-      <li><a href="Compras.html">Compras</a></li>
-      <li><a href="Carrito.html">Carrito</a></li>
+    <li><a href="Registro_persona.php">Registrarse</a></li>
+
 
     </ul>
 
@@ -59,7 +59,7 @@ Capa intermedia
 
 
         <form action="Funcion/procesar_login.php" method="post">
-
+        <h2>Inicio de sesión </h2>
           <!-- usuario -->
           <div class="col form-floating mt-3 mb-3 ">
             <input type="text" class="form-control" id="usuario"  required name="username">

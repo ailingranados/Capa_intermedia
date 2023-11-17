@@ -34,6 +34,21 @@ footer{
     margin-top: -200px;
     height: 200px;
 } */
+
+#operacionesForm {
+            display: flex;
+            align-items: center;
+        }
+
+        #valor {
+            margin-right: 10px;
+        }
+
+        .simbolo {
+            cursor: pointer;
+            font-size: 24px;
+            margin-right: 10px;
+        }
  </style>
 
   <?php
@@ -211,19 +226,23 @@ GROUP BY
       </button>
 
       <ul>
-        <li><a href="Compras.html">Compras</a></li>
-        <li><a href="Carrito.html">Carrito</a></li>
-        <li><a href="#perfil">Perfil</a></li>
+       
+        <!--<li><a href="#perfil">Perfil</a></li>-->
 
         
 
         <?php 
-        
+         echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
         if($Role == 3){
             echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
             echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
 
            // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
+        }else{
+            echo " <li><a href='Compras.php?usuario=$usuario'>Compras</a></li>
+            <li><a href='Carrito.php?usuario=$usuario'>Carrito</a></li>
+            <li><a href='PagP_usuario_registrado.php?usuario=$usuario'>Pagina principal</a></li>";
+
         }
         ?>
 
@@ -387,9 +406,22 @@ GROUP BY
             <h3 class='producto-titulo'>$Nombre</h3>
             <h3 class='producto-titulo'>$categoria_producto</h3>
             <p class='producto-precio'>$$Precio </p>
+
+            <form id='form' action='Funcion/agregar_carrito.php' method='post' enctype='multipart/form-data'>
+            <input type='hidden' name='usuario' value='". $usuario."'>
+            <input type='hidden' name='id' value='". $idd."'>
+            <input type='hidden' name='producto' value='". $id_producto."'> 
+            <div class='col form-floating mt-3 mb-3 '>
+              <input type='number' class='form-control' id='cantidad' name='cantidad' value= '1'>
+              <label for='disponible'>Cantidad:</label>
+            </div>
+            <input type='submit' class='btn button_pink' value='Agregar'><br>
+            </form> 
+            
             <button class='producto-agregar' onclick=\"window.location.href='Producto.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Ver producto</button>
-            <button class='producto-agregar' onclick=\"window.location.href='Funcion/agregar_carrito.php?id=$idd&usuario=$usuario&producto=$id_producto'\">Agregar</button>
-        
+           <!-- <button class='producto-agregar' onclick=\"window.location.href='Funcion/agregar_carrito.php?id=$idd&usuario=$usuario&producto=$id_producto'\">Agregar</button> -->
+
+          
             </div>
     </div>";
 
@@ -404,7 +436,7 @@ GROUP BY
     // Cerrar la conexión
     $conn->close();
     ?>
-
+   
                 
                
             </div>
@@ -430,6 +462,7 @@ GROUP BY
     c.Usua_ID AS Carr_Usua_ID,
     c.Prod_ID AS Carr_Prod_ID,
     c.Carr_Fecha_Agregado,
+    c.cantidad,
     c.Carr_Estatus,
     
     p.Prod_ID,
@@ -457,6 +490,7 @@ GROUP BY
     ct.Cate_Nombre,
     ct.Cate_Descripcion,
     ct.Cate_Estatus,
+    
      (SELECT COUNT(DISTINCT Carr_ID)as contador FROM Carrito  WHERE Prod_ID = c.Prod_ID and Usua_ID = 26 and Carr_Estatus = 1) AS CantidadRepetidos
 FROM
     Carrito c
@@ -490,7 +524,7 @@ GROUP BY
         $Nombre = $row3['Prod_Nombre'];
         $Precio = $row3['Prod_Precio'];
         $id_producto = $row3['Prod_ID'];
-        $cantidad = $row3['CantidadRepetidos'];
+        $cantidad = $row3['cantidad'];
 
         
 

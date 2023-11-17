@@ -119,8 +119,13 @@ if (isset($_GET['usuario'])) {
        <li><a href="Compras.html">Compras</a></li>
        <li><a href="Carrito.html">Carrito</a></li>
        <li><a href="Inicio_sesion.html">Inicio Sesion</a></li> -->
-       <?php echo "<li><a href='admin.php?usuario=$usuario'>Administrador</a></li>";
-            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Perfil</a></li>"; ?>
+       <?php     echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
+         if($Role == 1){
+          echo "<li><a href='admin.php?usuario=$usuario'>Administrador</a></li>";
+         
+
+         // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
+      } ?>
  
  
      </ul>

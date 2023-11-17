@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: ../PagP_usuario_registrado.php?usuario=$username");
             }
         } elseif ($rol_usuario == 3) { //Vendedor
-            header("Location: ../PagP_usuario_registrado.php?usuario=$username");
+            header("Location: ../Inventario.php?usuario=$username");
         }
         
     } else {

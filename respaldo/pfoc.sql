@@ -339,12 +339,13 @@ DELIMITER //
 
 CREATE PROCEDURE InsertarCarrito(
     IN p_usua_id INT,
-    IN p_prod_id INT
+    IN p_prod_id INT,
+    IN cantidad_proc int
 )
 BEGIN
     -- Insertar en la tabla Carrito
-    INSERT INTO Carrito (Usua_ID, Prod_ID, Carr_Fecha_Agregado, Carr_Estatus)
-    VALUES (p_usua_id, p_prod_id, NOW(), 1);
+    INSERT INTO Carrito (Usua_ID, Prod_ID, Carr_Fecha_Agregado, Carr_Estatus, cantidad)
+    VALUES (p_usua_id, p_prod_id, NOW(), 1, cantidad_proc);
 END //
 
 DELIMITER ;

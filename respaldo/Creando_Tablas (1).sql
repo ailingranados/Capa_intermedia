@@ -160,6 +160,7 @@ CREATE TABLE Carrito (
     Usua_ID INT NOT NULL,
     Prod_ID INT NOT NULL,
     Carr_Fecha_Agregado DATE NOT NULL,
+    cantidad int, 
     Carr_Estatus BOOL,
     FOREIGN KEY (Usua_ID) REFERENCES Usuario(Usua_ID),
     FOREIGN KEY (Prod_ID) REFERENCES Producto(Prod_ID)

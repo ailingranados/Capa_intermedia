@@ -39,9 +39,8 @@ Capa intermedia
     </button>
 
     <ul>
-      <li><a href="Compras.html">Compras</a></li>
-      <li><a href="Carrito.html">Carrito</a></li>
-      <li><a href="Inicio_sesion.html">Inicio Sesion</a></li>
+      
+      <li><a href="Inicio_sesion.php">Inicio Sesion</a></li>
 
 
     </ul>
@@ -62,6 +61,7 @@ Capa intermedia
 
         <form id="form" action="Funcion/procesar_registro.php" method="post" enctype="multipart/form-data">
   <!--PEDIMOS LOS DATOS DE REGISTRO-->
+          <h2>Registro </h2>
           <!-- nombre y apellidos -->
           <div class="input-group ">
            

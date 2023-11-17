@@ -194,43 +194,45 @@ BEGIN
     SET venta_id_var = LAST_INSERT_ID();
 
     -- Insertar datos en la tabla Venta_por_producto desde el Carrito
-    INSERT INTO Venta_por_producto (
-        Venta_ID,
-        Usua_ID_Vend,
-        ventp_Prod_ID,
-        Cantidad,
-        Ventp_PrecioUnidad,
-        Ventp_Precio_total,
-        Ventp_Estatus
-    )
-    SELECT
-        venta_id_var,
-        pi2.Usua_ID,
-        carrito.Prod_ID,
-        (SELECT COUNT(DISTINCT Carr_ID) as contador FROM Carrito WHERE Prod_ID = carrito.Prod_ID and Usua_ID = usua_ID_comp_param and Carr_Estatus = 1),
-        producto.Prod_Precio,
-        (SELECT COUNT(DISTINCT Carr_ID) as contador FROM Carrito WHERE Prod_ID = carrito.Prod_ID and Usua_ID = usua_ID_comp_param and Carr_Estatus = 1) * producto.Prod_Precio,
-        1 -- Ventp_Estatus (ajusta según tus necesidades)
-    FROM
-        Carrito carrito
-    JOIN
-        Producto_Info pi2 ON carrito.Prod_ID = pi2.Prod_ID
-	JOIN
-       Producto  ON carrito.Prod_ID = Producto.Prod_ID
-    WHERE
-        carrito.Usua_ID = usua_ID_comp_param AND carrito.Carr_Estatus = 1;
+   -- Insertar datos en la tabla Venta_por_producto desde el Carrito
+-- Insertar datos en la tabla Venta_por_producto desde el Carrito
+INSERT INTO Venta_por_producto (
+    Venta_ID,
+    Usua_ID_Vend,
+    ventp_Prod_ID,
+    Cantidad,
+    Ventp_PrecioUnidad,
+    Ventp_Precio_total,
+    Ventp_Estatus
+)
+SELECT
+    venta_id_var,
+    pi2.Usua_ID,
+    carrito.Prod_ID,
+    SUM(carrito.cantidad) as TotalCantidad, -- Sumar la cantidad para el mismo producto
+    producto.Prod_Precio,
+    SUM(carrito.cantidad * producto.Prod_Precio), -- Calcular el precio total sumando
+    1 -- Ventp_Estatus (ajusta según tus necesidades)
+FROM
+    Carrito carrito
+JOIN
+    Producto_Info pi2 ON carrito.Prod_ID = pi2.Prod_ID
+JOIN
+    Producto ON carrito.Prod_ID = Producto.Prod_ID
+WHERE
+    carrito.Usua_ID = usua_ID_comp_param AND carrito.Carr_Estatus = 1
+GROUP BY
+    venta_id_var, pi2.Usua_ID, carrito.Prod_ID, producto.Prod_Precio;
+
 
     -- Actualizar la existencia en la tabla Producto_Info
-    UPDATE Producto_Info pinfo
+   -- Actualizar la existencia en la tabla Producto_Info
+UPDATE Producto_Info pinfo
 JOIN Carrito carrito ON pinfo.Prod_ID = carrito.Prod_ID
-SET pinfo.PrIn_Existencia = pinfo.PrIn_Existencia - (
-    SELECT COUNT(DISTINCT Carr_ID) as contador 
-    FROM Carrito 
-    WHERE Prod_ID = carrito.Prod_ID 
-    AND Usua_ID = usua_ID_comp_param 
-    AND Carr_Estatus = 1
-)
+SET pinfo.PrIn_Existencia = pinfo.PrIn_Existencia - carrito.cantidad
 WHERE carrito.Usua_ID = usua_ID_comp_param AND carrito.Carr_Estatus = 1;
+
+
 
     -- Limpiar el carrito después de realizar la venta
     DELETE FROM Carrito WHERE Usua_ID = usua_ID_comp_param AND Carr_Estatus = 1;
@@ -241,8 +243,17 @@ DELIMITER ;
 
 
 
-
-
+CALL InsertarVentaYProductos(26, 'jesus bancomer2', '123456', '082028', '123', 0, 1, 26, 06, 1, 4410 )
+;
 CALL InsertarVentaYProductos(26, 'a gastar', '45594849', '2032', '156', 1, 1, 26, 05, 1 );
 select * from carrito;
 select * from venta;
+SELECT * FROM `venta_por_producto`;
+
+UPDATE Venta_por_producto
+SET Ventp_Estatus = 0
+WHERE Venta_ID != 33;
+
+UPDATE Venta
+SET Vent_Estatus = 0
+WHERE Vent_ID != 33;

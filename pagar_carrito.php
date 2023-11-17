@@ -107,10 +107,22 @@ if (isset($_GET['usuario'])) {
       </button>
 
       <ul>
-        <li><a href="Compras.html">Compras</a></li>
-        <li><a href="Carrito.html">Carrito</a></li>
-        <li><a href="Registro_persona.html">Registro</a></li>
+  
+      <?php 
+         echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
+        if($Role == 3){
+            echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
+            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
 
+           // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
+        }else{
+            echo " <li><a href='Compras.php?usuario=$usuario'>Compras</a></li>
+            <li><a href='Carrito.php?usuario=$usuario'>Carrito</a></li>
+            <li><a href='PagP_usuario_registrado.php?usuario=$usuario'>Pagina principal</a></li>";
+
+        }
+        ?>
+      
 
       </ul>
 
@@ -257,6 +269,8 @@ if (isset($_GET['usuario'])) {
     c.Usua_ID AS Carr_Usua_ID,
     c.Prod_ID AS Carr_Prod_ID,
     c.Carr_Fecha_Agregado,
+    c.cantidad,
+
     c.Carr_Estatus,
     
     p.Prod_ID,
@@ -319,7 +333,7 @@ GROUP BY
         $Nombre = $row3['Prod_Nombre'];
         $Precio = $row3['Prod_Precio'];
         $id_producto = $row3['Prod_ID'];
-        $cantidad = $row3['CantidadRepetidos'];
+        $cantidad = $row3['cantidad'];
 
         $subtotal = $cantidad * $Precio;
 
@@ -360,6 +374,20 @@ GROUP BY
        
        
       }
+      echo "</div>
+      <div class='carrito-acciones'>
+      <div class='carrito-acciones-izq'>
+      <button class='carrito-acciones-vaciar' onclick=\"window.location.href='Funcion/vaciar_carrito.php?usuario=$usuario&idusuario=$idd'\">Vaciar carrito</button>
+      </div>
+
+      <div class='carrito-acciones-derecha'>
+          <div class='carrito-acciones-total'>
+              <p>Total: </p>
+              <p id='Total'>$$total</p>
+          </div>
+
+      </div>
+  </div>";
       
     } else {
        // echo "No se encontraron resultados para el usuario '$usuario'.";
@@ -377,7 +405,7 @@ GROUP BY
         <form id="form" action="Funcion/Pagar.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
         <input type="hidden" name="tarjeta_usuario_ID" value="<?php echo $idd; ?>">
-        <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>">
+        <input type="hidden" name="subtotal" value="<?php echo $total; ?>">
 
 
 

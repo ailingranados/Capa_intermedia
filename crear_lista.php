@@ -5,23 +5,19 @@ Capa intermedia
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <title>Suberbia</title>
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+    <title>Suberbia</title>
+    <link rel="stylesheet" href="CSS/Todas_las_paginas.css">
+   
+    <!-- iconos de bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <!-- Boostrap links -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Archivo diseño de pagina en css -->
-    <link rel="stylesheet" type="text/css" href="CSS/Diseño.css">
-    <link rel="stylesheet" type="text/css" href="CSS/Todas_las_paginas.css">
-
-    <!-- Archivo de JavaScript para el comportamiento del código -->
-    <script src="Logica.js"></script>
-
-    <?php
+      <!-- Boostrap links -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <?php
 // Obtén el valor de usuario pasado en la URL
 if (isset($_GET['usuario'])) {
     $usuario = $_GET['usuario'];
@@ -98,30 +94,26 @@ if (isset($_GET['usuario'])) {
     ?>
 </head>
 
-
 <nav class="nav_busqueda">
+
   <a href="Landing_page.html" style="text-decoration: none;"> <h1 class="Logo">Suberbia</h1> </a>
- 
- 
- <form class="Barra_busqueda">
-   <input class="palabra_busqueda me-2" type="text" placeholder="Search">
-   <button class="button_pink" type="button">Search</button>
- </form>
- 
- </nav>
- 
- <nav class="barra_acceso_rapido">
- 
-   <button class="boton_categoria" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
-       
-     </button>
- 
-     <ul>
-     
 
-        
 
-     <?php 
+<form class="Barra_busqueda">
+  <input class="palabra_busqueda me-2" type="text" placeholder="Search">
+  <button class="button_pink" type="button">Search</button>
+</form>
+
+</nav>
+
+<nav class="barra_acceso_rapido">
+
+  <button class="boton_categoria" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+      
+    </button>
+
+    <ul>
+    <?php 
          echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
          if($Role == 1){
           echo "<li><a href='admin.php?usuario=$usuario'>Administrador</a></li>";
@@ -141,10 +133,12 @@ if (isset($_GET['usuario'])) {
         }
         ?>
       
-     </ul>
- 
-     <ul>
-     <?php
+
+
+    </ul>
+
+    <ul>
+    <?php
     // Obtén el nombre de usuario de alguna manera
      $nombreUsuario = $idd; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
      //echo $idd;
@@ -167,139 +161,46 @@ if (isset($_GET['usuario'])) {
 
         <!--<img src="IMAGENES/logo_sin_fondo.png" alt="Logo" style="width:40px;" class="rounded-pill"> -->
         <li> <a href="Inicio_sesion.php"><?php echo isset($usuario) ? $usuario : ''; ?></a></li>
-     </ul>
- </nav>
-   
-<body  class="imagen-gatitos">
 
-  <div class="contenedor-padre">
+    </ul>
+</nav>
 
-  <div class=" contenedor-lateral">
-    <!-- Contenido de la barra de información -->
-    <div class="contenedor-listas">
+<body style="width: 100%; height: 100%;" class="imagen-gatitos">
 
-      
-    <?php 
-    include('Funcion/conexion.php');
-
-    // Consulta para obtener información del usuario 'geralt'
-    
-    $sqlConsulta2 = "SELECT   LiDe_ID ,
-    Usua_ID ,
-    LiDe_Nombre ,
-    LiDe_Visible,
-    LiDe_Estatus  from Lista_Deseos
-                    WHERE
-                    Usua_ID = $idd";
-
-
-                   
-
-    $resultConsulta2 = $conn->query($sqlConsulta2);
-
-    if ($resultConsulta2->num_rows > 0) {
-      while ($row3 = $resultConsulta2->fetch_assoc()) {
-        // Obtener el primer resultado (asumiendo que solo habrá uno)
-        //$row2 = $resultConsulta2->fetch_assoc();
-       
-       
-        $Nombre = $row3['LiDe_Nombre'];
-        $id_lista = $row3['LiDe_ID'];
-
-
-        echo "<div class='lista'>
-        <img class='producto-imagen' src='IMAGENES/Suberbia.png' alt='cat'>
-        <div class='lista-detalles'>
-          <h3 class='lista-titulo'> <a href='Lista.php?usuario=$usuario&lista=$id_lista'>$Nombre</a> </h3>
-          
-
-        </div>
-    </div>";
-
-
-       
-       
-      }
-    } else {
-       // echo "No se encontraron resultados para el usuario '$usuario'.";
-    }
-
-    // Cerrar la conexión
-    $conn->close();
-    ?>
-      
-      <div class="lista">
-          <img class="producto-imagen" src="IMAGENES/Suberbia.png" alt="cat">
-          <div class="lista-detalles">
-            <h3 class="lista-titulo"> <a href="crear_lista.php?usuario=<?php echo isset($usuario) ? $usuario : ''; ?>">Crear lista</a> </h3>
-            
-
-          </div>
-      </div>
-
-      </div>
-
-
-</div>
-
-
-
-  <div class=" alineacion_perfil contenedor-lateral">
-   
-      <img src="<?php echo $urlImagen; ?>" class="img_usuario">
-
-<!-- <br><br> -->
-  <div class="columna-datos-usuarion">
-    <!-- Contenido de la columna de datos -->
-    <ul>
-        <li><a href="Modificar_persona_usuario.php?usuario=<?php echo $usuario; ?>&usuario2=<?php echo $idd; ?>">Editar</a></li>
-        </ul>
-    <?php
-    
-    if ($Role == 2){
-      
-      if($pubpriv==0){
-        echo "<h2>Este perfil es privado</h1>";
-        echo "<p1>Nombre de usuario: $usuario</p1><br>";
-        echo "<p2>Nombre: $nombre</p1><br>";
-      }else{
+      <div class="container p-5 my-5 wrapper-sin-fondo" style="min-height: 80%;">
         
-        echo "<p1>Nombre de usuario: $usuario</p1><br>";
-        echo "<p2>Nombre: $nombre</p1><br>";
-        echo "<p3>Apellido Paterno: $apellidop</p1><br>";
-        echo "<p4>Apellido Materno: $apellidom</p1><br>";
-        echo "<p5>Rol: $Role_nombre</p1><br>";
-        echo "<p6>Sexo: $sexo</p1><br>";
-        echo "<p7>Telefono: $telefono</p1><br>";
-        echo "<p8>Correo: $correo</p1><br>";
-        echo "<p9>Fecha de nacimiento: $fecha</p1><br>";
+        <div class=" wrapper-inicio-sesion">
 
-      }
-    }else{
-      
-      echo "<p1>Nombre de usuario: $usuario</p1><br>";
-      echo "<p2>Nombre: $nombre</p1><br>";
-      echo "<p3>Apellido Paterno: $apellidop</p1><br>";
-      echo "<p4>Apellido Materno: $apellidom</p1><br>";
-      echo "<p5>Rol: $Role_nombre</p1><br>";
-      echo "<p6>Sexo: $sexo</p1><br>";
-      echo "<p7>Telefono: $telefono</p1><br>";
-      echo "<p8>Correo: $correo</p1><br>";
-      echo "<p9>Fecha de nacimiento: $fecha</p1><br>";
 
-    }
+        <form action="Funcion/crear_lista.php" method="post">
+        <h2>Crear lista </h2>
+          <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
+          <input type="hidden" name="usuarioid" value="<?php echo $idd; ?>">
+          <!-- usuario -->
+          <div class="col form-floating mt-3 mb-3 ">
+            <input type="text" class="form-control" id="usuario"  required name="username">
+            <label for="usuario">Nombre de lista:</label>
+          </div>
 
-   
-    ?>
-   
-  </div>
-  </div>
+          <label for="checkbox">Lista visible:</label>
+          <input type="checkbox" id="checkbox" name="checkbox">
 
-</div>
+
+          <!-- Boton de submit -->
+          <div class="wrapper">
+            <input type="submit" class="boton-registrar" value="Crear lista"><br>
+          </div>
+
+        </form> 
+
+      </div>
+      </div>
+
 </body>
 
-  <!-- Barra de informacion al final de la pagina -->
-  <footer class="wrapper-footer">
-    © 2023 Suberbia. Todos los derechos reservados.
+<!-- Barra de informacion al final de la pagina -->
+<footer class="wrapper-footer">
+    © 2023 Tu Empresa. Todos los derechos reservados.
 </footer>
+
 </html>

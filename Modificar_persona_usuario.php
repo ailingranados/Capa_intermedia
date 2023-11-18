@@ -120,16 +120,16 @@ Capa intermedia
 
     <ul>
     <?php 
-         echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
+         echo " <li><a href='Perfil.php?usuario=$usuario2'>Perfil</a></li>";
         if($Role == 3){
-            echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
-            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
+            echo "<li><a href='Inventario.php?usuario=$usuario2'>Inventario</a></li>";
+            echo "<li><a href='Registro_Productos.php?usuario=$usuario2'>Crear producto</a></li>";
 
            // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
         }else{
-            echo " <li><a href='Compras.php?usuario=$usuario'>Compras</a></li>
-            <li><a href='Carrito.php?usuario=$usuario'>Carrito</a></li>
-            <li><a href='PagP_usuario_registrado.php?usuario=$usuario'>Pagina principal</a></li>";
+            echo " <li><a href='Compras.php?usuario=$usuario2'>Compras</a></li>
+            <li><a href='Carrito.php?usuario=$usuario2'>Carrito</a></li>
+            <li><a href='PagP_usuario_registrado.php?usuario=$usuario2'>Pagina principal</a></li>";
 
         }
         ?>

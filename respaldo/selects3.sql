@@ -52,10 +52,68 @@ WHERE
 GROUP BY
     c.Prod_ID;
 SELECT COUNT(DISTINCT Carr_ID)as contador FROM Carrito  WHERE Prod_ID = 8 and Usua_ID = 26 and Carr_Estatus = 1
+;
 
 
 
+select   LiDe_ID ,
+    Usua_ID ,
+    LiDe_Nombre ,
+    LiDe_Visible,
+    LiDe_Estatus  from Lista_Deseos;
+    
+    select   LiDP_ID ,
+    LiDe_ID ,
+    Prod_ID ,
+    LiDP_Estatus  from Lista_Deseos_Prod;
+    
+    
+    SELECT   l.LiDP_ID ,
+    l.LiDe_ID ,
+    l.Prod_ID ,
+    l.LiDP_Estatus,  
+    
+    p.Prod_ID,
+    p.Prod_Nombre,
+    p.Prod_Precio,
+    p.Prod_Cotizable,
+    p.Prod_Estatus,
+    
+    pi.PrIn_ID,
+    pi.Usua_ID AS PrIn_Usua_ID,
+    pi.Cate_ID AS PrIn_Cate_ID,
+    pi.PrIn_Descripcion,
+    pi.PrIn_Fecha_Creac,
+    pi.PrIn_Existencia,
+    pi.PrIn_Validado,
+    pi.PrIn_Estatus,
+    
+    GROUP_CONCAT(f.Foto_Archivo) AS Fotos,
+    v.Video_ID,
+    v.Video_Nombre,
+    v.Video_Archivo,
+    v.Video_Estatus,
+    
+    ct.Cate_ID,
+    ct.Cate_Nombre,
+    ct.Cate_Descripcion,
+    ct.Cate_Estatus
+     from 
+     Lista_Deseos_Prod l
+JOIN
+    Producto p ON l.Prod_ID = p.Prod_ID
+JOIN
+    lista_deseos ld ON l.LiDe_ID = ld.LiDe_ID
+JOIN
+    Producto_Info pi ON l.Prod_ID = pi.Prod_ID
+LEFT JOIN
+    Videos v ON p.Prod_ID = v.Prod_ID
+LEFT JOIN
+    Fotos_1 f ON p.Prod_ID = f.Prod_ID
+LEFT JOIN
+    Categorias ct ON pi.Cate_ID = ct.Cate_ID
 
-
+GROUP BY
+l.Prod_ID
 
 

@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Ejecuta el stored procedure
     if ($stmt->execute()) {
-        echo "El stored procedure se ejecutó correctamente.";
+        header("Location: ../Perfil.php?usuario=$usuario");
     } else {
         echo "Error al ejecutar el stored procedure: " . $stmt->error;
     } 

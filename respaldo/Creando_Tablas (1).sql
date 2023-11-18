@@ -150,6 +150,7 @@ CREATE TABLE Lista_Deseos_Prod (
     LiDe_ID INT NOT NULL,
     Prod_ID INT NOT NULL,
     LiDP_Estatus BOOL,
+    cantidad_lista int,
     FOREIGN KEY (LiDe_ID) REFERENCES Lista_Deseos(LiDe_ID),
     FOREIGN KEY (Prod_ID) REFERENCES Producto(Prod_ID)
 );

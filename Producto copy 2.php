@@ -339,35 +339,12 @@ LEFT JOIN
 
 
     if (!empty($videoArchivo)) {
-      
+      /*
       echo '<video max-width="320" max-height="180" controls>';
       echo '<source src="data:video/mp4;base64,' . base64_encode($videoArchivo) . '" type="video/mp4">';
       echo 'Tu navegador no soporta el elemento de video.';
       echo '</video>';
-
-      $sql = "SELECT * FROM Fotos_1 where Prod_ID = $prod_id";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $nombre = $row['Foto_Nombre'];
-            $id = $row['Prod_ID'];
-            $archivoContenido = base64_encode($row['Foto_Archivo']); // asumiendo que la imagen se almacena en la base de datos como un blob
-
-            // Mostrar la foto
-            echo "<div>";
-            
-            echo "<img src='data:image/*;base64,$archivoContenido' alt='$nombre' style='width:300px;height:300px;'>";
-            echo "</div>";
-            echo "<br>";
-
-        }
-    } else {
-        echo "No se encontraron fotos.";
-    }
-      
-      
-      
+      */
   } else {
       echo '<p>No hay archivo de video disponible.</p>';
   }
@@ -390,15 +367,169 @@ LEFT JOIN
 
     </main>
 
-    <!--<div class="producto-img">
-
-       
+    <div class="producto-img">
 
     
+      <div class="slideshow-container">
+      <?php 
+      
+    include('Funcion/conexion.php');
+
+    // Consulta para obtener información del usuario 'geralt'
+    $sqlConsulta3 = "SELECT 
+    p.Prod_ID,
+    p.Prod_Nombre,
+    p.Prod_Precio,
+    p.Prod_Cotizable,
+    p.Prod_Estatus,
+    pi.PrIn_ID,
+    pi.Usua_ID AS PrIn_Usua_ID,
+    pi.Cate_ID AS PrIn_Cate_ID,
+    pi.PrIn_Descripcion,
+    pi.PrIn_Fecha_Creac,
+    pi.PrIn_Existencia,
+    pi.PrIn_Validado,
+    pi.PrIn_Estatus,
+    v.Video_ID,
+    v.Video_Nombre,
+    v.Video_Archivo,
+    v.Video_Estatus,
+    f.Foto_ID,
+    f.Foto_Nombre,
+    f.Foto_Archivo,
+    f.Foto_Estatus,
+    c.Cate_ID,
+    c.Cate_Nombre,
+    c.Cate_Descripcion,
+    c.Cate_Estatus
+FROM
+    Producto p
+JOIN
+    Producto_Info pi ON p.Prod_ID = pi.Prod_ID
+LEFT JOIN
+    Videos v ON p.Prod_ID = v.Prod_ID
+LEFT JOIN
+    Fotos_1 f ON p.Prod_ID = f.Prod_ID
+LEFT JOIN
+    Categorias c ON pi.Cate_ID = c.Cate_ID where  p.Prod_ID = $prod_id  ";
+
+
+                   
+
+    $resultConsulta3 = $conn->query($sqlConsulta3);
+
+    if ($resultConsulta3->num_rows > 0) {
+      $contador = 1;
+      while ($row3 = $resultConsulta3->fetch_assoc()) {
+        // Obtener el primer resultado (asumiendo que solo habrá uno)
+        //$row2 = $resultConsulta2->fetch_assoc();
+        // Aquí puedes acceder a los campos del usuario y su rol
+        // Por ejemplo: $row['Usua_Nombre'], $row['Role_Nombre']
+        
+        // Mostrar la imagen
+
+        
+            $archivoContenido = base64_encode($row3['Foto_Archivo']); // asumiendo que la imagen se almacena en la base de datos como un blob
+
+            // Mostrar la foto
+            
+           // echo "<img src='data:image/*;base64,$archivoContenido' alt='$nombre' style='width:300px;height:300px;'>";
+            //echo "</div>";
+
+        //echo $_GET['prod_id'] ;
+        echo "<div class='mySlides'>
+        <div class='numbertext'" .$contador."/ 3</div>";
+        $nombreUsuario = $idd; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
+     //echo $idd;
+    
+
+       // Muestra la imagen
+       //echo"<img src='IMAGENES/gato_asustado.jpg' style='width:100%'>";
+
+       // echo "<img src='$urlImagen'alt='Producto $contador' style='width:100%'>";
+       echo "<img src='data:image/*;base64,$archivoContenido'alt='Producto $contador' style='width:100%'>";
+    
+
+        //<img src='"; .$imagenContenido."' style='width:100%'>
+
+        
+       
+        echo "</div>";
+
+      $contador = 2;
+        
+       
+      }
+    } else {
+        echo "No se encontraron resultados para el usuario '$usuario'.";
+    }
+
+    // Cerrar la conexión
+    $conn->close();
+    
+    ?>
+    <!--
+      <div class="mySlides">
+        <div class="numbertext">1 / 3</div>
+        <img src="IMAGENES/gato_asustado.jpg" style="width:100%">
+       
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">2 / 3</div>
+        <img src="IMAGENES/gato_enojado.jpg" style="width:100%">
+        
+      </div>
+  -->
+      <div class="mySlides">
+        <div class="numbertext">3 / 3</div>
+        <?php 
+         echo '<video max-width="320" max-height="180" controls>';
+         echo '<source src="data:video/mp4;base64,' . base64_encode($videoArchivo) . '" type="video/mp4">';
+         echo 'Tu navegador no soporta el elemento de video.';
+         echo '</video>';
+        ?>
+      <!--  <img src="IMAGENES/Gato_mochila.jpg" style="width:100%"> -->
+        
+      </div>
+
+      <!-- Next and previous buttons -->
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
+
+    <!-- The dots/circles -->
+    <div style="text-align:center">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+  
+    <?php
+    /*
+    // Obtén el nombre de usuario de alguna manera
+     $nombreUsuario = $prod_id; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
+     //echo $idd;
+    if ($nombreUsuario) {
+    // Escapa el nombre de usuario para asegurarte de que sea seguro para la URL
+        $nombreUsuarioURL = urlencode($nombreUsuario);
+    
+       // Genera la URL de la imagen con el nombre de usuario como parámetro
+      $urlImagen = "Funcion/mostrar_producto.php?id=$nombreUsuarioURL";
+
+       // Muestra la imagen
+        echo "<img src='$urlImagen'alt='Producto' class='img-fluid'>";
+    } else {
+         echo "No se ha especificado un nombre de usuario.";
+    }
+    */
+    ?>
       
       
-      <img src="IMAGENES/Gato_mochila.jpg" alt="Producto" class="img-fluid">
-    </div> -->
+      <!--<img src="IMAGENES/Gato_mochila.jpg" alt="Producto" class="img-fluid">-->
+    </div>
     <script>
    let slideIndex = 1;
 showSlides(slideIndex);

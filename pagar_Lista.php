@@ -108,11 +108,7 @@ if (isset($_GET['usuario'])) {
       </button>
 
       <ul>
-    
-      
-
-        
-
+  
       <?php 
          echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
         if($Role == 3){
@@ -232,7 +228,6 @@ if (isset($_GET['usuario'])) {
         <main>
             <!-- titulo    disabled-->
 
-           
             <?php 
     include('Funcion/conexion.php');
 
@@ -318,7 +313,7 @@ if (isset($_GET['usuario'])) {
     include('Funcion/conexion.php');
 
     
-    $sqlConsulta3 = "   SELECT   l.LiDP_ID ,
+    $sqlConsulta3 = " SELECT   l.LiDP_ID ,
     l.LiDe_ID ,
     l.Prod_ID ,
     l.LiDP_Estatus,  
@@ -413,7 +408,7 @@ l.Prod_ID";
            </div>";
            echo "  
            
-           <button class='carrito-producto-eliminar'onclick=\"window.location.href='Funcion/quitar_elemento_lista.php?id=$id_producto&usuario=$usuario&idusuario=$id_lista'\"> <i class='bi bi-trash3'></i></button>
+           <button class='carrito-producto-eliminar'onclick=\"window.location.href='Funcion/quitar_elemento_carrito.php?id=$id_producto&usuario=$usuario&idusuario=$idd'\"> <i class='bi bi-trash3'></i></button>
        </div>
        ";
 
@@ -428,7 +423,7 @@ l.Prod_ID";
       echo "</div>
       <div class='carrito-acciones'>
       <div class='carrito-acciones-izq'>
-      <button class='carrito-acciones-vaciar' onclick=\"window.location.href='Funcion/vaciar_lista.php?usuario=$usuario&idusuario=$id_lista'\">Vaciar carrito</button>
+      <button class='carrito-acciones-vaciar' onclick=\"window.location.href='Funcion/vaciar_carrito.php?usuario=$usuario&idusuario=$idd'\">Vaciar carrito</button>
       </div>
 
       <div class='carrito-acciones-derecha'>
@@ -437,12 +432,9 @@ l.Prod_ID";
               <p id='Total'>$$total</p>
           </div>
 
-          <button class='carrito-acciones-comprar'onclick=\"window.location.href='pagar_Lista.php?usuario=$usuario&lista=$id_lista'\">Comprar</button>
-          
-          <button class='carrito-acciones-comprar'onclick=\"window.location.href='Lista_agregar_productos.php?usuario=$usuario&lista=$id_lista'\">Agregar productos</button>
-
       </div>
   </div>";
+      
     } else {
        // echo "No se encontraron resultados para el usuario '$usuario'.";
       
@@ -452,6 +444,91 @@ l.Prod_ID";
     $conn->close();
     ?>
     
+    <div class="container p-5 my-5 " style="max-width: 50%;">
+        
+        <div class="wrapper-registro">
+
+        <form id="form" action="Funcion/Pagar_lista.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
+        <input type="hidden" name="tarjeta_usuario_ID" value="<?php echo $idd; ?>">
+        <input type="hidden" name="subtotal" value="<?php echo $total; ?>">
+        <input type="hidden" name="lista" value="<?php echo $id_lista; ?>">
+
+
+
+        <label for="rol" class="form-label">Tipo de tarjeta</label>
+          <select class="form-select" id="tarjeta_credito_debito" name="tarjeta_credito_debito">
+          <option value=0>Credito</option>"
+          <option value=1>Debito</option>"
+          </select>          
+          <br>
+          <div class="input-group ">
+           
+           <input type="text" class="form-control" placeholder="Nombre de tarjeta" name="tarjeta_nombre">
+          
+
+         </div>
+          <div class="input-group ">
+           
+    
+            <input type="text" class="form-control" placeholder="Número de tarjeta" id="tarjeta_num" name="tarjeta_num">
+            <input type="text" class="form-control" placeholder="Número de seguridad (CSV)" id="tarjeta_csv" name="tarjeta_csv">
+
+          </div>
+
+          
+
+          
+          <label for="rol" class="form-label">Mes de vencimiento</label>
+          <select class="form-select" id="mes" name="mes">
+          <?php
+        // Generar opciones del 1 al 12
+        for ($i = 1; $i <= 12; $i++) {
+            // Agregar un cero inicial si el número es menor que 10 (opcional)
+            $mes = str_pad($i, 2, '0', STR_PAD_LEFT);
+            echo "<option value='$mes'>$mes</option>";
+        }
+        ?>
+          </select>
+
+          <label for="rol" class="form-label">año de vencimiento</label>
+
+          <select class="form-select" id="year" name="year">
+    <?php
+    // Obtén el año actual y agrega opciones para los próximos años
+    $anoActual = date("Y");
+    for ($i = $anoActual; $i < $anoActual + 10; $i++) {
+      echo "<option value=\"$i\">$i</option>";
+    }
+    ?>
+         </select>
+
+         <label for="rol" class="form-label">calificación</label>
+          <select class="form-select" id="cali_valor" name="cali_valor">
+          <?php
+        // Generar opciones del 1 al 12
+        for ($i = 1; $i <= 10; $i++) {
+            // Agregar un cero inicial si el número es menor que 10 (opcional)
+            $mes = str_pad($i, 2, '0', STR_PAD_LEFT);
+            echo "<option value='$mes'>$mes</option>";
+        }
+        ?>
+          </select>
+
+         
+
+
+      
+          <!-- Boton de submit -->
+          <br>
+          <input type="submit" class="btn button_pink" value="PAGAR"><br>
+
+
+        </form> 
+
+      </div>
+      </div>
 
 </div>   
+
 </body>

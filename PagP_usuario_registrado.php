@@ -399,6 +399,29 @@ GROUP BY
         $Precio = $row3['Prod_Precio'];
         $id_producto = $row3['Prod_ID'];
 
+        $cotizable = $row3['Prod_Cotizable'];
+
+        if ($cotizable == 1){
+            echo "<div class='producto'>
+        <img class='producto-imagen' src='data:image/*;base64,$archivoContenido' alt='cat'>
+        <div class='producto-detalles'>
+            <h3 class='producto-titulo'>$Nombre</h3>
+            <h3 class='producto-titulo'>$categoria_producto</h3>
+           
+            
+            <button class='producto-agregar' onclick=\"window.location.href='Producto.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Ver producto</button>
+            <button class='producto-agregar' onclick=\"window.location.href='test/chat/proy/cotizar.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Cotizar</button>
+
+            <!-- <button class='producto-agregar' onclick=\"window.location.href='Funcion/agregar_carrito.php?id=$idd&usuario=$usuario&producto=$id_producto'\">Agregar</button> -->
+
+          
+            </div>
+    </div>";
+
+        }else{
+
+        
+
 
         echo "<div class='producto'>
         <img class='producto-imagen' src='data:image/*;base64,$archivoContenido' alt='cat'>
@@ -425,7 +448,7 @@ GROUP BY
             </div>
     </div>";
 
-
+    }
        
        
       }

@@ -180,6 +180,7 @@ if (isset($_GET['usuario'])) {
 
       
     <?php 
+     if($Role == 2){
     include('Funcion/conexion.php');
 
     // Consulta para obtener información del usuario 'geralt'
@@ -223,19 +224,99 @@ if (isset($_GET['usuario'])) {
     } else {
        // echo "No se encontraron resultados para el usuario '$usuario'.";
     }
+    echo "<div class='lista'>
+    <img class='producto-imagen' src='IMAGENES/Suberbia.png' alt='cat'>
+    <div class='lista-detalles'>
+      <h3 class='lista-titulo'> <a href='crear_lista.php?usuario=$usuario'>Crear lista</a> </h3>
+      
+
+    </div>
+</div>";
 
     // Cerrar la conexión
     $conn->close();
-    ?>
-      
-      <div class="lista">
-          <img class="producto-imagen" src="IMAGENES/Suberbia.png" alt="cat">
-          <div class="lista-detalles">
-            <h3 class="lista-titulo"> <a href="crear_lista.php?usuario=<?php echo isset($usuario) ? $usuario : ''; ?>">Crear lista</a> </h3>
-            
+  }
+  if($Role == 3){
+    include('Funcion/conexion.php');
 
-          </div>
-      </div>
+    // Consulta para obtener información del usuario 'geralt'
+    //echo "<h3> Chats </h3>";
+    $sqlConsulta2 = "SELECT Chat_ID ,
+    Chat_Fecha ,
+    RemitenteID ,
+    DestinatarioID ,
+    Chat_Mensaje ,
+    Chat_Msg_Estatus,
+    
+    u.Usua_ID,
+    u.Usua_Nombre,
+    u.Usua_PubPriv,
+    u.Usua_Estatus,
+    u.Role_ID,
+    ui.UsIn_ID,
+    ui.UsIn_Nombre,
+    ui.UsIn_ApellidoPa,
+    ui.UsIn_ApellidoMa,
+    ui.UsIn_Sexo,
+    ui.UsIn_Telefono,
+    ui.UsIn_Correo,
+    ui.UsIn_Foto,
+    ui.UsIn_Fecha_Nac,
+    ui.UsIn_Fecha_Creac,
+    ui.UsIn_Estatus
+    
+    from Chat
+    JOIN
+    Usuario u ON RemitenteID = u.Usua_ID
+    JOIN
+    Usuario_Info ui ON u.Usua_ID = ui.Usua_ID where DestinatarioID = $idd 
+    group by RemitenteID";
+
+
+                   
+
+    $resultConsulta2 = $conn->query($sqlConsulta2);
+
+    if ($resultConsulta2->num_rows > 0) {
+      while ($row3 = $resultConsulta2->fetch_assoc()) {
+        // Obtener el primer resultado (asumiendo que solo habrá uno)
+        //$row2 = $resultConsulta2->fetch_assoc();
+       
+       
+        $id_usuario = $row3['RemitenteID'];
+        $nombre = $row3['Usua_Nombre'];
+        //$foto = $row3['UsIn_Foto'];
+
+        $archivoContenido = base64_encode($row3['UsIn_Foto']); // asumiendo que la imagen se almacena en la base de datos como un blob
+
+
+
+
+        echo "<div class='lista'>
+        <img class='producto-imagen' src='data:image/*;base64,$archivoContenido' alt='cat'>
+        <div class='lista-detalles'>
+          <h3 class='lista-titulo'> <a href='test/chat/proy/cotizar_vendedor.php?usuario=$usuario&id_persona=$id_usuario'> chat con $nombre</a> </h3>
+          
+
+        </div>
+    </div>";
+
+
+       
+       
+      }
+    } else {
+       // echo "No se encontraron resultados para el usuario '$usuario'.";
+    }
+    
+
+    // Cerrar la conexión
+    $conn->close();
+  }
+    ?>
+
+      
+      
 
       </div>
 

@@ -1,0 +1,68 @@
+
+
+.avatar i.bx.bxs-group {
+    /* Estilos para el icono */
+    font-size: 30px; /* Tamaño del icono */
+     /*color: blue; Color del icono (cambia 'blue' por el color que desees) */
+    /* Agrega más estilos según tus necesidades */
+    padding: 10px;
+  }
+
+  button[type="button"] {
+    padding: 5px 10px; /* Espaciado interno para el botón (ajusta según tus necesidades) */
+    white-space: nowrap; /* Evita el ajuste de línea del texto */
+    overflow: hidden; /* Oculta el desbordamiento del texto si es demasiado largo */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
+    max-width: 10; /* Ancho máximo del botón */
+    display: inline-block; /* Hace que el botón sea inline-block para ajustarse al contenido */
+  }
+/* seccion publiacion panel  */
+  .publiacion {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+    justify-content: flex-start;
+    /*margin: 5px ,0;*/
+}
+.publiacion .avatar, .usuario-seleccionado .avatar, .usuario .avatar {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-right: 1rem;
+    position: relative;
+    background-color: #E4E8F0;
+    border-radius: 50%;
+}
+.publiacion .avatar {
+    width: 35px;
+    height: 35px;
+    margin-right: 1rem;
+}
+.publiacion img {
+    margin-bottom: 0.5rem;
+}
+.publiacion .cuerpo {
+    font-size: 0.85em;
+    padding: 10px;
+    background-color: #EEEEEE;
+    border-radius: 8px;
+    position: relative;
+    width: calc(100% -  45px - 1rem - 0rem);
+}
+.publiacion .texto {
+    display: block;
+    position: relative;
+}
+.publiacion .cuerpo .tiempo {
+    position: absolute;
+    display: block;
+    bottom: -2.1rem;
+    color: #919191;
+    width: 100%;
+    margin: 5px;
+}
+
+.publiacion i.bx.bxs-group {
+    font-size: 20px;
+    padding: 7px;
+}

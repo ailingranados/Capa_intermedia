@@ -1,0 +1,212 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+@import url('ColoresyDemas.css');
+/*https://coolors.co/02318b-751314-a8a7a7-495057-224fb4*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+display:  flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background: radial-gradient(circle, var(--azul-bisonte) 50%, var(--rojo-bisonte) 100%);
+background: url(../img/Fondo.jpg) ;
+background-size:cover;/* Ajusta la imagen para cubrir el contenedor */
+background-repeat: no-repeat; /* Evita la repetición de la imagen */
+background-position: center; /* Centra la imagen en el contenedor */
+font-family: Arial, Helvetica, sans-serif;
+}
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.container{ /*wrapper*/
+  position: relative;
+  width: 420px;
+  background: transparent;
+  border: 2px solid black;
+  box-shadow: 0 0 10px rgba(0,0,0,.2);
+  backdrop-filter: blur(20px);/*para desenfocar*/
+
+  color:#000000; /*color letras cuidado */
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+.container h2{
+  font-size: 36px;
+  text-align: center;
+  margin:3px 0;
+}
+.container .input-box{
+  width: 100%;
+  height: 50px;
+  /* background: var(--rojo-bisonte); */
+  margin: 10px 0; /*pa que no quede tanto espacio*/
+
+}
+
+.input-box input{
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid #000000;
+  border-radius: 40px;
+  font-size: 16px;
+  color : #000000;
+  padding: 20px 45px 20px 20px;
+}
+.input-box input::placeholder{
+color: #ffffff93;
+}
+
+.input-box i {
+  position: absolute;
+  right: 55px;
+  transform: translateY(100%);
+  font-size: 20px;
+
+}
+
+.container .btn{
+  width:100%;
+  height: 45px;
+  background: var(--bisonte-rojizo-Letras);
+  border:none;
+  outline:none;
+  border-radius: 40px;
+  box-shadow: #000000;
+  cursor: pointer;
+  front-size:16px;
+  color: #ffffff;
+  front-weight: 600;
+}
+
+.container .regs{
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15px;
+
+}
+
+
+.regs a{
+  color: var(--gris-Generico);
+  text-decoration: none;
+
+  front-weight:600;
+
+}
+
+.regs a:hover{
+  text-decoration: underline;
+}
+
+.custom-label b {
+  display: block;
+  margin: 30px 0 -10px 0;
+}
+
+/*REGISTRO*/
+
+
+
+
+.container-Registro .input-box-Registro{
+  width: 100%;
+  height: 50px;
+  /* background: var(--rojo-bisonte); */
+  margin: 47px 0; /*pa que no quede tanto espacio*/
+
+}
+.input-box-Registro input {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid #000000;
+  border-radius: 40px;
+  font-size: 16px;
+  color: #000000;
+  padding: 20px 45px 20px 20px;
+}
+.input-box-Registro i {
+  position: absolute;
+  right: 55px;
+  transform: translateY(100%);
+  font-size: 20px;
+
+}
+.input-box-Registro input::placeholder{
+  color: #ffffff93;
+  }
+  
+
+  
+  .container-Registro .btnRegistrar{
+    margin: 0px 0 8px 0;
+    width:100%;
+    height: 45px;
+    background: var(--bisonte-rojizo-Letras);
+    border:none;
+    outline:none;
+    border-radius: 40px;
+    box-shadow: #000000;
+    cursor: pointer;
+    front-size:16px;
+    color: #ffffff;
+    front-weight: 600;
+    
+  }
+
+  .container-Registro .RegistroTitulo {
+    font-size: 36px;
+    text-align: center;
+    margin: -45px 0;
+}
+
+img.avatarRegitrso {
+  width: 30%;
+
+  margin: 30px 0 ;
+}
+
+.imgcontainerRegistro {
+  text-align: center;
+  margin: -45px 0 12px 0;
+}
+
+.container-Registro {
+  position: relative;
+  width: 420px;
+  background: transparent;
+  border: 2px solid black;
+  box-shadow: 0 0 10px rgba(0,0,0,.2);
+  backdrop-filter: blur(20px);
+  color: #000000;
+  border-radius: 10px;
+  padding: 19px 40px;
+}
+
+.ComboOpciones {
+
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid #000000;
+  border-radius: 40px;
+  font-size: 16px;
+  color: #000000;
+
+  
+}

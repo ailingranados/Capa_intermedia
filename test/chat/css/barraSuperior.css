@@ -1,0 +1,52 @@
+@import url('ColoresyDemas.css');
+ /* barra superior */
+ header{
+    display: flex; /*se muestre de manera orizontal*/
+    justify-content: space-between;/*para que dentro del header 
+    se muestren los contenidos de un lado al otro*/
+    min-height: 50px;
+    background-color: var(--azul-bisonteObscuro);
+    margin: 0;
+    align-items: center;
+    padding: 10px;
+}
+
+
+.imagenUsuario{
+    display: flex;
+    align-items: center;
+    
+}
+
+.imagenUsuario img{
+    height: 40px;
+    margin-right:10px ; /*separar imagen del texto*/
+    border-radius: 50%;
+}
+
+a{
+    text-decoration: none;
+    color:#f1f1f1;
+}
+nav a{
+    front-weight: 600;
+    padding-right: 10px;
+}
+nav a:hover{/*cuando pasamos el mouse sobre el texto */
+    color: var(--rojo-bisonte);
+}
+/*responsiv*/
+@media (max-width:700px){
+    header{
+        flex-direction:row;/*cambiar si es necesario , cambia como aparecen los elementos */
+    }
+
+    nav{
+        padding: 10px 0;
+    }
+}
+i.bx { /*tamaño general de iconos todos los iconos*/
+    font-size: 20px; /* Modifica el tamaño a tu gusto */
+}
+
+/* barra superior */

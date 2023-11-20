@@ -245,8 +245,8 @@ CREATE TABLE Tipo_Media (
 CREATE TABLE Chat (
     Chat_ID INT auto_increment PRIMARY KEY NOT NULL,
     Chat_Fecha DATETIME NOT NULL,
-    Usua_ID_Comp INT NOT NULL,
-    Usua_ID_Vend INT NOT NULL,
+    RemitenteID INT NOT NULL,
+    DestinatarioID INT NOT NULL,
     Chat_Mensaje TEXT NOT NULL,
     Chat_Msg_Estatus INT NOT NULL,
     FOREIGN KEY (Usua_ID_Comp) REFERENCES Usuario(Usua_ID),

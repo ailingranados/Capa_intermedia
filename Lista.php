@@ -428,7 +428,7 @@ l.Prod_ID";
       echo "</div>
       <div class='carrito-acciones'>
       <div class='carrito-acciones-izq'>
-      <button class='carrito-acciones-vaciar' onclick=\"window.location.href='Funcion/vaciar_lista.php?usuario=$usuario&idusuario=$id_lista'\">Vaciar carrito</button>
+      <button class='carrito-acciones-vaciar' onclick=\"window.location.href='Funcion/vaciar_lista.php?usuario=$usuario&idusuario=$id_lista'\">Vaciar Lista</button>
       </div>
 
       <div class='carrito-acciones-derecha'>

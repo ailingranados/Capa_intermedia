@@ -720,6 +720,22 @@ END //
 DELIMITER ;
 
 
+DELIMITER //
+
+CREATE PROCEDURE InsertarChat(
+    IN p_Usua_ID_Comp INT,
+    IN p_Usua_ID_Vend INT,
+    IN p_Chat_Mensaje TEXT
+)
+BEGIN
+    INSERT INTO Chat (Chat_Fecha, RemitenteID, DestinatarioID, Chat_Mensaje, Chat_Msg_Estatus)
+    VALUES (NOW(), p_Usua_ID_Comp, p_Usua_ID_Vend, p_Chat_Mensaje, 1);
+END //
+
+DELIMITER ;
+
+
+
 CALL InsertarVentaYProductos(26, 'a gastar', '45594849', '2032', '156', 1, 1, 26, 05, 1 )
 
 

@@ -205,10 +205,12 @@ if (isset($_GET['usuario'])) {
   </a>
 
 
-  <form class="Barra_busqueda">
-    <input class="palabra_busqueda me-2" type="text" placeholder="Search">
-    <button class="button_pink" type="button">Search</button>
-  </form>
+  <form class="Barra_busqueda" action="Funcion/Busqueda.php"  method="post">
+        <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
+
+        <input class="palabra_busqueda me-2" type="text"  name = "busqueda" placeholder="Search">
+        <button class="button_pink" type="submit">Search</button>
+      </form>
 
 </nav>
 
@@ -220,26 +222,25 @@ if (isset($_GET['usuario'])) {
 
   <ul>
      
-  <li><a href="#perfil">Perfil</a></li>
+  
 
         
 
-<?php 
+  <?php 
+         echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
+        if($Role == 3){
+          echo "<li><a href='ventas_vendedor.php?usuario=$usuario'>Ventas</a></li>";
+            echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
+            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
 
-if($Role == 3){
-    echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
-    echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
-     echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
-            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>"; 
+           // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
+        }else{
+            echo " <li><a href='Compras.php?usuario=$usuario'>Compras</a></li>
+            <li><a href='Carrito.php?usuario=$usuario'>Carrito</a></li>
+            <li><a href='PagP_usuario_registrado.php?usuario=$usuario'>Pagina principal</a></li>";
 
-   // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
-}else{
-    echo " <li><a href='Compras.php?usuario=$usuario'>Compras</a></li>
-    <li><a href='Carrito.php?usuario=$usuario'>Carrito</a></li>
-    <li><a href='PagP_usuario_registrado.php?usuario=$usuario'>Pagina principal</a></li>";
-
-}
-?>
+        }
+        ?>
     
 
   </ul>
@@ -328,7 +329,12 @@ LEFT JOIN
         // Obtener el primer resultado (asumiendo que solo habrá uno)
         $row2 = $resultConsulta2->fetch_assoc();
         $videoArchivo = $row2["Video_Archivo"];
+        $categoria_p = $row2["PrIn_Cate_ID"];
 
+        if ($row2["PrIn_Usua_ID"] == $idd){
+          echo "<a href='Modificar_Productos_vendedor.php?prod_id=$prod_id&usuario=$usuario&usuarioid=$idd'>Editar</a>";
+
+        }
         echo "
     <h2>" . $row2["Prod_Nombre"] . "</h2>
     <p>" . $row2["PrIn_Descripcion"] . "</p>
@@ -431,12 +437,93 @@ function showSlides(n) {
     
     
 
-              
+            
   <div class="producto-recomendaciones">
     <h2 class="titulo-carrito" style="background-color: white;">Productos</h2>
     <h2 class="titulo-carrito" style="background-color: white; font-size: large;">recomendados</h2>
- 
+    <?php 
+          include('Funcion/conexion.php');
+          $sqlConsulta22 = "SELECT
+          p.Prod_ID,
+          p.Prod_Nombre,
+          p.Prod_Precio,
+          p.Prod_Cotizable,
+          p.Prod_Estatus,
+          pi.PrIn_ID,
+          pi.Usua_ID AS PrIn_Usua_ID,
+          pi.Cate_ID AS PrIn_Cate_ID,
+          pi.PrIn_Descripcion,
+          pi.PrIn_Fecha_Creac,
+          pi.PrIn_Existencia,
+          pi.PrIn_Validado,
+          pi.PrIn_Estatus,
+          v.Video_ID,
+          v.Video_Nombre,
+          v.Video_Archivo,
+          v.Video_Estatus,
+          f.Foto_ID,
+          f.Foto_Nombre,
+          f.Foto_Archivo,
+          f.Foto_Estatus,
+          c.Cate_ID,
+          c.Cate_Nombre,
+          c.Cate_Descripcion,
+          c.Cate_Estatus
+      FROM
+          Producto p
+      JOIN
+          Producto_Info pi ON p.Prod_ID = pi.Prod_ID
+      LEFT JOIN
+          Videos v ON p.Prod_ID = v.Prod_ID
+      LEFT JOIN
+          Fotos_1 f ON p.Prod_ID = f.Prod_ID
+      LEFT JOIN
+          Categorias c ON pi.Cate_ID = c.Cate_ID where p.Prod_Estatus = 1 and  pi.PrIn_Validado = 1 and  c.Cate_ID =  $categoria_p
+      GROUP BY
+          p.Prod_ID LIMIT 3  ";
 
+    $resultConsulta22 = $conn->query($sqlConsulta22);
+
+    if ($resultConsulta22->num_rows > 0) {
+        // Obtener el primer resultado (asumiendo que solo habrá uno)
+        while ($row22 = $resultConsulta22->fetch_assoc()){
+          $archivoContenido = base64_encode($row22['Foto_Archivo']); // asumiendo que la imagen se almacena en la base de datos como un blob
+          //echo "<img src='data:image/*;base64,$archivoContenido' alt='$nombre' style='width:300px;height:300px;'>";
+          $Nombre = $row22['Prod_Nombre'];
+          $categoria_producto = $row22['Cate_Nombre'];
+          $Precio = $row22['Prod_Precio'];
+          $id_producto = $row22['Prod_ID'];
+  
+
+          echo "
+          <div class='carrito-productos-vr'>
+              <div class='carrito-producto-vr'>
+                  <img class='carrito-producto-imagen-vr' src='data:image/*;base64,$archivoContenido' alt=''>
+  
+                  <div class='carrito-producto-cantidad'>
+                      <br>
+                      <small>Nombre: $Nombre </small>
+                      <br>
+                      <small>Categoría: $categoria_producto </small>
+                      <br>
+                      <small>Precio: $$Precio </small>
+  
+                  </div>
+                  <div class='carrito-producto-precio'>
+  
+                  </div>
+  
+              </div>
+  
+          </div> <br>";
+
+        }
+    }else{
+
+    }
+    $conn->close();
+ ?>
+        <!--
         <div class="carrito-productos-vr">
             <div class="carrito-producto-vr">
                 <img class="carrito-producto-imagen-vr" src="IMAGENES/gato_asustado.jpg" alt="">
@@ -453,11 +540,12 @@ function showSlides(n) {
             </div>
 
         </div>
-    
+        -->
 
     
 
 </div>
+
 
   </div>
 

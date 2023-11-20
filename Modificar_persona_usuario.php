@@ -105,11 +105,12 @@ Capa intermedia
  <a href="Landing_page.html" style="text-decoration: none;"> <h1 class="Logo">Suberbia</h1> </a>
 
 
-<form class="Barra_busqueda">
-  <input class="palabra_busqueda me-2" type="text" placeholder="Search">
-  <button class="button_pink" type="button">Search</button>
-</form>
+ <form class="Barra_busqueda" action="Funcion/Busqueda.php"  method="post">
+        <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
 
+        <input class="palabra_busqueda me-2" type="text"  name = "busqueda" placeholder="Search">
+        <button class="button_pink" type="submit">Search</button>
+      </form>
 </nav>
 
 <nav class="barra_acceso_rapido">

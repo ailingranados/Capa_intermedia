@@ -106,6 +106,7 @@ if (isset($_GET['usuario'])) {
         <input class="palabra_busqueda me-2" type="text"  name = "busqueda" placeholder="Search">
         <button class="button_pink" type="submit">Search</button>
       </form>
+ 
  </nav>
  
  <nav class="barra_acceso_rapido">
@@ -118,6 +119,7 @@ if (isset($_GET['usuario'])) {
      <?php 
          echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
         if($Role == 3){
+          echo "<li><a href='ventas_vendedor.php?usuario=$usuario'>Ventas</a></li>";
             echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
             echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
 
@@ -205,7 +207,8 @@ if (isset($_GET['usuario'])) {
     v.Usua_ID_Comp,
     vp.Cantidad,
     vp.Ventp_PrecioUnidad,
-    vp.ventp_Prod_ID
+    vp.ventp_Prod_ID,
+    pf.Usua_ID
 FROM 
     Venta_por_producto vp
 JOIN 
@@ -217,7 +220,7 @@ JOIN
 JOIN 
     producto pr ON vp.ventp_Prod_ID = pr.Prod_ID
 JOIN 
-    calificacion cal ON v.Cali_ID = cal.Cali_ID where vp.Ventp_Estatus = 1 and v.Usua_ID_Comp = $idd
+    calificacion cal ON v.Cali_ID = cal.Cali_ID where vp.Ventp_Estatus = 1 and pf.Usua_ID = $idd
     GROUP BY
   vp.ventp_Prod_ID, vp.Venta_ID   order by v.Vent_Fecha desc ";
 

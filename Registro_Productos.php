@@ -98,7 +98,7 @@ if (isset($_GET['usuario'])) {
 
 
 <form class="Barra_busqueda">
-  <input class="palabra_busqueda me-2" type="text" placeholder="Search">
+  <input class="palabra_busqueda me-2" type="text" name = "busqueda" placeholder="Search">
   <button class="button_pink" type="button">Search</button>
 </form>
 
@@ -119,6 +119,7 @@ if (isset($_GET['usuario'])) {
          // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
       }
         if($Role == 3){
+          echo "<li><a href='ventas_vendedor.php?usuario=$usuario'>Ventas</a></li>";
             echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
             echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
 

@@ -25,12 +25,75 @@ Capa intermedia
 // Obtén el valor de usuario pasado en la URL
 if (isset($_GET['usuario'])) {
     $usuario = $_GET['usuario'];
+    $usuario2_id = $_GET['usuario2'];
    // $prod_id = $_GET['prod_id'];
    // echo "Usuario: " . $usuario;
 } else {
     echo "No se recibió un nombre de usuario.";
 }
 ?>
+  <?php
+    // Realizar la conexión a la base de datos
+    include('Funcion/conexion.php');
+
+    // Consulta para obtener información del usuario 'geralt'
+    $sqlConsulta12 = "SELECT 
+                        u.Usua_ID,
+                        u.Usua_Nombre,
+                        u.Usua_Contra,
+                        u.Usua_PubPriv,
+                        u.Usua_Estatus,
+                        u.Role_ID,
+                        r.Role_Nombre,
+                        r.Role_Estatus,
+                        ui.UsIn_ID,
+                        ui.UsIn_Nombre,
+                        ui.UsIn_ApellidoPa,
+                        ui.UsIn_ApellidoMa,
+                        ui.UsIn_Sexo,
+                        ui.UsIn_Telefono,
+                        ui.UsIn_Correo,
+                        ui.UsIn_Foto,
+                        ui.UsIn_Fecha_Nac,
+                        ui.UsIn_Fecha_Creac,
+                        ui.UsIn_Estatus
+                    FROM 
+                        Usuario u
+                    JOIN 
+                        Roles r ON u.Role_ID = r.Role_ID
+                    JOIN 
+                        Usuario_Info ui ON u.Usua_ID = ui.Usua_ID
+                    WHERE
+                        u.Usua_Nombre = '$usuario'";
+
+    $resultConsulta12 = $conn->query($sqlConsulta12);
+
+    if ($resultConsulta12->num_rows > 0) {
+        // Obtener el primer resultado (asumiendo que solo habrá uno)
+        $row12 = $resultConsulta12->fetch_assoc();
+
+        // Asignar los valores a variables para usar en el HTML
+        $usuaNombre2 = $row12["Usua_Nombre"];
+        $idd2 = $row12["Usua_ID"];
+        $usuaContra2 = $row12["Usua_Contra"];
+        $Role2 = $row12["Role_ID"];
+        $Role_nombre2 = $row12["Role_Nombre"];
+        $nombre2 = $row12["UsIn_Nombre"];
+        $apellidop2 = $row12["UsIn_ApellidoPa"];
+        $apellidom2 = $row12["UsIn_ApellidoMa"];
+        $pubpriv2 = $row12["Usua_PubPriv"];
+        $sexo2 = $row12["UsIn_Sexo"];
+        $telefono2 = $row12["UsIn_Telefono"];
+        $correo2 = $row12["UsIn_Correo"];
+        $fecha2 = $row12["UsIn_Fecha_Nac"];
+        // ... Continuar con los demás campos ...
+    } else {
+        echo "No se encontraron resultados para el usuario '$usuario'.";
+    }
+
+    // Cerrar la conexión
+    $conn->close();
+    ?>
 
 
 
@@ -66,7 +129,7 @@ if (isset($_GET['usuario'])) {
                     JOIN 
                         Usuario_Info ui ON u.Usua_ID = ui.Usua_ID
                     WHERE
-                        u.Usua_Nombre = '$usuario'";
+                        u.Usua_ID = $usuario2_id";
 
     $resultConsulta = $conn->query($sqlConsulta);
 
@@ -125,12 +188,12 @@ if (isset($_GET['usuario'])) {
 
      <?php 
          echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
-         if($Role == 1){
+         if($Role2 == 1){
           echo "<li><a href='admin.php?usuario=$usuario'>Administrador</a></li>";
 
          // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
       }
-        if($Role == 3){
+        if($Role2 == 3){
           echo "<li><a href='ventas_vendedor.php?usuario=$usuario'>Ventas</a></li>";
             echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
             echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
@@ -149,7 +212,7 @@ if (isset($_GET['usuario'])) {
      <ul>
      <?php
     // Obtén el nombre de usuario de alguna manera
-     $nombreUsuario = $idd; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
+     $nombreUsuario = $idd2; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
      //echo $idd;
     if ($nombreUsuario) {
     // Escapa el nombre de usuario para asegurarte de que sea seguro para la URL
@@ -181,6 +244,7 @@ if (isset($_GET['usuario'])) {
     <!-- Contenido de la barra de información -->
     <div class="contenedor-listas">
 
+
       
     <?php 
      if($Role == 2){
@@ -194,7 +258,7 @@ if (isset($_GET['usuario'])) {
     LiDe_Visible,
     LiDe_Estatus  from Lista_Deseos
                     WHERE
-                    Usua_ID = $idd";
+                    Usua_ID = $idd and LiDe_Visible = 1";
 
 
                    
@@ -227,90 +291,6 @@ if (isset($_GET['usuario'])) {
     } else {
        // echo "No se encontraron resultados para el usuario '$usuario'.";
     }
-    echo "<div class='lista'>
-    <img class='producto-imagen' src='IMAGENES/Suberbia.png' alt='cat'>
-    <div class='lista-detalles'>
-      <h3 class='lista-titulo'> <a href='crear_lista.php?usuario=$usuario'>Crear lista</a> </h3>
-      
-
-    </div>
-</div>";
-
-    // Cerrar la conexión
-    $conn->close();
-  }
-  if($Role == 3){
-    include('Funcion/conexion.php');
-
-    // Consulta para obtener información del usuario 'geralt'
-    //echo "<h3> Chats </h3>";
-    $sqlConsulta2 = "SELECT Chat_ID ,
-    Chat_Fecha ,
-    RemitenteID ,
-    DestinatarioID ,
-    Chat_Mensaje ,
-    Chat_Msg_Estatus,
-    
-    u.Usua_ID,
-    u.Usua_Nombre,
-    u.Usua_PubPriv,
-    u.Usua_Estatus,
-    u.Role_ID,
-    ui.UsIn_ID,
-    ui.UsIn_Nombre,
-    ui.UsIn_ApellidoPa,
-    ui.UsIn_ApellidoMa,
-    ui.UsIn_Sexo,
-    ui.UsIn_Telefono,
-    ui.UsIn_Correo,
-    ui.UsIn_Foto,
-    ui.UsIn_Fecha_Nac,
-    ui.UsIn_Fecha_Creac,
-    ui.UsIn_Estatus
-    
-    from Chat
-    JOIN
-    Usuario u ON RemitenteID = u.Usua_ID
-    JOIN
-    Usuario_Info ui ON u.Usua_ID = ui.Usua_ID where DestinatarioID = $idd 
-    group by RemitenteID";
-
-
-                   
-
-    $resultConsulta2 = $conn->query($sqlConsulta2);
-
-    if ($resultConsulta2->num_rows > 0) {
-      while ($row3 = $resultConsulta2->fetch_assoc()) {
-        // Obtener el primer resultado (asumiendo que solo habrá uno)
-        //$row2 = $resultConsulta2->fetch_assoc();
-       
-       
-        $id_usuario = $row3['RemitenteID'];
-        $nombre = $row3['Usua_Nombre'];
-        //$foto = $row3['UsIn_Foto'];
-
-        $archivoContenido = base64_encode($row3['UsIn_Foto']); // asumiendo que la imagen se almacena en la base de datos como un blob
-
-
-
-
-        echo "<div class='lista'>
-        <img class='producto-imagen' src='data:image/*;base64,$archivoContenido' alt='cat'>
-        <div class='lista-detalles'>
-          <h3 class='lista-titulo'> <a href='test/chat/proy/cotizar_vendedor.php?usuario=$usuario&id_persona=$id_usuario'> chat con $nombre</a> </h3>
-          
-
-        </div>
-    </div>";
-
-
-       
-       
-      }
-    } else {
-       // echo "No se encontraron resultados para el usuario '$usuario'.";
-    }
     
 
     // Cerrar la conexión
@@ -329,15 +309,30 @@ if (isset($_GET['usuario'])) {
 
 
   <div class=" alineacion_perfil contenedor-lateral">
+  <?php
+    // Obtén el nombre de usuario de alguna manera
+     $nombreUsuario = $idd; // Esto es un ejemplo, debes obtener el nombre de usuario de acuerdo a tu lógica
+     //echo $idd;
+    if ($nombreUsuario) {
+    // Escapa el nombre de usuario para asegurarte de que sea seguro para la URL
+        $nombreUsuarioURL = urlencode($nombreUsuario);
+    
+       // Genera la URL de la imagen con el nombre de usuario como parámetro
+      $urlImagen2 = "Funcion/mostrar2.php?id=$nombreUsuarioURL";
+
+       // Muestra la imagen
+       
+    } else {
+         echo "No se ha especificado un nombre de usuario.";
+    }
+    ?>
    
-      <img src="<?php echo $urlImagen; ?>" class="img_usuario">
+      <img src="<?php echo $urlImagen2; ?>" class="img_usuario">
 
 <!-- <br><br> -->
   <div class="columna-datos-usuarion">
     <!-- Contenido de la columna de datos -->
-    <ul>
-        <li><a href="Modificar_persona_usuario.php?usuario=<?php echo $usuario; ?>&usuario2=<?php echo $idd; ?>">Editar</a></li>
-        </ul>
+    
     <?php
     
     if ($Role == 2){

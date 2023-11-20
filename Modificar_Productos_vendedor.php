@@ -119,7 +119,6 @@ JOIN
         <input class="palabra_busqueda me-2" type="text"  name = "busqueda" placeholder="Search">
         <button class="button_pink" type="submit">Search</button>
       </form>
-
 </nav>
 
 <nav class="barra_acceso_rapido">
@@ -131,23 +130,13 @@ JOIN
     <ul>
     <?php 
          echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
-        if($Role == 3){
+        
           echo "<li><a href='ventas_vendedor.php?usuario=$usuario'>Ventas</a></li>";
             echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
             echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
 
            // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
-        } if($Role == 1){
-          echo "<li><a href='admin.php?usuario=$usuario'>Administrador</a></li>";
-         
-
-         // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
-      }else{
-            echo " <li><a href='Compras.php?usuario=$usuario'>Compras</a></li>
-            <li><a href='Carrito.php?usuario=$usuario'>Carrito</a></li>
-            <li><a href='PagP_usuario_registrado.php?usuario=$usuario'>Pagina principal</a></li>";
-
-        }
+        
         ?>
 
     </ul>
@@ -192,7 +181,7 @@ JOIN
         <div class="wrapper-registro">
 
   
-          <form action="Funcion/editar_Producto_admin.php"  method="post"  enctype="multipart/form-data">
+          <form action="Funcion/editar_Producto_vendedor.php"  method="post"  enctype="multipart/form-data">
           <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
           <input type="hidden" name="producto" value="<?php echo $producto; ?>">
 

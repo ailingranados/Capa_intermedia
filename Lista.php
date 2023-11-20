@@ -93,10 +93,11 @@ if (isset($_GET['usuario'])) {
 <nav class="nav_busqueda">
     <a href="Landing_page.html" style="text-decoration: none;"> <h1 class="Logo">Suberbia</h1> </a>
 
+    <form class="Barra_busqueda" action="Funcion/Busqueda.php"  method="post">
+        <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
 
-    <form class="Barra_busqueda">
-        <input class="palabra_busqueda me-2" type="text" placeholder="Search">
-        <button class="button_pink" type="button">Search</button>
+        <input class="palabra_busqueda me-2" type="text"  name = "busqueda" placeholder="Search">
+        <button class="button_pink" type="submit">Search</button>
       </form>
 
 </nav>
@@ -323,6 +324,8 @@ if (isset($_GET['usuario'])) {
     l.Prod_ID ,
     l.LiDP_Estatus,  
     l.cantidad_lista, 
+
+    lista.Usua_ID,
     
     p.Prod_ID,
     p.Prod_Nombre,
@@ -352,6 +355,8 @@ if (isset($_GET['usuario'])) {
      from 
      Lista_Deseos_Prod l
 JOIN
+Lista_Deseos lista ON l.LiDe_ID = lista.LiDe_ID
+JOIN
     Producto p ON l.Prod_ID = p.Prod_ID
 JOIN
     Producto_Info pi ON l.Prod_ID = pi.Prod_ID
@@ -362,7 +367,7 @@ LEFT JOIN
 LEFT JOIN
     Categorias ct ON pi.Cate_ID = ct.Cate_ID
     where 
-LiDe_ID =$id_lista and LiDP_Estatus = 1
+    l.LiDe_ID =$id_lista and LiDP_Estatus = 1
 
 GROUP BY
 l.Prod_ID";
@@ -384,6 +389,7 @@ l.Prod_ID";
         $Nombre = $row3['Prod_Nombre'];
         $Precio = $row3['Prod_Precio'];
         $id_producto = $row3['Prod_ID'];
+        $id_creador_lista = $row3['Usua_ID'];
         $cantidad = $row3['cantidad_lista'];
 
         $subtotal = $cantidad * $Precio;
@@ -411,10 +417,11 @@ l.Prod_ID";
                <small>Subtotal</small>
                <p>$$subtotal</p>
            </div>";
-           echo "  
            
-           <button class='carrito-producto-eliminar'onclick=\"window.location.href='Funcion/quitar_elemento_lista.php?id=$id_producto&usuario=$usuario&idusuario=$id_lista'\"> <i class='bi bi-trash3'></i></button>
-       </div>
+           if($id_creador_lista == $idd){
+           echo "  <button class='carrito-producto-eliminar'onclick=\"window.location.href='Funcion/quitar_elemento_lista.php?id=$id_producto&usuario=$usuario&idusuario=$id_lista'\"> <i class='bi bi-trash3'></i></button>";
+           }
+           echo "  </div>
        ";
 
 
@@ -426,22 +433,29 @@ l.Prod_ID";
        
       }
       echo "</div>
-      <div class='carrito-acciones'>
-      <div class='carrito-acciones-izq'>
-      <button class='carrito-acciones-vaciar' onclick=\"window.location.href='Funcion/vaciar_lista.php?usuario=$usuario&idusuario=$id_lista'\">Vaciar Lista</button>
-      </div>
+      <div class='carrito-acciones'>";
 
-      <div class='carrito-acciones-derecha'>
+      if($id_creador_lista == $idd){
+        echo "<div class='carrito-acciones-izq'>
+      <button class='carrito-acciones-vaciar' onclick=\"window.location.href='Funcion/vaciar_lista.php?usuario=$usuario&idusuario=$id_lista'\">Vaciar Lista</button>
+      </div>";
+
+      }
+
+      
+
+
+      echo "<div class='carrito-acciones-derecha'>
           <div class='carrito-acciones-total'>
               <p>Total: </p>
               <p id='Total'>$$total</p>
           </div>
 
-          <button class='carrito-acciones-comprar'onclick=\"window.location.href='pagar_Lista.php?usuario=$usuario&lista=$id_lista'\">Comprar</button>
-          
-          <button class='carrito-acciones-comprar'onclick=\"window.location.href='Lista_agregar_productos.php?usuario=$usuario&lista=$id_lista'\">Agregar productos</button>
-
-      </div>
+          <button class='carrito-acciones-comprar'onclick=\"window.location.href='pagar_Lista.php?usuario=$usuario&lista=$id_lista'\">Comprar</button>";
+          if($id_creador_lista == $idd){
+          echo "<button class='carrito-acciones-comprar'onclick=\"window.location.href='Lista_agregar_productos.php?usuario=$usuario&lista=$id_lista'\">Agregar productos</button>";
+          }
+      echo "</div>
   </div>";
     } else {
        // echo "No se encontraron resultados para el usuario '$usuario'.";

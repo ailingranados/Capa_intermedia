@@ -24,6 +24,7 @@ Capa intermedia
 // Obtén el valor de usuario pasado en la URL
 if (isset($_GET['usuario'])) {
     $usuario = $_GET['usuario'];
+    $busqueda = $_GET['busqueda'];
    // echo "Usuario: " . $usuario;
 } else {
     echo "No se recibió un nombre de usuario.";
@@ -121,13 +122,24 @@ if (isset($_GET['usuario'])) {
        <li><a href="Compras.html">Compras</a></li>
        <li><a href="Carrito.html">Carrito</a></li>
        <li><a href="Inicio_sesion.html">Inicio Sesion</a></li> -->
-       <?php     echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
-         if($Role == 1){
+       <?php      echo " <li><a href='Perfil.php?usuario=$usuario'>Perfil</a></li>";
+        if($Role == 3){
+          echo "<li><a href='ventas_vendedor.php?usuario=$usuario'>Ventas</a></li>";
+            echo "<li><a href='Inventario.php?usuario=$usuario'>Inventario</a></li>";
+            echo "<li><a href='Registro_Productos.php?usuario=$usuario'>Crear producto</a></li>";
+
+           // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
+        }if($Role == 1){
           echo "<li><a href='admin.php?usuario=$usuario'>Administrador</a></li>";
          
 
          // echo "<li><a href='Registro_Productos.php'>Crear producto</a></li>";
-      } ?>
+      }if($Role == 2){
+        echo " <li><a href='Compras.php?usuario=$usuario'>Compras</a></li>
+        <li><a href='Carrito.php?usuario=$usuario'>Carrito</a></li>
+        <li><a href='PagP_usuario_registrado.php?usuario=$usuario'>Pagina principal</a></li>";
+
+    } ?>
  
  
      </ul>
@@ -167,7 +179,7 @@ if (isset($_GET['usuario'])) {
 
 
   <div style="margin: 30px;">
-    <h1 class="titulo-inventario">Productos pendientes</h1>
+    <h1 class="titulo-inventario">Productos</h1>
 
     <form id="filtroForm" style="width: 20%;" class="contenedor-agrupar">
             <label for="consulta" class="form-label">Agrupar por</label>
@@ -182,97 +194,18 @@ if (isset($_GET['usuario'])) {
   <br>
   <table class="tabla-inventario" id="tablaProductos" class="tabla-inventario">
 
-    <!--
-    <tr>
-    <th>Id de Vendedor</th>
-    <th>Nombre de Vendedor</th>
-      <th>Producto</th>
-      <th>Existencia</th>
-      <th>Categoria</th>
-      <th>precio</th>
-      <th>Estado</th>
-    </tr>
-
-    <?php 
-    /*
-    include('Funcion/conexion.php');
-
-    // Consulta para obtener información del usuario 'geralt'
-    $sqlConsulta2 = "SELECT 
-    p.Prod_ID,
-    p.Prod_Nombre,
-    p.Prod_Precio,
-    p.Prod_Cotizable,
-    p.Prod_Estatus,
-    pi.PrIn_ID,
-    pi.Usua_ID AS PrIn_Usua_ID,
-    pi.Cate_ID AS PrIn_Cate_ID,
-    pi.PrIn_Descripcion,
-    pi.PrIn_Fecha_Creac,
-    pi.PrIn_Existencia,
-    pi.PrIn_Validado,
-    pi.PrIn_Estatus,
    
-    c.Cate_ID AS Categoria_ID,
-    c.Cate_Nombre AS Categoria_Nombre,
-    c.Cate_Descripcion AS Categoria_Descripcion,
-    c.Cate_Estatus AS Categoria_Estatus,
 
-    u.Usua_ID AS Usuario_ID,
-    u.Usua_Nombre AS Usuario_Nombre
-
-FROM 
-    Producto p
-JOIN 
-    Producto_Info pi ON p.Prod_ID = pi.Prod_ID
-JOIN 
-    Categorias c ON pi.Cate_ID = c.Cate_ID
-JOIN 
-    Usuario u ON pi.Usua_ID = u.Usua_ID where  pi.PrIn_Validado = 0";
-
-
-                   
-
-    $resultConsulta2 = $conn->query($sqlConsulta2);
-
-    if ($resultConsulta2->num_rows > 0) {
-      while ($row2 = $resultConsulta2->fetch_assoc()) {
-        // Obtener el primer resultado (asumiendo que solo habrá uno)
-        //$row2 = $resultConsulta2->fetch_assoc();
    
-        if($row2["PrIn_Validado"] == 0){
-          $estado2 = "No validado";
-        }
-        echo "<tr class='fila-redireccion' data-prod-id='" . $row2["Prod_ID"] . "'>";
-        echo "
-        <th>" .$row2["Usuario_ID"]."</th>
-        <th>" .$row2["Usuario_Nombre"]."</th>
-        <th>" .$row2["Prod_Nombre"]."</th>
-        <th>" .$row2["PrIn_Existencia"]."</th>
-        <th>" .$row2["Categoria_Nombre"]."</th>
-        <th>$ " .$row2["Prod_Precio"]."</th>
-        <th> " .$estado2."</th>
-        </tr>
-        ";
-       
-      }
-    } else {
-        //echo "No se encontraron resultados para el usuario '$usuario'.";
-    }
-
-    // Cerrar la conexión
-    $conn->close();
-    */
-    ?>
-    -->
+    
   </table>
   <script>
  // Función para cargar los datos de productos mediante AJAX
  function cargarProductos(validado) {
   $.ajax({
-    url: 'Funcion/obtener_productos.php', // Reemplaza con la ruta correcta a tu script PHP
+    url: 'Funcion/obtener_productos_busqueda.php', // Reemplaza con la ruta correcta a tu script PHP
     type: 'GET',
-    data: { validado: validado, usuario: '<?php echo $usuario; ?>', idd: '<?php echo $idd; ?>' },
+    data: { validado: validado, usuario: '<?php echo $usuario; ?>', idd: '<?php echo $idd; ?>', busqueda: '<?php echo $busqueda; ?>' },
     success: function(data) {
         // Inserta los datos en la tabla
         $('#tablaProductos').html(data);
@@ -282,20 +215,7 @@ JOIN
     }
 });
 
-  /*
-            $.ajax({
-                url: 'Funcion/obtener_productos.php', // Reemplaza con la ruta correcta a tu script PHP
-                type: 'GET',
-                data: { validado: validado },
-                success: function(data) {
-                    // Inserta los datos en la tabla
-                    $('#tablaProductos').html(data);
-                },
-                error: function(error) {
-                    console.error('Error al cargar productos: ', error);
-                }
-            });
-            */
+
         }
 
         // Manejador de eventos para el cambio en el select
@@ -340,21 +260,7 @@ JOIN
 });
 
   
-/*
-document.addEventListener('DOMContentLoaded', function () {
-    // Agrega un listener de clic a todas las filas con la clase 'fila-redireccion'
-    var filas = document.querySelectorAll('.fila-redireccion');
-    filas.forEach(function (fila) {
-        fila.addEventListener('click', function () {
-            // Obtiene el valor del atributo data-prod-id
-            var prodId = this.getAttribute('data-prod-id');
-            
-            // Redirige a tu otro archivo PHP con el ID del producto
-            window.location.href = 'Modificar_Productos_admin.php?prod_id=' + prodId+ '&usuario=<?php// echo $usuario; ?>'+ '&usuarioid=<?php //echo $idd; ?>';
-        });
-    });
-});
-*/
+
 
 </script>
 
@@ -363,15 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div style="margin: 30px;">
     <h1 class="titulo-inventario">Usuarios</h1>
 
-    <form action="/action_page.php" style="width: 20%;" class="contenedor-agrupar">
-
-      <label for="consulta" class="form-label">Agrupar por</label>
-      <select class="form-select" id="consulta" name="consulta">
-        <option>Existencia</option>
-        <option>A - Z</option>
-        <option>Categoria</option>
-      </select>
-    </form>
+    
   </div>
 
   <br>
@@ -415,7 +313,13 @@ FROM
 JOIN 
     Roles r ON u.Role_ID = r.Role_ID
 JOIN 
-    Usuario_Info ui ON u.Usua_ID = ui.Usua_ID where u.Role_ID != 1";
+    Usuario_Info ui ON u.Usua_ID = ui.Usua_ID where u.Usua_ID != $idd and
+            u.Usua_Nombre LIKE '%$busqueda%'
+            OR u.Usua_Contra LIKE '%$busqueda%'
+            OR ui.UsIn_Nombre LIKE '%$busqueda%'
+            OR ui.UsIn_ApellidoPa LIKE '%$busqueda%'
+            OR ui.UsIn_ApellidoMa LIKE '%$busqueda%'
+            OR ui.UsIn_Correo LIKE '%$busqueda%'";
 
 
                    
@@ -431,12 +335,19 @@ JOIN
         }if($row3["Usua_Estatus"] == 0){
           $estado = "Baja";
         }
+       
+            $archivoContenido = base64_encode($row3['UsIn_Foto']); // asumiendo que la imagen se almacena en la base de datos como un blob
+
+            
 
 
         echo "<tr class='fila-redireccion elemento-deseado' data-prod-id='" . $row3["Usua_ID"] . "'>";
         echo "
         <th>" .$row3["Usua_ID"]."</th>
-        <th>" .$row3["Usua_Nombre"]."</th>
+        <th>" .$row3["Usua_Nombre"];
+        echo "<img src='data:image/*;base64,$archivoContenido' alt='$nombre' style='width:40px;' class='rounded-pill''>";
+
+        echo "</th>
         <th>" .$row3["UsIn_Nombre"]."</th>
         <th>" .$row3["UsIn_ApellidoPa"]."</th>
         <th>" .$row3["UsIn_ApellidoMa"]."</th>
@@ -465,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var prodId2 = this.getAttribute('data-prod-id');
             
             // Redirige a tu otro archivo PHP con el ID del producto
-            window.location.href = 'Modificar_persona_Admin.php?usuario2=' + prodId2+ '&usuario=<?php echo $usuario; ?>';
+            window.location.href = 'ver_perfil.php?usuario2=' + prodId2+ '&usuario=<?php echo $usuario; ?>';
         });
     });
 });

@@ -212,9 +212,11 @@ GROUP BY
     <a href="Landing_page.html" style="text-decoration: none;"> <h1 class="Logo">Suberbia</h1> </a>
 
 
-    <form class="Barra_busqueda">
-        <input class="palabra_busqueda me-2" type="text" placeholder="Search">
-        <button class="button_pink" type="button">Search</button>
+    <form class="Barra_busqueda" action="Funcion/Busqueda.php"  method="post">
+        <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
+
+        <input class="palabra_busqueda me-2" type="text"  name = "busqueda" placeholder="Search">
+        <button class="button_pink" type="submit">Search</button>
       </form>
 
 </nav>
@@ -323,7 +325,7 @@ GROUP BY
            ?>
             <li>
                 <a class="boton-menu boton-carrito" href="Carrito.html"> <i class="bi bi-cart4"></i>Carrito <span
-                        class="numerito">0</span></a>
+                        class="numerito">0</span></a> 
             </li>
         </ul>
     </nav>
@@ -333,7 +335,7 @@ GROUP BY
 
 
         <main class="main-content">
-            <!-- titulo -->
+            <!-- titulo 
             <h2 class="titulo-principal">Favoritos</h2>
 
             <div class="contenedor-productos_favoritos">
@@ -366,6 +368,7 @@ GROUP BY
                 </div>
 
                 </div>
+                -->
             
        
             <h2 class="titulo-principal"><?php if (isset($_GET['id'])) {
@@ -441,7 +444,7 @@ GROUP BY
             <input type='submit' class='btn button_pink' value='Agregar'><br>
             </form> 
             
-            <button class='producto-agregar' onclick=\"window.location.href='Producto.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Ver producto</button>
+             <button class='producto-agregar' onclick=\"window.location.href='Producto.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Ver producto</button> 
            <!-- <button class='producto-agregar' onclick=\"window.location.href='Funcion/agregar_carrito.php?id=$idd&usuario=$usuario&producto=$id_producto'\">Agregar</button> -->
 
           

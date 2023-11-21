@@ -126,11 +126,26 @@ if (isset($_GET['validado'])) {
                 <th>Categoria</th>
                 <th>precio</th>
                 <th>Estado</th>
+                <th>Última vez modificado</th>
             </tr>";
 
         while ($row = $result->fetch_assoc()) {
             $estado = ($row["PrIn_Validado"] == 0) ? "No validado" : "Validado";
             $producto_id =  $row["Prod_ID"];
+            $fechaa = "";
+
+
+            $sql2 = "  SELECT Fecha_Modificacion FROM Vista_modificacion_producto where Prod_ID = $producto_id";
+    $result2 = $conn->query($sql2);
+
+    if ($result2->num_rows > 0) {
+        $row2 = $result2->fetch_assoc();
+            $fechaa = $row2['Fecha_Modificacion'];
+            
+            
+           
+        
+    } 
             echo "<tr class='fila-redireccion' data-prod-id='" . $row["Prod_ID"] . "'>";
         echo "
                     <th>" . $row["Usuario_ID"] . "</th>
@@ -140,7 +155,8 @@ if (isset($_GET['validado'])) {
                     <th>" . $row["Categoria_Nombre"] . "</th>
                     <th>$ " . $row["Prod_Precio"] . "</th>
                     <th> <a href='Modificar_Productos_admin.php?usuario=". $usuario ."&prod_id=".$producto_id."&usuarioid=". $idd ."'>". $estado . "</a> </th>
-                </tr>";
+                    <th>" . $fechaa . "</th>
+                    </tr>";
         }
     } else {
         echo "No se encontraron resultados.";

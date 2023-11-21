@@ -190,6 +190,8 @@ if (isset($_GET['usuario'])) {
       <th>Existencia</th>
       <th>Categoria</th>
       <th>precio</th>
+      <th>Ganancias</th>
+
     </tr>
 
     <?php 
@@ -230,15 +232,35 @@ JOIN
     $resultConsulta2 = $conn->query($sqlConsulta2);
 
     if ($resultConsulta2->num_rows > 0) {
+      
       while ($row2 = $resultConsulta2->fetch_assoc()) {
+        $cantidaddd = 0.00;
         // Obtener el primer resultado (asumiendo que solo habrá uno)
         //$row2 = $resultConsulta2->fetch_assoc();
+        $producto_idd = $row2["Prod_ID"];
+        
+        $sql = "SELECT CalcularSumaVentasPorProducto($producto_idd) AS SumaVentasPorProducto;";
+        $result = $conn->query($sql);
+        
+    
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $cantidaddd = $row['SumaVentasPorProducto'];
+                
+                
+                
+            }
+        } else {
+            //echo "No se encontraron fotos.";
+        }
+
         echo "<tr class='fila-redireccion' data-prod-id='" . $row2["Prod_ID"] . "'>";
         echo "
         <th>" .$row2["Prod_Nombre"]."</th>
         <th>" .$row2["PrIn_Existencia"]."</th>
         <th>" .$row2["Categoria_Nombre"]."</th>
         <th>$ " .$row2["Prod_Precio"]."</th>
+        <th>$ " .$cantidaddd."</th>
         </tr>
         ";
        

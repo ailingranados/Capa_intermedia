@@ -21,6 +21,32 @@ CREATE TABLE Fotos_1 (
 
 	
 );
+
+SELECT Foto_ID ,
+    Foto_Nombre ,
+    Prod_ID ,
+    Foto_Archivo ,
+    
+    Foto_Estatus from Fotos_1;
+    
+    CREATE VIEW VistaFotos_test AS
+SELECT
+    Foto_ID,
+    Foto_Nombre,
+    Prod_ID,
+    Foto_Archivo,
+    Foto_Estatus
+FROM
+    Fotos_1;
+    
+    SELECT  Foto_ID,
+    Foto_Nombre,
+    Prod_ID,
+    Foto_Archivo,
+    Foto_Estatus FROM VistaFotos_test;
+
+
+
 SELECT 
     p.Prod_ID,
     p.Prod_Nombre,

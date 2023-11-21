@@ -363,15 +363,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div style="margin: 30px;">
     <h1 class="titulo-inventario">Usuarios</h1>
 
-    <form action="/action_page.php" style="width: 20%;" class="contenedor-agrupar">
-
-      <label for="consulta" class="form-label">Agrupar por</label>
-      <select class="form-select" id="consulta" name="consulta">
-        <option>Existencia</option>
-        <option>A - Z</option>
-        <option>Categoria</option>
-      </select>
-    </form>
+   
   </div>
 
   <br>
@@ -384,6 +376,8 @@ document.addEventListener('DOMContentLoaded', function () {
       <th>Apellido Materno</th>
       <th>Rol</th>
       <th>Estado</th>
+      <th>Última modificación</th>
+
     </tr>
 
     <?php 
@@ -432,6 +426,21 @@ JOIN
           $estado = "Baja";
         }
 
+        $id_usu =  $row3["Usua_ID"] ;
+
+        $sql2 = "  SELECT Fecha_Modificacion FROM Vista_modificacion_usuario where Usua_ID = $id_usu";
+        $result2 = $conn->query($sql2);
+        $fechaa = "";
+    
+        if ($result2->num_rows > 0) {
+            $row2 = $result2->fetch_assoc();
+                $fechaa = $row2['Fecha_Modificacion'];
+                
+                
+               
+            
+        } 
+
 
         echo "<tr class='fila-redireccion elemento-deseado' data-prod-id='" . $row3["Usua_ID"] . "'>";
         echo "
@@ -442,6 +451,7 @@ JOIN
         <th>" .$row3["UsIn_ApellidoMa"]."</th>
         <th> " .$row3["Role_Nombre"]."</th>
         <th> " . $estado."</th>
+        <th> " . $fechaa."</th>
         </tr>
         ";
        

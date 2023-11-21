@@ -5,34 +5,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password1 = $_POST['password'];
 
-    $sql = "SELECT 
-                u.Usua_ID,
-                u.Usua_Nombre,
-                u.Usua_Contra,
-                u.Usua_PubPriv,
-                u.Usua_Estatus,
-                u.Role_ID,
-                r.Role_Nombre,
-                r.Role_Estatus,
-                ui.UsIn_ID,
-                ui.UsIn_Nombre,
-                ui.UsIn_ApellidoPa,
-                ui.UsIn_ApellidoMa,
-                ui.UsIn_Sexo,
-                ui.UsIn_Telefono,
-                ui.UsIn_Correo,
-                ui.UsIn_Foto,
-                ui.UsIn_Fecha_Nac,
-                ui.UsIn_Fecha_Creac,
-                ui.UsIn_Estatus
-            FROM 
-                Usuario u
-            JOIN 
-                Roles r ON u.Role_ID = r.Role_ID
-            JOIN 
-                Usuario_Info ui ON u.Usua_ID = ui.Usua_ID
+    $sql = "  SELECT Usua_ID,
+    Usua_Nombre,
+    Usua_Contra,
+    Usua_PubPriv,
+    Usua_Estatus,
+    Role_ID,
+    Role_Nombre,
+    Role_Estatus,
+    UsIn_ID,
+    UsIn_Nombre,
+    UsIn_ApellidoPa,
+    UsIn_ApellidoMa,
+    UsIn_Sexo,
+    UsIn_Telefono,
+    UsIn_Correo,
+    UsIn_Foto,
+    UsIn_Fecha_Nac,
+    UsIn_Fecha_Creac,
+    UsIn_Estatus from Vista_Usuario
             WHERE
-                u.Usua_Nombre = '$username' AND u.Usua_Contra = '$password1' AND Usua_Estatus = 1";
+                Usua_Nombre = '$username' AND Usua_Contra = '$password1' AND Usua_Estatus = 1";
 
     $result = $conn->query($sql);
 

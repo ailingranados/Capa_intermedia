@@ -220,8 +220,30 @@ if (isset($_GET['usuario'])) {
                     </li>
                      -->
                     <li>
-                        <a class="boton-menu boton-carrito" href="Carrito.html"> <i class="bi bi-cart4"></i>Carrito <span
-                                class="numerito">0</span></a>
+                    <?php
+    // Include your database connection code here
+    include('Funcion/conexion.php');
+
+    // Consulta para obtener todas las fotos de la tabla Fotos
+    $sql = "SELECT ContarElementosCarrito($idd) AS CantidadRepetidos";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $cantidaddd = $row['CantidadRepetidos'];
+            
+            
+            echo "
+            <a class='boton-menu boton-carrito' href='Carrito.php?usuario=$usuario'> <i class='bi bi-cart4'></i>Carrito <span
+class='numerito'>$cantidaddd</span></a> ";
+        }
+    } else {
+        //echo "No se encontraron fotos.";
+    }
+
+    // Cerrar la conexión a la base de datos
+    $conn->close();
+?>
                     </li>
                 </ul>
             </nav>

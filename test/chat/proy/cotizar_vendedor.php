@@ -334,6 +334,7 @@ $conn->close();?>
                   <div class="cuerpo">
                       <span>Nombre de usuario</span> -->
                       <span>Usuario</span>
+                      <a href="../../../seleccionar_cotizacion.php?usuario=<?php echo $usuario; ?>&usuario2=<?php echo $id_vendedor; ?>&usuario2nombre=<?php echo $Nombre; ?>">Cotizar</a>
                   </div>
                   <div class="opciones">
                     <!--

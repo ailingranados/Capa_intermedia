@@ -168,17 +168,10 @@ if (isset($_GET['usuario'])) {
 
 
   <div style="margin: 30px;">
-    <h1 class="titulo-inventario">Compras</h1>
+    <h1 class="titulo-inventario">Ventas</h1>
 
 
-    <form action="/action_page.php" style="width: 20%;" class="contenedor-agrupar">
-      <label for="consulta" class="form-label">Agrupar por</label>
-      <select class="form-select" id="consulta" name="consulta">
-        <option>fecha</option>
-        <option>A - Z</option>
-        <option>Categoria</option>
-      </select>
-    </form>
+   
   </div>
 
 <br>
@@ -304,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+<br><br><br><br>
 
 </body>
 

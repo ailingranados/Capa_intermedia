@@ -252,3 +252,15 @@ CREATE TABLE Chat (
     FOREIGN KEY (Usua_ID_Comp) REFERENCES Usuario(Usua_ID),
     FOREIGN KEY (Usua_ID_Vend) REFERENCES Usuario(Usua_ID)
 );
+
+
+CREATE TABLE Cotizacion (
+    Cotizacion_ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    Usua_ID INT NOT NULL,
+    Prod_ID INT NOT NULL,
+    Fecha_Cotizacion DATETIME NOT NULL,
+    FOREIGN KEY (Usua_ID) REFERENCES Usuario(Usua_ID),
+    FOREIGN KEY (Prod_ID) REFERENCES Producto(Prod_ID)
+);
+
+select Usua_ID, Prod_ID from Cotizacion

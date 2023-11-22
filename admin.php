@@ -481,6 +481,157 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+<div style="margin: 30px;">
+    <h1 class="titulo-inventario">Categorias</h1>
+
+
+   
+  </div>
+
+<br>
+<table class="tabla-inventario">
+  <tr>
+    <th>Nombre</th>
+    <th>Descripcion</th>
+    <th>Estado</th>
+    <th>Accion</th>
+    
+
+    
+  </tr>
+  
+  <?php 
+    include('Funcion/conexion.php');
+
+    // Consulta para obtener información del usuario 'geralt'
+    $sql12 = "SELECT Cate_ID, Cate_Nombre, Cate_Descripcion ,
+    Cate_Estatus FROM Vista_Categorias";
+
+
+
+                   
+
+    $resultConsulta222 = $conn->query($sql12);
+
+    if ($resultConsulta222->num_rows > 0) {
+      while ($row222 = $resultConsulta222->fetch_assoc()) {
+        // Obtener el primer resultado (asumiendo que solo habrá uno)
+        //$row2 = $resultConsulta2->fetch_assoc();
+        $id_categoriaa = $row222["Cate_ID"];
+        $nombre_categoriaa = $row222["Cate_Nombre"];
+        $descripcion_categoriaa = $row222["Cate_Descripcion"];
+        $estado_categoriaa = $row222["Cate_Estatus"];
+
+
+        echo "<tr class='' data-prod-id='" . $row222["Cate_ID"] . "'>";
+        echo "
+        <th>" .$nombre_categoriaa."</th>
+        <th>" .$descripcion_categoriaa."</th>";
+        if ($estado_categoriaa == 0){
+          echo "<th>Inactivo</th>";
+        }else{
+          echo "<th>Activo</th>";
+        }
+        
+        echo "<th> <a href='Modificar_categoria.php?usuario=". $usuario ."&categoria=".$id_categoriaa."'>Modificar</a> </th>
+        </tr>
+        ";
+       
+      }
+    } else {
+        //echo "No se encontraron resultados para el usuario '$usuario'.";
+    }
+
+    // Cerrar la conexión
+    $conn->close();
+    ?>
+
+</table>
+
+<div style="margin: 30px;">
+    <h1 class="titulo-inventario">Ventas</h1>
+
+
+   
+  </div>
+
+<br>
+<table class="tabla-inventario">
+  <tr>
+    <th>Fecha y hora</th>
+    <th>Categoria</th>
+    <th>Producto</th>
+    <th>Calificación</th>
+    <th>cantidad</th>
+    <th>precio unitario</th>
+    <th>Precio total</th>
+    <th>Usuario vendedor</th>
+    <th>Usuario comprador</th>
+
+
+    
+  </tr>
+  
+  <?php 
+    include('Funcion/conexion.php');
+
+    // Consulta para obtener información del usuario 'geralt'
+    $sqlConsulta2 = "  SELECT 
+    Vent_Fecha,  
+    Cate_Nombre,
+    Prod_Nombre,
+    Cali_Valor,
+    Ventp_Precio_total,
+    Usua_ID_Comp,
+    Comprador_Nombre,
+    PrIn_ID,
+    Prod_ID,
+    Vendedor_Nombre,
+    PrIn_Descripcion,
+    PrIn_Fecha_Creac,
+    PrIn_Existencia,
+    PrIn_Validado,
+    PrIn_Estatus,
+    Cantidad,
+    Ventp_PrecioUnidad,
+    ventp_Prod_ID
+FROM VistaVentas
+ORDER BY Vent_Fecha DESC; ";
+
+
+                   
+
+    $resultConsulta2 = $conn->query($sqlConsulta2);
+
+    if ($resultConsulta2->num_rows > 0) {
+      while ($row2 = $resultConsulta2->fetch_assoc()) {
+        // Obtener el primer resultado (asumiendo que solo habrá uno)
+        //$row2 = $resultConsulta2->fetch_assoc();
+        echo "<tr class='' data-prod-id='" . $row2["ventp_Prod_ID"] . "'>";
+        echo "
+        <th>" .$row2["Vent_Fecha"]."</th>
+        <th>" .$row2["Cate_Nombre"]."</th>
+        <th>" .$row2["Prod_Nombre"]."</th>
+        <th>" .$row2["Cali_Valor"]."</th>
+        <th>" .$row2["Cantidad"]."</th>
+        <th>" .$row2["Ventp_PrecioUnidad"]."</th>
+        <th>$ " .$row2["Ventp_Precio_total"]."</th>
+        <th>" .$row2["Vendedor_Nombre"]."</th>
+        <th>" .$row2["Comprador_Nombre"]."</th>
+        </tr>
+        ";
+       
+      }
+    } else {
+        //echo "No se encontraron resultados para el usuario '$usuario'.";
+    }
+
+    // Cerrar la conexión
+    $conn->close();
+    ?>
+
+</table>
+
   <br><br><br><br>
 
 

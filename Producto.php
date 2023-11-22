@@ -19,7 +19,9 @@ Capa intermedia
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
   <style>
-    <style>
+    .info-section {
+    margin-bottom: 10px; /* O cualquier otro valor según tu preferencia para el espacio entre secciones */
+}
     .contenedor-derecho-carrito {
       display: flex;
       justify-content: center;
@@ -119,7 +121,9 @@ Capa intermedia
     }
 
 
-  </style>
+    .info-section {
+    margin-bottom: 10px; /* O cualquier otro valor según tu preferencia para el espacio entre secciones */
+}
   </style>
   <?php
 // Obtén el valor de usuario pasado en la URL
@@ -548,6 +552,180 @@ function showSlides(n) {
 
 
   </div>
+
+  <?php
+  
+  include('Funcion/conexion.php');
+
+  // Consulta para obtener información del usuario 'geralt'
+  $sqlConsulta2 = "  SELECT 
+  Come_ID,
+  Prod_ID,
+  Usua_ID,
+  Cali_ID,
+  Come_Comentario,
+  Come_Estatus,
+  Usuario_ID,
+  Usuario_Nombre,
+  Usuario_Contraseña,
+  Usuario_PubPriv,
+  Usuario_Estatus,
+  Role_ID,
+  Role_Nombre,
+  Rol_Estatus,
+  UsIn_ID,
+  UsIn_Nombre,
+  UsIn_ApellidoPa,
+  UsIn_ApellidoMa,
+  UsIn_Sexo,
+  UsIn_Telefono,
+  UsIn_Correo,
+  UsIn_Foto,
+  UsIn_Fecha_Nac,
+  UsIn_Fecha_Creac,
+  UsuarioInfo_Estatus,
+  Cali_Valor,
+  Calificacion_Estatus
+FROM Vista_comentarios where prod_ID = $prod_id; ";
+
+
+                 
+
+  $resultConsulta2 = $conn->query($sqlConsulta2);
+
+  if ($resultConsulta2->num_rows > 0) {
+    while ($row22 = $resultConsulta2->fetch_assoc()) {
+      $archivoContenido = base64_encode($row22['UsIn_Foto']); // asumiendo que la imagen se almacena en la base de datos como un blob
+      $nombre_u = $row22['Usuario_Nombre'];
+      $calif = $row22['Cali_Valor'];
+      $com = $row22['Come_Comentario'];
+      $id2_p = $row22['Usua_ID'];
+      // Obtener el primer resultado (asumiendo que solo habrá uno)
+      //$row2 = $resultConsulta2->fetch_assoc();
+
+     
+    
+    
+
+
+
+        echo "
+        <div class='main-container'>
+    <main class='main-content'>
+
+
+    <div class='producto-descripcion'>
+        
+        
+        
+        <img src='data:image/*;base64,$archivoContenido' alt='$nombre_u' style='width:40px;' class='rounded-pill''>
+         <a href='ver_perfil.php?usuario2=$id2_p&usuario=$usuario'>$nombre_u</a>
+        
+
+         
+       
+        <p>  Calificación: $calif  </p>
+       
+
+     
+      
+        <p2>   Comentario: $com</p2>
+    
+
+
+
+  
+  
+  
+  </div>
+  </div>
+  </div>";
+
+
+      
+     
+    }
+  } else {
+      echo "
+      <div class='main-container'>
+      <main class='main-content'>
+  
+  
+      <div class='producto-descripcion'>
+      
+      No se encontraron comentarios para producto.
+      
+      </div>
+      </div>
+      </div>";
+  }
+
+  // Cerrar la conexión
+  $conn->close();
+  ?>
+
+  
+<!--
+  <div class="main-container">
+    <main class="main-content">
+
+
+    <div class="producto-descripcion">
+        
+        
+       
+        <h2>comentario </h2>
+         
+
+      </div>
+      </div>
+      </div>
+-->
+
+  <div class="main-container">
+    <main class="main-content">
+    <div class="producto-descripcion">
+
+        <form action="Funcion/crear_comentario.php" method="post">
+
+        <input type="hidden" name="usuario" value="<?php echo $usuario; ?>">
+        <input type="hidden" name="usuario_id" value="<?php echo $idd; ?>">
+        <input type="hidden" name="pructo_id" value="<?php echo $prod_id; ?>">
+
+
+
+        <h2>Escribir comentario </h2>
+          <!-- usuario -->
+          <div class="col form-floating mt-3 mb-3 ">
+            <input type="text" class="form-control" id="usuario"  required name="username">
+            <label for="usuario">comentario:</label>
+          </div>
+          <label for="rol" class="form-label">calificación</label>
+          <select class="form-select" id="cali_valor" name="cali_valor">
+          <?php
+        // Generar opciones del 1 al 12
+        for ($i = 1; $i <= 10; $i++) {
+            // Agregar un cero inicial si el número es menor que 10 (opcional)
+            $mes = str_pad($i, 2, '0', STR_PAD_LEFT);
+            echo "<option value='$mes'>$mes</option>";
+        }
+        ?>
+          </select>
+
+      
+
+
+          <!-- Boton de submit -->
+          <div class="wrapper">
+            <input type="submit" class="boton-registrar" value="Enviar"><br>
+          </div>
+
+        </form> 
+
+      </div>
+      </div>
+      </div>
+
 
 </body>
 

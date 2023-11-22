@@ -434,10 +434,38 @@ class='numerito'>$cantidaddd</span></a> ";
         <img class='producto-imagen' src='data:image/*;base64,$archivoContenido' alt='cat'>
         <div class='producto-detalles'>
             <h3 class='producto-titulo'>$Nombre</h3>
-            <h3 class='producto-titulo'>$categoria_producto</h3>
+            <h3 class='producto-titulo'>$categoria_producto</h3>";
+
+            $sql2 = " SELECT Usua_ID, Prod_ID from Cotizacion where Usua_ID = $idd ";
+            $result22 = $conn->query($sql2);
+            
+        
+            if ($result22->num_rows > 0) {
+                $row22 = $result22->fetch_assoc();
+
+                echo "
+                <p class='producto-precio'>$$Precio </p>
+
+            <form id='form' action='Funcion/agregar_carrito.php' method='post' enctype='multipart/form-data'>
+            <input type='hidden' name='usuario' value='". $usuario."'>
+            <input type='hidden' name='id' value='". $idd."'>
+            <input type='hidden' name='producto' value='". $id_producto."'> 
+            <div class='col form-floating mt-3 mb-3 '>
+              <input type='number' class='form-control' id='cantidad' name='cantidad' value= '1'>
+              <label for='disponible'>Cantidad:</label>
+            </div>
+            <input type='submit' class='btn button_pink' value='Agregar'><br>
+            </form>  ";  
+                    
+                    
+                   
+                
+            } 
+
+            
            
             
-            <button class='producto-agregar' onclick=\"window.location.href='Producto.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Ver producto</button>
+           echo" <button class='producto-agregar' onclick=\"window.location.href='Producto.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Ver producto</button>
             <button class='producto-agregar' onclick=\"window.location.href='test/chat/proy/cotizar.php?id=$idd&usuario=$usuario&prod_id=$id_producto'\">Cotizar</button>
 
             <!-- <button class='producto-agregar' onclick=\"window.location.href='Funcion/agregar_carrito.php?id=$idd&usuario=$usuario&producto=$id_producto'\">Agregar</button> -->

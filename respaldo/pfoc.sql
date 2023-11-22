@@ -736,6 +736,111 @@ DELIMITER ;
 
 
 
+
+
+DELIMITER //
+
+CREATE PROCEDURE ModificarPrecioYRegistrarCotizacion(
+    IN p_Prod_ID INT,
+    IN p_Usua_ID INT,
+    IN p_Nuevo_Precio DECIMAL(10, 2)
+)
+BEGIN
+    DECLARE producto_modificado BOOL;
+
+    -- Modificar el precio del producto en la tabla Producto
+    UPDATE Producto
+    SET Prod_Precio = p_Nuevo_Precio
+    WHERE Prod_ID = p_Prod_ID;
+
+    -- Verificar si se realizó la modificación
+    SELECT ROW_COUNT() INTO producto_modificado;
+
+    -- Si se modificó, insertar en la tabla Cotizacion
+    IF producto_modificado > 0 THEN
+        INSERT INTO Cotizacion (Usua_ID, Prod_ID, Fecha_Cotizacion)
+        VALUES (p_Usua_ID, p_Prod_ID, NOW());
+    END IF;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE ModificarCategoriaNombreDesc(
+    IN categoriaID INT,
+    IN nuevoNombre VARCHAR(15),
+    IN nuevaDescripcion TEXT
+)
+BEGIN
+    UPDATE Categorias
+    SET Cate_Nombre = nuevoNombre, Cate_Descripcion = nuevaDescripcion
+    WHERE Cate_ID = categoriaID;
+END //
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE ActivarCategoria(
+    IN categoriaID INT
+)
+BEGIN
+    UPDATE Categorias
+    SET Cate_Estatus = 1
+    WHERE Cate_ID = categoriaID;
+END //
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE DesactivarCategoria(
+    IN categoriaID INT
+)
+BEGIN
+    UPDATE Categorias
+    SET Cate_Estatus = 0
+    WHERE Cate_ID = categoriaID;
+END //
+
+DELIMITER ;
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE InsertarCalificacionYComentario(
+    IN caliValorParam INT,
+    IN comentarioParam TEXT,
+    IN usuaIDParam INT,
+    IN prodIDParam INT
+)
+BEGIN
+    DECLARE caliIDVar INT;
+
+    -- Insertar datos en la tabla Calificacion
+    INSERT INTO Calificacion (Cali_Valor, Cali_Estatus)
+    VALUES (caliValorParam, 1);
+
+    -- Obtener el ID de la calificación insertada
+    SET caliIDVar = LAST_INSERT_ID();
+
+    -- Insertar datos en la tabla Comentarios
+    INSERT INTO Comentarios (Prod_ID, Usua_ID, Cali_ID, Come_Comentario, Come_Estatus)
+    VALUES (prodIDParam, usuaIDParam, caliIDVar, comentarioParam, 1);
+END //
+
+DELIMITER ;
+
+
+
 CALL InsertarVentaYProductos(26, 'a gastar', '45594849', '2032', '156', 1, 1, 26, 05, 1 )
 
 

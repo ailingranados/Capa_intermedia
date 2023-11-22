@@ -214,7 +214,8 @@ if (isset($_GET['usuario'])) {
           // Realizar la consulta a la base de datos
           include('Funcion/conexion.php');  // Incluye el archivo de conexión
 
-          $sql = "SELECT Cate_ID, Cate_Nombre FROM categorias";
+          $sql = "SELECT Cate_ID, Cate_Nombre, Cate_Descripcion ,
+          Cate_Estatus FROM Vista_Categorias where Cate_Estatus = 1";
           $result = $conn->query($sql);
         ?>
 
